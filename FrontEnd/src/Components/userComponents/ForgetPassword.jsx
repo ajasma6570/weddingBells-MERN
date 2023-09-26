@@ -12,6 +12,7 @@ export default function ForgetPassword() {
   const [check, setCheck] = useState(true);
   const [verify, setVerify] = useState(true);
   const [countdown, setCountdown] = useState(30);
+  const [phone, setPhone] = useState("");
   const [OTP, setOTP] = useState("");
   const [password, setPassword] = useState("");
   const [CPassword, setCPassword] = useState("");
@@ -22,7 +23,7 @@ export default function ForgetPassword() {
 
   const navigate = useNavigate();
 
-  const [phone, setPhone] = useState("");
+
   const handleRequest = async () => {
     if (!phone) {
       toastError("please Enter your 10 digit number");
@@ -63,7 +64,7 @@ export default function ForgetPassword() {
       setVerify(false);
     } else {
       toastError(res.data.message);
-      navigate("/login");
+      navigate("/user/login");
     }
   };
 
@@ -98,29 +99,32 @@ export default function ForgetPassword() {
 
     if (res.data.status === 200) {
       toastSuccess(res.data.message);
-      navigate("/login");
+      navigate("/user/login");
     } else {
       toastError(res.data.message);
-      navigate("login");
+      return;
     }
   };
 
   useEffect(() => {
+
+    const startCountdown = () => {
+      if (countdown > 0) {
+        setTimeout(() => {
+          setCountdown(countdown - 1);
+        }, 1000); // Decrease countdown every second
+      } else {
+        toastError("OTP Expired");
+      }
+    };
+
     if (!check && verify && countdown > 0) {
       // Start the countdown when check is false and verify is true
       startCountdown();
     }
   }, [check, verify, countdown]);
 
-  const startCountdown = () => {
-    if (countdown > 0) {
-      setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000); // Decrease countdown every second
-    } else {
-      toastError("OTP Expired");
-    }
-  };
+
 
   return (
     <div className="w-full py-10">
@@ -176,7 +180,7 @@ export default function ForgetPassword() {
                   <p className="text-sm mt-4 font-medium leading-none text-gray-500">
                     Back to Login Page
                     <Link
-                      to="/login"
+                      to="/user/login"
                       className="hover:text-gray-500 ml-1 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none text-blue-800 cursor-pointer"
                     >
                       Click here

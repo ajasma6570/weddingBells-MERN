@@ -27,7 +27,7 @@ function UseNavbar() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    navigate("/login");
+    navigate("/user/login");
   };
 
   return (
@@ -68,11 +68,13 @@ function UseNavbar() {
         <div className="hidden lg:flex space-x-10">
           <Link
             className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+            to='/aboutus'
           >
             About us
           </Link>
           <Link
             className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+            to='/contactus'
           >
             Contact us
           </Link>
@@ -86,10 +88,10 @@ function UseNavbar() {
                 Welcome {Login.name}
               </span>
               {isDropdownOpen && (
-                <div className="absolute mt-2 right-0 w-40 bg-transparent border border-gray-300 rounded-lg shadow-lg">
-                  <div className="w-full py-2 px-4 block font-sans text-white hover:bg-gray-100 hover:rounded hover:text-stone-950  cursor-pointer text-left text-xl focus:outline-none">
+                <div className="absolute mt-2 right-0 w-40 bg-gray-500 border border-gray-300 rounded-lg shadow-lg">
+                  <Link to='/user/userProfile' className="w-full py-2 px-4 block font-sans text-white hover:bg-gray-100 hover:rounded hover:text-stone-950  cursor-pointer text-left text-xl focus:outline-none">
                     User Profile
-                  </div>
+                  </Link>
                   <hr />
                   <div
                     className="w-full py-2 px-4 block  font-sans text-white hover:bg-gray-100 hover:rounded hover:text-stone-950 cursor-pointer text-left text-xl focus:outline-none"
@@ -104,7 +106,7 @@ function UseNavbar() {
 
           {!Login.name && (
             <Link
-              to="/login"
+              to="/user/login"
               className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
             >
               Login
@@ -117,16 +119,18 @@ function UseNavbar() {
       <div className={`lg:hidden ${isMobileMenuOpen ? "" : "hidden"}`}>
         <Link
           className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
+          to='/aboutus'
         >
           About us
         </Link>
         <Link
           className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
+          to='/contactus'
         >
           Contact us
         </Link>
         <Link
-          to="/login"
+          to="/user/login"
           className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
         >
           Login

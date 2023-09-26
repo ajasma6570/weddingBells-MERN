@@ -18,8 +18,43 @@ export const businessApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    BusinessMobileOTP : builder.mutation ({
+      query: (data) => ({
+          url: `${BUSINESS_URL}/BusinessconfigOTP`,
+          method: 'post',
+          body: data
+      })
+    }),
+    BusinessVerifyOTP : builder.mutation ({
+        query: (data) => ({
+            url: `${BUSINESS_URL}/BusinessCheckOTP`,
+            method: 'post',
+            body: data
+        })
+    }),
+    BusinessResetPassword : builder.mutation ({
+        query : (data) => ({
+            url:`${BUSINESS_URL}/BusinessresetPassword`,
+            method:'post',
+            body: data
+        })
+    }),
+    BusinessCreateAccountOTP : builder.mutation ({
+      query : (data) => ({
+          url:`${BUSINESS_URL}/BusinessCreateAccountOTP`,
+          method: 'post',
+          body: data
+      })
+  })
   }),
 });
 
-export const { useBusinessSignupMutation, useBusinessLoginMutation } =
+export const { 
+  useBusinessSignupMutation, 
+  useBusinessLoginMutation,
+  useBusinessMobileOTPMutation,
+  useBusinessVerifyOTPMutation,
+  useBusinessResetPasswordMutation,
+  useBusinessCreateAccountOTPMutation
+} =
   businessApiSlice;

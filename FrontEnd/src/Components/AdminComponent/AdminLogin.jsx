@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "../toast";
 import { validateEmail, validatePasswordLength } from "../../utils/validation";
-import Cookies from "js-cookie";
 import { LoginAdmin } from "../../Redux/Admin/adminSlice";
+import { CookiesDataSave, checkUserLoginned } from "../../auth/CookiesManagement";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -31,26 +31,22 @@ export default function AdminLogin() {
       return;
     }
 
+    if(!checkUserLoginned()){
+      toastError("Please log out of any other logged-in accounts before logging in again.")
+      return;
+    }
+
     const res = await AdminLogin({ email, password });
 
     if (res.data.status === 200) {
-      toastSuccess(res.data.message);
+      
+      const userId = res.data.adminDetails.id
+      const token = res.data.adminDetails.token
 
-      Cookies.set(
-        "adminLogin",
-        JSON.stringify({
-          login: true,
-          adminId: res.data.adminDetails.id,
-          token: res.data.adminDetails.token,
-        }),
-        {
-          expires: 30, // Expires in 30 days
-          secure: true, // Set the secure flag
-        }
-      );
-      console.log(res.data.adminDetails);
+      CookiesDataSave("admin",userId, token)
+      toastSuccess(res.data.message);
       dispatch(LoginAdmin(res.data.adminDetails));
-      navigate("/admin/dashboard");
+      navigate("/admin/dashboard",  { replace: true });
     } else {
       toastError(res.data.message);
       navigate("/admin/login");

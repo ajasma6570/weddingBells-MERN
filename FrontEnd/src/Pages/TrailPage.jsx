@@ -1,14 +1,10 @@
-import React from 'react'
-import Navbar from '../Components/trail/Navbar'
-import LoginPage from '../Components/trail/LoginPage'
-import Footer from '../Components/trail/Footer'
+import React from "react";
+import SideBar from "./userPage/SideBar";
 
-export default function TrailPage() {
+export default function TrailPage({ children }) {
   return (
-    <div>
-        <Navbar />
-        <LoginPage />
-        <Footer />
-    </div>
-  )
+    <>
+      <SideBar />
+    </>
+  );
 }

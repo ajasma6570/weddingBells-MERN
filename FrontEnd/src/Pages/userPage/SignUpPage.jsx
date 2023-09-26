@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "../../Components/Footer";
+import Footer from "../../Components/userComponents/Footer";
 import Signup from "../../Components/userComponents/Signup";
 import UseNavbar from "../../Components/userComponents/UseNavbar";
 

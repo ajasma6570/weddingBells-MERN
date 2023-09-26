@@ -12,5 +12,6 @@ user_router.post("/configOTP", userController.configMobOTP);
 user_router.post("/CheckOTP", userController.CheckOTP);
 user_router.post("/resetPassword", userController.resetPassword);
 user_router.post('/createAccountOTP',userController.createAccountOTP);
+user_router.post('/userDetailsUpdate',userController.updateDetails)
 
 export default user_router;

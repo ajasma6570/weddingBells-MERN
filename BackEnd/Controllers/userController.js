@@ -207,7 +207,6 @@ const userController = {
     }
   },
   createAccountOTP : async(req, res) => {
-
     try {
       const phone = req.body.phone;
       const existingOTP = await User.findOne({ phone:phone });
@@ -258,7 +257,71 @@ const userController = {
         return res.json({ status: 500, message: "internal server error" });
       }
   },
+  updateDetails : async(req,res) => {
+
+    try{
+      const {name, email, phone, address, state, city, pincode ,userId} =req.body;
+      console.log(userId);
+      const userFind = await User.findOne({ _id: userId });
+
+      if(phone.length !== 10){
+        return res.json({ status: 400, message: "Please enter 10 digits phone number." });
+      }
+
+      // if(pincode !== 6){
+      //   return res.json({ status: 400, message: "Please enter 6 digit pincode" });
+
+      // }
+
+      if (!userFind) {
+        return res.json({ status: 400, message: "User not found" });
+      }
   
+      // Check if the email already exists in another user's account
+      const existingEmailUser = await User.findOne({ _id: { $ne: userId }, email: email });
+      if (existingEmailUser) {
+        return res.json({ status: 400, message: "Email already exists in another account" });
+      }
+  
+      // Check if the phone number already exists in another user's account
+      const existingPhoneUser = await User.findOne({ _id: { $ne: userId }, phone: phone });
+      if (existingPhoneUser) {
+        return res.json({ status: 400, message: "Phone number already exists in another account" });
+      }
+
+      const dataobj = {
+          name,
+          email,
+          phone,
+          address,
+          state,
+          city,
+          pincode,
+        };
+  
+        const addressData = await User.findByIdAndUpdate(
+          { _id: userId },
+          { $set: dataobj },
+          { new: true }
+        );
+      
+        const userDetails = await User.findOne({ _id: userId });
+
+        return res.json({ status: 200, message: "Update details successfully" ,userdetails: {
+          id: userDetails._id,
+          name: userDetails.name,
+          email:userDetails.email,
+          phone: userDetails.phone,
+          address: userDetails.address,
+          city: userDetails.city,
+          state: userDetails.state,
+          pincode: userDetails.pincode,
+        },});
+      
+    }catch(error){
+      return res.json({ status: 500, message: "internal server error" });
+    }
+  }
   
 };
 

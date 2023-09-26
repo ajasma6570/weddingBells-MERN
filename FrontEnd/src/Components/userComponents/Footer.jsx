@@ -1,23 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { toastWarning } from "./toast";
 
 export default function Footer() {
   const navigate = useNavigate();
-
-  const handleBusinessAccount = () => {
-    const userLoginCookie = Cookies.get("userLogin");
-    const isLogin = userLoginCookie ? JSON.parse(userLoginCookie) : false;
-
-    if (isLogin) {
-      toastWarning(
-        "Please log out of the currently logged-in account and Try again!!"
-      );
-    } else {
-      navigate("/business/login");
-    }
-  };
 
   return (
     <>
@@ -39,7 +24,7 @@ export default function Footer() {
                 <ul className="text-white dark:text-white">
                   <li className="mb-4">
                     <span
-                      onClick={handleBusinessAccount}
+                      onClick={()=>navigate('/business/login')}
                       className="hover:underline cursor-pointer"
                     >
                       Business

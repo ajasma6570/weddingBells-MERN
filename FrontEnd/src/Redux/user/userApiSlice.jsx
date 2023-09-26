@@ -45,6 +45,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method: 'post',
                 body: data
             })
+        }),
+        updateDetails : builder.mutation ({
+            query : (data) => ({
+                url: `${USER_URL}/userDetailsUpdate`,
+                method: 'post',
+                body: data
+            })
         })
        
     })
@@ -58,5 +65,6 @@ export const {
     useMobileOTPMutation,
     useVerifyOTPMutation,
     useResetPasswordMutation,
-    useCreateAccountOTPMutation
+    useCreateAccountOTPMutation,
+    useUpdateDetailsMutation
 } = userApiSlice;

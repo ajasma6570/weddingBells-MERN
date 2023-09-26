@@ -14,7 +14,7 @@ export const businessSlice = createSlice({
     },
 
     logoutBusinessAccount: (state, action) => {
-      Cookies.remove("businessLogin", { secure: true });
+      Cookies.remove("userDetails", { secure: true });
       return [];
     },
   },

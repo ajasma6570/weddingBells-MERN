@@ -1,7 +1,7 @@
 import React from 'react'
 import ForgetPassword from '../../Components/userComponents/ForgetPassword'
 import UseNavbar from '../../Components/userComponents/UseNavbar'
-import Footer from '../../Components/Footer'
+import Footer from '../../Components/userComponents/Footer'
 
 export default function ForgetPasswordPage() {
   return (

@@ -14,7 +14,7 @@ export const userSlice = createSlice({
               };
         },
         logoutUser:(state,action) => {
-            Cookies.remove('userLogin', { secure: true , expires: new Date(0) });
+            Cookies.remove('userDetails', { secure: true , expires: new Date(0) });
             return []
         },
 

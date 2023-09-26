@@ -8,7 +8,11 @@ import {
   validatePhone,
   validatePincode,
 } from "../../utils/validation";
-import { useSignupMutation, useVerifyOTPMutation ,useCreateAccountOTPMutation} from "./../../Redux/user/userApiSlice";
+import {
+  useSignupMutation,
+  useVerifyOTPMutation,
+  useCreateAccountOTPMutation,
+} from "./../../Redux/user/userApiSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
@@ -30,8 +34,8 @@ export default function Signup() {
   const [userSignUp] = useSignupMutation();
   const navigate = useNavigate();
 
-  const [mobileOTP] = useCreateAccountOTPMutation()
-  const [verifyOTP] = useVerifyOTPMutation()
+  const [mobileOTP] = useCreateAccountOTPMutation();
+  const [verifyOTP] = useVerifyOTPMutation();
 
   const handleSubmit = async () => {
     try {
@@ -95,9 +99,9 @@ export default function Signup() {
       toastError(err?.data?.message || err.error);
     }
   };
-  
-  const handleRequest = async() => {
-    if (!phone ) {
+
+  const handleRequest = async () => {
+    if (!phone) {
       toastError("Please fill in all fields.");
       return;
     }
@@ -107,23 +111,19 @@ export default function Signup() {
       return;
     }
 
-    const res = await mobileOTP({phone})
-    console.log(res);
+    const res = await mobileOTP({ phone });
     if (res.data.status === 200) {
       toastSuccess(res.data.message);
-      setrequestOTP(false)
-      setVerifiedOTP(true)
+      setrequestOTP(false);
+      setVerifiedOTP(true);
     } else {
       toastError(res.data.message);
       return;
     }
+  };
 
-    
-  }
-
-  const handleResend = async() => {
+  const handleResend = async () => {
     const res = await mobileOTP({ phone });
-    console.log(res);
     if (res.data.status === 200) {
       toastSuccess(res.data.message);
       setCountdown(30);
@@ -131,11 +131,10 @@ export default function Signup() {
       toastError(res.data.message);
       return;
     }
-    
-  }
+  };
 
-  const handleVerify = async() => {
-    if (!OTP ) {
+  const handleVerify = async () => {
+    if (!OTP) {
       toastError("Please fill in all fields.");
       return;
     }
@@ -146,36 +145,33 @@ export default function Signup() {
     }
 
     const res = await verifyOTP({ OTP, phone });
-    console.log(res);
     if (res.data.status === 200) {
       toastSuccess(res.data.message);
-      setVerifiedOTP(false)
-      setAccountDetails(true)
+      setVerifiedOTP(false);
+      setAccountDetails(true);
     } else {
       toastError(res.data.message);
-      navigate("/login");
+      navigate("/user/login");
       return;
-  }
-
-    
-  }
+    }
+  };
 
   useEffect(() => {
+    const startCountdown = () => {
+      if (countdown > 0) {
+        setTimeout(() => {
+          setCountdown(countdown - 1);
+        }, 1000); // Decrease countdown every second
+      } else {
+        toastError("OTP Expired");
+      }
+    };
+
     if (!requestOTP && verifiedOTP && countdown > 0) {
       // Start the countdown when check is false and verify is true
       startCountdown();
     }
   }, [requestOTP, verifiedOTP, countdown]);
-
-  const startCountdown = () => {
-    if (countdown > 0) {
-      setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000); // Decrease countdown every second
-    } else {
-      toastError("OTP Expired");
-    }
-  };
 
   return (
     <>
@@ -203,83 +199,85 @@ export default function Signup() {
             </p>
 
             <div className="py-5">
+              {requestOTP && (
+                <>
+                  <div className="pt-3 w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="phone"
+                        type="number"
+                        placeholder="Enter your phone number"
+                        className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black "
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <button
+                      style={{ backgroundColor: "#272829" }}
+                      className="focus:ring-2 focus:ring-offset-2  text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+                      onClick={handleRequest}
+                    >
+                      Request OTP
+                    </button>
+                  </div>
+                </>
+              )}
 
-              {requestOTP && <>
-                <div className="pt-3 w-full">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    id="phone"
-                    type="number"
-                    placeholder="Enter your phone number"
-                    className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black "
-                    value={phone}
-                    onChange={(e)=>setPhone(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="mt-3">
-                <button
-                  style={{ backgroundColor: "#272829" }}
-                  className="focus:ring-2 focus:ring-offset-2  text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
-                  onClick={handleRequest}
-                >
-                  Request OTP
-                </button>
-              </div>
-
-              </>}
-
-              {verifiedOTP && <>
-                <div className="pt-3 w-full">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    id="OTP"
-                    type="number"
-                    placeholder="Enter your 4 digit OTP"
-                    className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black "
-                    value={OTP}
-                    onChange={(e)=>setOTP(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="mt-3">
-                <button
-                  style={{ backgroundColor: "#272829" }}
-                  className="focus:ring-2 focus:ring-offset-2  text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
-                  onClick={countdown === 0 ? handleResend : handleVerify}
-                >
-                   {countdown === 0
+              {verifiedOTP && (
+                <>
+                  <div className="pt-3 w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="OTP"
+                        type="number"
+                        placeholder="Enter your 4 digit OTP"
+                        className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black "
+                        value={OTP}
+                        onChange={(e) => setOTP(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <button
+                      style={{ backgroundColor: "#272829" }}
+                      className="focus:ring-2 focus:ring-offset-2  text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+                      onClick={countdown === 0 ? handleResend : handleVerify}
+                    >
+                      {countdown === 0
                         ? "Resend OTP"
                         : `Verify (${countdown}s)`}
-                </button>
-              </div>
+                    </button>
+                  </div>
+                </>
+              )}
 
-              </>}
-
-              {accountDetails &&  <>
-               <input
-                aria-labelledby="Name"
-                type="text"
-                placeholder="Enter Your Name"
-                className="border border-black rounded text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
-                value={name}
-                onChange={(e)=>setName(e.target.value)}
-              />
-
-              <div className=" pt-3  w-full">
-                <div className="relative flex items-center justify-center">
+              {accountDetails && (
+                <>
                   <input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your Valid E-mail address "
-                    className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
-                    value={email}
-                    onChange={(e)=>setEmail(e.target.value)}
+                    aria-labelledby="Name"
+                    type="text"
+                    placeholder="Enter Your Name"
+                    className="border border-black rounded text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                </div>
-              </div>
 
-              {/* <div className="pt-3 w-full">
+                  <div className=" pt-3  w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your Valid E-mail address "
+                        className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* <div className="pt-3 w-full">
                 <div className="relative flex items-center justify-center">
                   <input
                     id="phone"
@@ -292,99 +290,99 @@ export default function Signup() {
                 </div>
               </div> */}
 
-              <div className="pt-3 placeholder-black w-full">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    id="Address"
-                    type="text"
-                    placeholder="Enter your Address"
-                    className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black "
-                    value={address}
-                    onChange={(e)=>setAddress(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <div className="pt-3 placeholder-black w-1/2 pr-2">
-                  <div className="relative flex items-center justify-center">
-                    <input
-                      id="city"
-                      type="text"
-                      placeholder="Enter your city"
-                      className="border border-black rounded text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
-                      value={city}
-                      onChange={(e)=>setCity(e.target.value)}
-                    />
+                  <div className="pt-3 placeholder-black w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="Address"
+                        type="text"
+                        placeholder="Enter your Address"
+                        className="border border-black rounded  text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black "
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="pt-3 placeholder-black w-1/2 pl-2">
-                  <div className="relative flex items-center justify-center">
-                    <input
-                      id="state"
-                      type="text"
-                      placeholder="Enter your state"
-                      className="border border-black rounded text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
-                      value={state}
-                      onChange={(e)=>setState(e.target.value)}
-                    />
+                  <div className="flex justify-between">
+                    <div className="pt-3 placeholder-black w-1/2 pr-2">
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          id="city"
+                          type="text"
+                          placeholder="Enter your city"
+                          className="border border-black rounded text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="pt-3 placeholder-black w-1/2 pl-2">
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          id="state"
+                          type="text"
+                          placeholder="Enter your state"
+                          className="border border-black rounded text-xs md:text-sm font-medium leading-none py-2 w-full pl-3 placeholder-black"
+                          value={state}
+                          onChange={(e) => setState(e.target.value)}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="pt-3 placeholder-black w-full">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    id="pincode"
-                    type="number"
-                    placeholder="Enter your pincode"
-                    className="border border-black rounded md:text-sm  text-xs font-medium leading-none py-2 w-full pl-3 placeholder-black mt-2"
-                    value={pincode}
-                    onChange={(e)=>setPincode(e.target.value)}
-                  />
-                </div>
-              </div>
+                  <div className="pt-3 placeholder-black w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="pincode"
+                        type="number"
+                        placeholder="Enter your pincode"
+                        className="border border-black rounded md:text-sm  text-xs font-medium leading-none py-2 w-full pl-3 placeholder-black mt-2"
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
+                      />
+                    </div>
+                  </div>
 
-              <div className="pt-3 placeholder-black w-full">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    className="border border-black rounded md:text-sm  text-xs font-medium leading-none py-2 w-full pl-3 placeholder-black"
-                    value={password}
-                    onChange={(e)=>setpassword(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="pt-3 placeholder-black w-full">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    id="pass"
-                    type="password"
-                    placeholder="Enter your Confirm password"
-                    className="border border-black rounded md:text-sm  text-xs font-medium leading-none py-2 w-full pl-3 placeholder-black"
-                    value={Cpassword}
-                    onChange={(e)=>setCPassword(e.target.value)}
-                  />
-                </div>
-              </div>
+                  <div className="pt-3 placeholder-black w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        className="border border-black rounded md:text-sm  text-xs font-medium leading-none py-2 w-full pl-3 placeholder-black"
+                        value={password}
+                        onChange={(e) => setpassword(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="pt-3 placeholder-black w-full">
+                    <div className="relative flex items-center justify-center">
+                      <input
+                        id="pass"
+                        type="password"
+                        placeholder="Enter your Confirm password"
+                        className="border border-black rounded md:text-sm  text-xs font-medium leading-none py-2 w-full pl-3 placeholder-black"
+                        value={Cpassword}
+                        onChange={(e) => setCPassword(e.target.value)}
+                      />
+                    </div>
+                  </div>
 
-              <div className="mt-3">
-                <button
-                  style={{ backgroundColor: "#272829" }}
-                  className="focus:ring-2 focus:ring-offset-2  text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
-                  onClick={handleSubmit}
-                >
-                  Sign Up
-                </button>
-              </div>
-            </> }
-             
+                  <div className="mt-3">
+                    <button
+                      style={{ backgroundColor: "#272829" }}
+                      className="focus:ring-2 focus:ring-offset-2  text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+                      onClick={handleSubmit}
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   );

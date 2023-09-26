@@ -15,7 +15,7 @@ export const adminSlice = createSlice({
     },
 
     LogoutAdmin: (sate, action) => {
-      Cookies.remove("adminLogin", { secure: true });
+      Cookies.remove("userDetails", { secure: true });
       return [];
     },
   },

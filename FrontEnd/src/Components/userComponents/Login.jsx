@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "./../toast";
@@ -6,7 +6,10 @@ import { validateEmail, validatePasswordLength } from "../../utils/validation";
 import { useLoginMutation } from "./../../Redux/user/userApiSlice";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../Redux/user/userSlice";
-import Cookies from "js-cookie";
+import {
+  CookiesDataSave,
+  checkUserLoginned,
+} from "../../auth/CookiesManagement";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,17 +18,6 @@ export default function Login() {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    function checkisLogin() {
-      const userLoginCookie = Cookies.get("userLogin");
-      const isLogin = userLoginCookie ? JSON.parse(userLoginCookie) : false;
-      if (isLogin) {
-        navigate("/");
-      }
-    }
-    checkisLogin();
-  }, [navigate]);
 
   const handleSignIn = async () => {
     if (!email | !password) {
@@ -40,40 +32,34 @@ export default function Login() {
 
     if (!validatePasswordLength(password)) {
       toastError("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (!checkUserLoginned()) {
+      toastError(
+        "Please log out of any other logged-in accounts before logging in again."
+      );
+      return;
     }
 
     await login({ email, password }).then((response) => {
       if (response.data.status === 200) {
-        Cookies.set(
-          "userLogin",
-          JSON.stringify({
-            login: true,
-            userid: response.data.userdetails.id,
-            token: response.data.userdetails.token,
-          }),
-          {
-            expires: 30, // Expires in 30 days
-            secure: true, // Set the secure flag
-          }
-        );
+        const userId = response.data.userdetails.id;
+        const token = response.data.userdetails.token;
 
-        const userLoginCookie = Cookies.get("userLogin");
-        const userLoginData = JSON.parse(userLoginCookie || "{}");
-
-        if (userLoginData.token && userLoginData.userid) {
-          toastSuccess(response.data.message);
-          dispatch(loginUser(response.data.userdetails));
-          navigate("/");
-        }
+        CookiesDataSave("user", userId, token);
+        toastSuccess(response.data.message);
+        dispatch(loginUser(response.data.userdetails));
+        navigate("/", { replace: true });
       } else {
         toastError(response.data.message);
-        navigate("/login");
+        navigate("/user/login");
       }
     });
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-10 py-2 h-5/6" >
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-10 py-2 h-5/6">
       {/* Left Div */}
       <div
         className="bg-cover bg-center hidden sm:block"
@@ -86,7 +72,7 @@ export default function Login() {
       </div>
 
       {/* Right Div */}
-      <div className="border border-1 border-black rounded-lg p-2" >
+      <div className="border border-1 border-black rounded-lg p-2">
         {/* Content for the right div */}
         <div className="bg-white p-2 rounded-lg">
           <p
@@ -132,7 +118,7 @@ export default function Login() {
             </div>
             <p
               className="text-blue-700 float-right my-5 cursor-pointer"
-              onClick={() => navigate("/forgetpassword")}
+              onClick={() => navigate("/user/forgetpassword")}
             >
               Forget Password?
             </p>
@@ -151,7 +137,7 @@ export default function Login() {
             >
               Don't Have an account
               <Link
-                to="/signup"
+                to="/user/signup"
                 className="text-lg  text-blue-800 cursor-pointer"
               >
                 &nbsp; Create Account

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useBusinessLoginMutation } from "./../../Redux/Business/businessApiSlice";
 import { loginBusinessAccount } from "../../Redux/Business/businessSlice";
-import { toastError, toastSuccess, toastWarning } from "../toast";
+import { toastError, toastSuccess } from "../toast";
 import { validateEmail, validatePasswordLength } from "../../utils/validation";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
+import {CookiesDataSave, checkUserLoginned} from '../../auth/CookiesManagement'
+import {BusinessLoginAuth} from '../../auth/LoginAuth'
 
 export default function BusinessLogin() {
+  
+  BusinessLoginAuth()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,45 +33,29 @@ export default function BusinessLogin() {
       return;
     }
 
+    if (!checkUserLoginned()){
+      toastError("Please log out of any other logged-in accounts before logging in again.")
+      return
+    }
+
     const res = await BusinessLogin({ email, password });
     if (res.data.status === 200) {
-      toastSuccess(res.data.message);
 
-      Cookies.set(
-        "businessLogin",
-        JSON.stringify({
-          login: true,
-          busienessId: res.data.Businessdetails.id,
-          token: res.data.Businessdetails.token,
-        }),
-        {
-          expires: 30, // Expires in 30 days
-          secure: true, // Set the secure flag
-        }
-      );
+        const userId = res.data.Businessdetails.id;
+        const token = res.data.Businessdetails.token;
 
-      dispatch(loginBusinessAccount(res.data.Businessdetails));
-      navigate("/business/dashboard");
+        CookiesDataSave("business", userId, token)
+        toastSuccess(res.data.message);
+        dispatch(loginBusinessAccount(res.data.Businessdetails));
+        navigate("/business/dashboard", { replace: true });
+
     } else {
       toastError(res.data.message);
       navigate("/business/login");
     }
   };
 
-  useEffect(() => {
-    function checkAnyLogin() {
-      const userLoginCookie = Cookies.get("userLogin");
-      const isLogin = userLoginCookie ? JSON.parse(userLoginCookie) : false;
 
-      if (isLogin) {
-        toastWarning(
-          "Please log out of the currently logged-in account and Try again!!"
-        );
-        navigate("/");
-      }
-    }
-    checkAnyLogin();
-  }, [navigate]);
 
   return (
     <>
@@ -118,9 +105,10 @@ export default function BusinessLogin() {
                       />
                     </div>
                   </div>
-                  {/* <p className="text-blue-700 float-right my-5" >
+                  <p className="text-blue-700 float-right my-5 cursor-pointer"
+                  onClick={()=>navigate('/business/forgetpassword')} >
                       Forget Password?
-                    </p> */}
+                    </p>
                   <div className="mt-8 my-7">
                     <button
                       //style={{ backgroundColor: "rgba(205, 165, 34, 0.77)" }}

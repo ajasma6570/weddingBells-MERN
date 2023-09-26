@@ -1,7 +1,7 @@
 import React from 'react'
 import Home from '../../Components/userComponents/Home'
 import Card from '../../Components/userComponents/Card'
-import Footer from '../../Components/Footer'
+import Footer from '../../Components/userComponents/Footer'
 import UseNavbar from '../../Components/userComponents/UseNavbar'
 
 
