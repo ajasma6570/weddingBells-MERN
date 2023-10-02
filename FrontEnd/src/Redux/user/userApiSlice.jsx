@@ -1,6 +1,9 @@
 import {apiSlice} from '../apiSlice'
-
+import Cookies from 'js-cookie'
 const USER_URL = '/user'
+
+const retrieveToken = Cookies.get("userDetails")
+const jwtToken = retrieveToken ? retrieveToken : "";
 
 export const userApiSlice = apiSlice.injectEndpoints({
     endpoints : (builder) => ({
@@ -35,7 +38,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         resetPassword : builder.mutation ({
             query : (data) => ({
                 url:`${USER_URL}/resetPassword`,
-                method:'post',
+                method:'PUT',
                 body: data
             })
         }),
@@ -46,11 +49,22 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
         }),
-        updateDetails : builder.mutation ({
-            query : (data) => ({
-                url: `${USER_URL}/userDetailsUpdate`,
-                method: 'post',
-                body: data
+        updateDetails: builder.mutation({
+            query: (data) => ({
+              url: `${USER_URL}/userDetailsUpdate`,
+              method: 'PUT', // Change the HTTP method to PUT
+              body: data,
+            }),
+          }),
+        GetLoginUser : builder.mutation ({
+            query: (data) => ({
+                url: `${USER_URL}/getUser`,
+                method: 'get',
+                params: data,
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${jwtToken}`, // Include JWT token in the Authorization header
+                },
             })
         })
        
@@ -66,5 +80,6 @@ export const {
     useVerifyOTPMutation,
     useResetPasswordMutation,
     useCreateAccountOTPMutation,
-    useUpdateDetailsMutation
+    useUpdateDetailsMutation,
+    useGetLoginUserMutation
 } = userApiSlice;

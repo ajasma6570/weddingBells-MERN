@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-const initialState = {};
+const initialState = {
+  login:[],
+  userDetails:[],
+  businessDetails : []
+};
 
 export const adminSlice = createSlice({
   name: "admin",
@@ -10,17 +14,36 @@ export const adminSlice = createSlice({
     LoginAdmin: (state, action) => {
       return {
         ...state,
-        ...action.payload,
+        login: action.payload,
       };
     },
 
-    LogoutAdmin: (sate, action) => {
+    LogoutAdmin: (state, action) => {
       Cookies.remove("userDetails", { secure: true });
-      return [];
+      return {
+        ...state,
+        login: [],
+        userDetails:[],
+        businessDetails:[] // Set login state to an empty array
+      };
     },
+    userList: (state, action) => {
+      return {
+        ...state,
+        userDetails: action.payload
+      }
+    },
+    busienssList: (state, action) => {
+      return {
+        ...state,
+        businessDetails: action.payload
+      }
+    }
+
+    
   },
 });
 
-export const { LoginAdmin, LogoutAdmin } = adminSlice.actions;
+export const { LoginAdmin, LogoutAdmin, userList, busienssList } = adminSlice.actions;
 
 export const adminSLiceReducer = adminSlice.reducer;

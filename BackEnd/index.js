@@ -20,5 +20,5 @@ app.use("/admin", admin_router);
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log(`Sever Started ${PORT}`);
+  console.log(`Sever Started ${PORT}`);  
 });

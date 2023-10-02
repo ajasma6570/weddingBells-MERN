@@ -43,10 +43,11 @@ export default function AdminLogin() {
       const userId = res.data.adminDetails.id
       const token = res.data.adminDetails.token
 
-      CookiesDataSave("admin",userId, token)
+     await CookiesDataSave("admin",userId, token)
       toastSuccess(res.data.message);
       dispatch(LoginAdmin(res.data.adminDetails));
-      navigate("/admin/dashboard",  { replace: true });
+      navigate("/admin/dash",  { replace: true });
+      // window.location.reload();
     } else {
       toastError(res.data.message);
       navigate("/admin/login");

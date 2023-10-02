@@ -17,7 +17,7 @@ const Login = useSelector((state)=>state.rootReducer.business)
   }
   return (
     <>
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className='flex flex-col min-h-screen'>
 
     <div className='flex bg-gray-800'>
       <ul className='flex'>

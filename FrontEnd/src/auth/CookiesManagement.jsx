@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
 // Export the function with a named export
-export const CookiesDataSave = (role, userid, token) => {
-  Cookies.set(
+export const CookiesDataSave = async(role, userid, token) => {
+ await Cookies.set(
     'userDetails',
     JSON.stringify({
       role : role,

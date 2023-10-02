@@ -59,7 +59,7 @@ const userController = {
 
   login: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body; 
       const userRole = "user";
       const userFind = await User.findOne({ email });
 
@@ -260,13 +260,13 @@ const userController = {
   updateDetails : async(req,res) => {
 
     try{
-      const {name, email, phone, address, state, city, pincode ,userId} =req.body;
-      console.log(userId);
-      const userFind = await User.findOne({ _id: userId });
+      const userId = req.body.userId;
+      const {name, email, phone, address, state, city, pincode } =req.body;
 
-      if(phone.length !== 10){
-        return res.json({ status: 400, message: "Please enter 10 digits phone number." });
-      }
+      const userFind = await User.findOne({ _id: userId });
+      // if(phone.length !== 10){
+      //   return res.json({ status: 400, message: "Please enter 10 digits phone number." });
+      // }
 
       // if(pincode !== 6){
       //   return res.json({ status: 400, message: "Please enter 6 digit pincode" });
@@ -298,7 +298,7 @@ const userController = {
           city,
           pincode,
         };
-  
+        
         const addressData = await User.findByIdAndUpdate(
           { _id: userId },
           { $set: dataobj },
@@ -321,7 +321,42 @@ const userController = {
     }catch(error){
       return res.json({ status: 500, message: "internal server error" });
     }
+  },
+  homeAuth: async (req, res) => {
+  const jwtToken = req.headers.authorization;
+  if (!jwtToken || !jwtToken.startsWith('Bearer ')) {
+    return res.json({status:401, message: 'Unauthorized' });
   }
+
+  const newToken = jwtToken.replace('Bearer ', '');
+  const parseToken = JSON.parse(newToken)
+  const token = parseToken.token
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const role = decoded.role;
+    const userId = decoded.userId;
+   
+    switch (role) {
+      case 'user':
+        const userDetails = await User.findOne({ email: userId });
+        return res.json({ status: 200, userdetails: userDetails });
+
+      case 'business':
+        const businessDetails = await User.findOne({ email: userId });
+        return res.json({ status: 200, userdetails: businessDetails });
+
+      case 'admin':
+        const adminDetails = await User.findOne({ email: userId });
+        return res.json({ status: 200, userdetails: adminDetails });
+
+      default:
+        return res.json({ status: 401, message: 'Unauthorized' });
+    }
+  } catch (error) {
+    return res.json({ status: 401, message: 'Unauthorized' });
+  }
+}
+
   
 };
 

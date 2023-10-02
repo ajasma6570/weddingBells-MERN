@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {validatePhone, validateEmail, validatePincode} from "../../utils/validation"
+import {validateEmail} from "../../utils/validation"
 import { useUpdateDetailsMutation } from "../../Redux/user/userApiSlice";
 import { toastError, toastSuccess } from "../../Components/toast";
 import { useNavigate } from "react-router-dom";
@@ -10,8 +10,6 @@ export default function AccountUpdate() {
   
     const user = useSelector((state) => state.rootReducer.user);
    
-    console.log(user.id);
-
     const [name, setName] = useState(user.name)
     const [email, setEmail] = useState(user.email)
     const [phone, setPhone] = useState(user.phone)
@@ -20,7 +18,6 @@ export default function AccountUpdate() {
     const [city, setCity] = useState(user.city)
     const [pincode, setPincode] = useState(user.pincode)
     const userId = user.id;
-    console.log(userId);
     const navigate = useNavigate()
     const [updateDetails] = useUpdateDetailsMutation();
     const dispatch = useDispatch()
@@ -45,7 +42,6 @@ export default function AccountUpdate() {
       }
 
       const res= await updateDetails({name, email, phone, address, state, city, pincode, userId})
-
       if (res.data.status === 200) {
         toastSuccess(res.data.message);
         dispatch(loginUser(res.data.userdetails))

@@ -1,16 +1,22 @@
-import React from 'react'
-import AdminDashBoard from '../../Components/AdminComponent/AdminDashBoard'
-import AdminFooter from './AdminFooter'
+import React from "react";
+import AdminDashBoard from "../../Components/AdminComponent/AdminDashBoard";
+import AdminFooter from "./AdminFooter";
 
 export default function AdminDashBoardPage() {
   return (
-    <div  style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-
-
-<div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <div className="flex flex-col h-screen">
+      {/* Navbar at the top */}
+      <h1 className="bg-gray-800 text-white text-center">Welcome Admin</h1>
+      
+      {/* Content area (Admin Dashboard) */}
+      <div className="flex-grow">
         <AdminDashBoard />
-        </div>
+      </div>
+
+      {/* Footer at the bottom */}
+      <div className="flex-shrink-0">
         <AdminFooter />
+      </div>
     </div>
-  )
+  );
 }

@@ -18,7 +18,7 @@ export default function AccountDetails() {
   </div>
   <div className="lg:w-16 w-full lg:mt-0 mt-4 lg:order-2 order-1 flex justify-center items-center">
     <div className="px-3 editbutton border border-black rounded-md cursor-pointer bg-gray-800 text-white hover:bg-gray-500"
-    onClick={()=>navigate("/user/userProfile/accountUpdate")}
+    onClick={()=>navigate(`/user/userProfile/accountUpdate/${user._id}`)}
     >Edit</div>
   </div>
 </div>

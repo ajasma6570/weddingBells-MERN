@@ -6,6 +6,7 @@ import generateToken from "../utils/tokenGenerator.js";
 import MobileOTP from "../Models/MobileOTPModel.js";
 import twilio from "twilio";
 import otpGenerator from "otp-generator";
+import Venue from "../Models/venueModel.js"
 
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -99,7 +100,8 @@ const businessController = {
         return res.json({ status: 409, message: "Password incorrect" });
       }
     } catch (error) {
-      console.log(error);
+      return res.json({ status: 409, message:error});
+
     }
   },
   configOTP: async (req, res) => {
@@ -253,8 +255,105 @@ const businessController = {
       }
     } catch (error) {
       return res.json({ status: 500, message: "internal server error" });
+    } 
+  }, 
+  BusinessUpdateDetails : async(req,res) => {
+    try{
+      const userId = req.body.userId;
+      const {name, email, phone, address, state, city, pincode } =req.body;
+
+      const userFind = await User.findOne({ _id: userId });
+      // if(phone.length !== 10){
+      //   return res.json({ status: 400, message: "Please enter 10 digits phone number." });
+      // }
+
+      // if(pincode !== 6){
+      //   return res.json({ status: 400, message: "Please enter 6 digit pincode" });
+
+      // }
+
+      if (!userFind) {
+        return res.json({ status: 400, message: "User not found" });
+      }
+  
+      // Check if the email already exists in another user's account
+      const existingEmailUser = await User.findOne({ _id: { $ne: userId }, email: email });
+      if (existingEmailUser) {
+        return res.json({ status: 400, message: "Email already exists in another account" });
+      }
+  
+      // Check if the phone number already exists in another user's account
+      const existingPhoneUser = await User.findOne({ _id: { $ne: userId }, phone: phone });
+      if (existingPhoneUser) {
+        return res.json({ status: 400, message: "Phone number already exists in another account" });
+      }
+
+      const dataobj = {
+          name,
+          email,
+          phone,
+          address,
+          state,
+          city,
+          pincode,
+        };
+        
+        const addressData = await User.findByIdAndUpdate(
+          { _id: userId },
+          { $set: dataobj },
+          { new: true }
+        );
+      
+        const userDetails = await User.findOne({ _id: userId });
+
+        return res.json({ status: 200, message: "Update details successfully" ,userdetails: {
+          id: userDetails._id,
+          name: userDetails.name,
+          email:userDetails.email,
+          phone: userDetails.phone,
+          address: userDetails.address,
+          city: userDetails.city,
+          state: userDetails.state,
+          pincode: userDetails.pincode,
+        },});
+      
+    }catch(error){
+      return res.json({ status: 500, message: "internal server error" });
     }
   },
-};
+  BusinessVenueAdd: async (req, res) => {
+    const providerName = "abc";
+    const { name, city, capacity, phone, pincode, description, amount } = req.body;
+ 
+    const arrImages = [];
+    if (req.files) {
+      for (let i = 0; i < req.files.length; i++) {
+        arrImages.push(req.files[i].filename);
+      }
+    }
 
+    try {
+      const newVenue = new Venue({
+        name,
+        city,
+        capacity,
+        phone,
+        pincode,
+        description,
+        amount,
+        image: arrImages, // Assuming "images" is the field name for the uploaded images
+        provider: providerName, // Assuming "provider" is another field
+      });
+  
+      await newVenue.save();
+  
+      res.status(200).json({ message: 'Venue saved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error saving venue' });
+    }
+  }
+     
+}
+ 
 export default businessController;

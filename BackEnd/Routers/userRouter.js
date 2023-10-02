@@ -1,5 +1,6 @@
 import express from "express";
 import userController from "../Controllers/userController.js";
+import AuthenticateToken from "../middleware/authMiddleware.js";
 
 const user_router = express.Router();
 
@@ -10,8 +11,9 @@ user_router.post("/userSignUp", userController.signUp);
 user_router.post("/userLogin", userController.login);
 user_router.post("/configOTP", userController.configMobOTP);
 user_router.post("/CheckOTP", userController.CheckOTP);
-user_router.post("/resetPassword", userController.resetPassword);
+user_router.put("/resetPassword", userController.resetPassword);
 user_router.post('/createAccountOTP',userController.createAccountOTP);
-user_router.post('/userDetailsUpdate',userController.updateDetails)
+user_router.put('/userDetailsUpdate',AuthenticateToken("user"),userController.updateDetails)
+user_router.get('/getUser',userController.homeAuth)
 
 export default user_router;

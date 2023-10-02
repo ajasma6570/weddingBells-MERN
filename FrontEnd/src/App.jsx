@@ -1,4 +1,3 @@
-import HomePage from "./Pages/userPage/HomePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Loginpage from "./Pages/userPage/Loginpage";
 import SignUpPage from "./Pages/userPage/SignUpPage";
@@ -7,20 +6,27 @@ import BusinessLoginPage from "./Pages/businessPage/BusinessLoginPage";
 import SignupPageBusiness from "./Pages/businessPage/SignupPageBusiness";
 import BusinessDashBoardPage from "./Pages/businessPage/BusinessDashBoardPage";
 import AdminLoginPage from "./Pages/adminPages/AdminLoginPage";
-import AdminDashBoardPage from "./Pages/adminPages/AdminDashBoardPage";
 import ForgetPasswordPage from "./Pages/userPage/ForgetPasswordPage";
-import UserPrivateRoute from "./auth/UserPrivateRoute";
-import {BusinessLoginAuth , UserLoginAuth, UserProfileAuth} from './auth/LoginAuth'
+import {BusinessLoginAuth , HomeAuth, UserLoginAuth, UserProfileAuth, AdminLoginAuth, AdminDashAuth} from './auth/LoginAuth'
 import "./index.css";
 import BusinessForgetPasswordPage from "./Pages/businessPage/BusinessForgetPasswordPage";
 import AboutUsPage from "./Pages/userPage/AboutUsPage";
 import ContactUsPage from "./Pages/userPage/ContactUsPage";
-import TrailPage from "./Pages/TrailPage";
 import AccountDetails from "./Pages/userPage/AccountDetails";
 import Orders from "./Pages/userPage/Orders";
 import AccountUpdate from "./Pages/userPage/AccountUpdate";
 import UserProfilePasswordChange from "./Components/userComponents/UserProfilePasswordChange";
-
+import AdminDash from './Components/AdminComponent/AdminDash'
+import AdminUser from './Components/AdminComponent/AdminUser'
+import AdminBusiness from './Components/AdminComponent/AdminBusiness'
+import AdminService from './Components/AdminComponent/AdminService'
+import AdminBooking from './Components/AdminComponent/AdmminBooking'
+import AdminUserEdit from "./Components/AdminComponent/AdminUserEdit";
+import AdminBusinessEdit from "./Components/AdminComponent/AdminBusinessEdit";
+import BusinessAccountDetails from "./Components/businessComponent/BusinessAccountDetails";
+import BusinessAccountUpdate from "./Components/businessComponent/BusinessAccountUpdate";
+import BusinessAccPasswordChange from "./Components/businessComponent/BusinessAccPasswordChange";
+import BusinessServiceAdd from "./Components/businessComponent/BusinessServiceAdd";
 
 function App() {
   return (
@@ -30,10 +36,9 @@ function App() {
         <Routes>
   
   {/*public Route */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomeAuth />} />
           <Route path='/aboutus' element={<AboutUsPage />} />
           <Route path="/contactus" element={<ContactUsPage />}/>
-          <Route path="trail" element={<TrailPage />} />
 
     {/* user Private Route */}
     
@@ -47,8 +52,9 @@ function App() {
                   <Route index element={<AccountDetails />} />
                 <Route path="accountdetails"  element={<AccountDetails/>}/>
                 <Route path="orders" element={<Orders/>}/>
-                <Route path="accountUpdate" element={<AccountUpdate />}/>
+                <Route path="accountUpdate/:userId" element={<AccountUpdate />}/>
                 <Route path="passwordChange/:UserPhone" element={<UserProfilePasswordChange/>} />
+               
           </Route>
         
 
@@ -65,11 +71,32 @@ function App() {
           {/* <Route path="/business" element={<UserPrivateRoute/>}>  
               <Route path="dashboard" element={<BusinessDashBoardPage />}/>
           </Route> */}
-          <Route path="/business/dashboard" element={<BusinessDashBoardPage />}/>
+          <Route path="/business/dashboard" element={<BusinessDashBoardPage />}>
+            <Route path="businessAccountDetails" element={<BusinessAccountDetails/>}/>
+            <Route path="businessAccontUpdate/:userId" element={<BusinessAccountUpdate/>}/>
+            <Route path="businessAccPasswordChange/:UserPhone" element={<BusinessAccPasswordChange/>}/> 
+            <Route path="businessAddService" element={<BusinessServiceAdd/>}/>
+          </Route>
 
+ 
   {/* admin routes */}
-          <Route path="/admin/login" element={<AdminLoginPage />} />
-          <Route path="/admin/dashboard" element={<AdminDashBoardPage />} />
+          <Route path="/admin" element={<AdminLoginAuth />}>
+          <Route path="login" element={<AdminLoginPage />} />
+          </Route>
+            
+          <Route path="/admin/dash" element={<AdminDashAuth/>}>
+          <Route index element={<AdminDash/>} />
+          <Route path="dashboard" element={<AdminDash/>} />
+          <Route path="user" element={<AdminUser/>}/>
+          <Route path="business" element={<AdminBusiness/>}/>
+          <Route path="service" element={<AdminService/>}/>
+          <Route path="booking" element={<AdminBooking/>}/>
+          <Route path="userEdit/:userId" element={<AdminUserEdit/>}/>
+          <Route path="businessEdit/:userId" element={<AdminBusinessEdit />} />
+          </Route>
+         
+
+
 
         </Routes>
       </Router>
