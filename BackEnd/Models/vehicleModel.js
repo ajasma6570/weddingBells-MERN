@@ -82,7 +82,7 @@ const vehicelSchema = mongoose.Schema ({
     },
     review : [reviewSchema]   
 },{
-    timestamp: true
+    timestamps: true
   })
 
 const vehicle = mongoose.model("Vehicle",vehicelSchema)

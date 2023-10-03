@@ -63,7 +63,7 @@ const cateringSchema = mongoose.Schema ({
     },
     review : [reviewSchema]
 },{
-    timestamp: true
+    timestamps: true
   })
 
 
