@@ -60,6 +60,20 @@ export const businessApiSlice = apiSlice.injectEndpoints({
       body : data,
      
     })
+  }),
+  BusinessVehicleAdd : builder.mutation ({
+    query: (data) => ({
+      url: `${BUSINESS_URL}/BusinessVehicleAdd`,
+      method: 'post',
+      body : data
+    })
+  }),
+  BusinessCateringAdd : builder.mutation ({
+    query : (data) => ({
+      url: `${BUSINESS_URL}/BuisnessCateringAdd`,
+      method : 'post',
+      body : data
+    })
   })
   }),
 });
@@ -73,6 +87,8 @@ export const {
   useBusinessCreateAccountOTPMutation,
   useBusinessAccountUpdateMutation,
   useBusinessVenueAddMutation,
+  useBusinessVehicleAddMutation,
+  useBusinessCateringAddMutation
  
 } =
   businessApiSlice;

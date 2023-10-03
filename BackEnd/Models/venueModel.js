@@ -45,14 +45,10 @@ const venueSchema = mongoose.Schema({
         required:true,
         default: false
     },
-    requestStatus : {
+    requestAccept : {
         type : Boolean,
         required: true,
         default: false
-    },
-    createdAt: {
-        type : Date,
-        default : Date.now
     },
     service: {
         type: String,
@@ -62,13 +58,20 @@ const venueSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    providerId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+    },
     image: {
         type : Array,
         required: true
     },
     review : [reviewSchema]
 
-});
+},{
+    timestamps: true
+  });
 
 const Venue = new mongoose.model("Venue",venueSchema);
 

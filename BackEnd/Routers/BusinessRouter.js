@@ -15,7 +15,9 @@ business_router.post('/BusinessconfigOTP',businessController.configOTP);
 business_router.post("/BusinessCheckOTP", businessController.CheckOTP);
 business_router.post("/BusinessresetPassword", businessController.resetPassword);
 business_router.post('/BusinessCreateAccountOTP',businessController.createAccountOTP);
-business_router.post('/BusinessAccountUpdate',AuthenticateToken("buiness"),businessController.BusinessUpdateDetails)
-business_router.post('/BusinessVenueAdd',AuthenticateToken("buiness"),businessUpload.array("images"),businessController.BusinessVenueAdd)
+business_router.post('/BusinessAccountUpdate',AuthenticateToken("business"),businessController.BusinessUpdateDetails)
+business_router.post('/BusinessVenueAdd',AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessVenueAdd)
+business_router.post('/BusinessVehicleAdd', AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessVehicleAdd)
+business_router.post('/BuisnessCateringAdd',AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessCateringAdd)
 
 export default business_router;

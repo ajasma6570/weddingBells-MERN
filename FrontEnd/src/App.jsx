@@ -4,7 +4,6 @@ import SignUpPage from "./Pages/userPage/SignUpPage";
 import { ToastContainer } from "react-toastify";
 import BusinessLoginPage from "./Pages/businessPage/BusinessLoginPage";
 import SignupPageBusiness from "./Pages/businessPage/SignupPageBusiness";
-import BusinessDashBoardPage from "./Pages/businessPage/BusinessDashBoardPage";
 import AdminLoginPage from "./Pages/adminPages/AdminLoginPage";
 import ForgetPasswordPage from "./Pages/userPage/ForgetPasswordPage";
 import {BusinessLoginAuth , HomeAuth, UserLoginAuth, UserProfileAuth, AdminLoginAuth, AdminDashAuth} from './auth/LoginAuth'
@@ -27,6 +26,7 @@ import BusinessAccountDetails from "./Components/businessComponent/BusinessAccou
 import BusinessAccountUpdate from "./Components/businessComponent/BusinessAccountUpdate";
 import BusinessAccPasswordChange from "./Components/businessComponent/BusinessAccPasswordChange";
 import BusinessServiceAdd from "./Components/businessComponent/BusinessServiceAdd";
+import BusinessDashBoardPage from "./Pages/businessPage/BusinessDashBoardPage";
 
 function App() {
   return (
@@ -75,7 +75,7 @@ function App() {
             <Route path="businessAccountDetails" element={<BusinessAccountDetails/>}/>
             <Route path="businessAccontUpdate/:userId" element={<BusinessAccountUpdate/>}/>
             <Route path="businessAccPasswordChange/:UserPhone" element={<BusinessAccPasswordChange/>}/> 
-            <Route path="businessAddService" element={<BusinessServiceAdd/>}/>
+            <Route path="businessAddService/:userId" element={<BusinessServiceAdd/>}/>
           </Route>
 
  

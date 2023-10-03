@@ -48,17 +48,26 @@ const cateringSchema = mongoose.Schema ({
         type: Array,
         required: false
     },
+    providerId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+    },
     isActive : {
         type: Boolean,
         default : false
     },
-    createdAt : {
-        type : Date,
-        default: Date.now
-    },
-    requestStatus : {
+    requestAccept : {
         type : Boolean,
         default : false
     },
     review : [reviewSchema]
-})
+},{
+    timestamp: true
+  })
+
+
+  
+const Catering = mongoose.model("Catering",cateringSchema)
+
+export default Catering;

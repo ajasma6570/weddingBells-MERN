@@ -229,7 +229,7 @@ const userController = {
             .create({
               body: `Welcome back to Your Weding Bells account, please enter the otp to Change Password ${OTP}`,
               from: twilioNum,
-              to: "+918891645456",
+              to: `+918891645456`,
             })
             .then(async () => {
               const HashedOTP = await bcrypt.hash(OTP, 10);

@@ -54,7 +54,7 @@ const vehicelSchema = mongoose.Schema ({
         type : Number,
         required : true
     },
-    amount : {
+    rentAmount : {
         type : Number,
         required : true
     },
@@ -62,11 +62,7 @@ const vehicelSchema = mongoose.Schema ({
         type : Boolean,
         default : false
     },
-    createdAt :{
-        type : Date,
-        default : Date.now
-    },
-    requestStatus : {
+    requestAccept : {
         type : Boolean,
         required: true,
         default: false
@@ -75,12 +71,19 @@ const vehicelSchema = mongoose.Schema ({
         type : Number,
         required: true
     },
+    providerId: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+    },
     image: {
         type : Array,
         required: false
     },
-    review : [reviewSchema]
-})
+    review : [reviewSchema]   
+},{
+    timestamp: true
+  })
 
 const vehicle = mongoose.model("Vehicle",vehicelSchema)
 

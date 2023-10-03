@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useBusinessVenueAddMutation } from '../../Redux/Business/businessApiSlice'
-
+import {useNavigate, useParams} from 'react-router-dom'
+import { toastError, toastSuccess } from '../toast'
+import { useDispatch } from 'react-redux'
+import { logoutBusinessAccount } from '../../Redux/Business/businessSlice'
 export default function BusinessVenue() {
 
   const [name,setName] = useState("")
@@ -13,10 +16,17 @@ export default function BusinessVenue() {
   const [images, setImages] = useState([]);
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {userId} = useParams()
+
   const [BusinessVenueAdd] = useBusinessVenueAddMutation();
   const handleCheckboxChange = () => {
     setIsCheckboxChecked(!isCheckboxChecked);
   };
+
+
 
   const handleImage = (e) => {
     const selectedFiles = e.target.files;
@@ -40,7 +50,8 @@ export default function BusinessVenue() {
     formData.append('pincode', pincode);
     formData.append('description', description);
     formData.append('amount', amount);
-    formData.append('service',"venue")
+    formData.append('userId',userId)
+
 
     // Append each image from the selectedImages array
     for (let i = 0; i < images.length; i++) {
@@ -53,7 +64,17 @@ export default function BusinessVenue() {
           'Content-Type': 'multipart/form-data',
         },
       })
-      console.log(res);
+        console.log(res.data.status);
+      if(res.data.status === 200){
+        toastSuccess(res.data.message)
+        navigate('/business/dashboard/businessAccountDetails')
+      }else if(res.data.status === 401){
+        toastError(res.data.message)
+        dispatch(logoutBusinessAccount())
+        navigate('/business/login')
+      }else{
+        toastError(res.data.message)
+      }
 
     }catch(error){
       console.log(error);

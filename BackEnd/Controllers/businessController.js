@@ -7,6 +7,7 @@ import MobileOTP from "../Models/MobileOTPModel.js";
 import twilio from "twilio";
 import otpGenerator from "otp-generator";
 import Venue from "../Models/venueModel.js"
+import Vehicle from '../Models/vehicleModel.js'
 
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -56,6 +57,7 @@ const businessController = {
     }
   },
   login: async (req, res) => {
+    console.log("login start");
     try {
       const { email, password } = req.body;
 
@@ -322,8 +324,7 @@ const businessController = {
     }
   },
   BusinessVenueAdd: async (req, res) => {
-    const providerName = "abc";
-    const { name, city, capacity, phone, pincode, description, amount } = req.body;
+    const { name, city, capacity, phone, pincode, description, amount, userId } = req.body;
  
     const arrImages = [];
     if (req.files) {
@@ -342,17 +343,86 @@ const businessController = {
         description,
         amount,
         image: arrImages, // Assuming "images" is the field name for the uploaded images
-        provider: providerName, // Assuming "provider" is another field
+        providerId: userId, // Assuming "provider" is another field
       });
   
       await newVenue.save();
   
-      res.status(200).json({ message: 'Venue saved successfully' });
+      res.json({status:200, message: 'Venue saved successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error saving venue' });
     }
+  },
+  BusinessVehicleAdd: async(req, res) => {
+    const { name, city, seatCapacity, model, phone, pincode, description, rentAmount, freeKms, extraKmsCharge, userId } = req.body;
+ 
+    const arrImages = [];
+    if (req.files) {
+      for (let i = 0; i < req.files.length; i++) {
+        arrImages.push(req.files[i].filename);
+      }
+    }
+
+    try {
+      const newVehicle = new Vehicle({
+        name,
+        city,
+        seatCapacity,
+        model,
+        phone,
+        pincode,
+        description,
+        rentAmount,
+        freeKilometer:freeKms,
+        extraKilometerAmount:extraKmsCharge,
+        image: arrImages, // Assuming "images" is the field name for the uploaded images
+        providerId: userId, // Assuming "provider" is another field
+      });
+  
+      await newVehicle.save();
+  
+      res.json({status:200,message: 'Vehicle saved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error saving Vehicle' });
+    }
+
+  },
+  BusinessCateringAdd : async(req, res) => {
+    const { name, city, phone, pincode, description, minAmount, maxAmount, userId } = req.body;
+ 
+    const arrImages = [];
+    if (req.files) {
+      for (let i = 0; i < req.files.length; i++) {
+        arrImages.push(req.files[i].filename);
+      }
+    }
+    try {
+      const newCatering = new Venue({
+        name,
+        city,
+        phone,
+        pincode,
+        description,
+        minAmount,
+        maxAmount,
+        image: arrImages, // Assuming "images" is the field name for the uploaded images
+        providerid: userId, // Assuming "provider" is another field
+      });
+  
+      await newCatering.save();
+  
+      res.status(200).json({ message: 'Catering saved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error saving Catering' });
+    }
+
+
   }
+
+  
      
 }
  
