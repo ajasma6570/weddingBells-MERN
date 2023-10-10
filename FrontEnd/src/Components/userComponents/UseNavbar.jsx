@@ -117,6 +117,16 @@ function UseNavbar() {
 
       {/* Mobile menu (hidden by default) */}
       <div className={`lg:hidden ${isMobileMenuOpen ? "" : "hidden"}`}>
+      {Login.name && (
+                <Link
+                  to='/user/userProfile'
+                  className={`block  ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
+                >
+                  Welcome {Login.name}
+                </Link>
+
+            )}
+
         <Link
           className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
           to='/aboutus'
@@ -129,12 +139,24 @@ function UseNavbar() {
         >
           Contact us
         </Link>
-        <Link
-          to="/user/login"
-          className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
-        >
-          Login
-        </Link>
+        {Login.name && (
+                <Link
+                  className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Link>
+            )}
+
+
+          {!Login.name && (
+            <Link
+              to="/user/login"
+              className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
+            >
+              Login
+            </Link>
+          )}
       </div>
     </nav>
   );

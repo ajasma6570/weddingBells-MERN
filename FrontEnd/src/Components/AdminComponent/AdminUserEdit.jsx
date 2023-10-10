@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {useAdminUserDetailMutation, useAdminUserDetialsEditMutation } from "../../Redux/Admin/adminApiSlice";
 import { toastError, toastSuccess } from "../toast";
 import { validateEmail } from "../../utils/validation";
 import swalFire from "../../utils/SwalFire";
+import { useDispatch } from "react-redux";
+import { LogoutAdmin } from "../../Redux/Admin/adminSlice";
 
 
 export default function AdminUserEdit() {
@@ -21,14 +23,15 @@ export default function AdminUserEdit() {
     const [state, setState] = useState("");
     const [pincode, setPincode] = useState("");
     const bgColor= isEdit? "bg-stone-300":""
-  
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     useEffect(()=>{
         const fetchData = async() => {
             const res= await AdminUserDetail({userId})
-           
+         
+           if(res.data.status === 200){
             const userDetails = res.data.userdetail
- 
-
             setName(userDetails.name);
             setEmail(userDetails.email)
             setPhone(userDetails.phone)
@@ -36,9 +39,15 @@ export default function AdminUserEdit() {
             setCity(userDetails.city)
             setState(userDetails.state)
             setPincode(userDetails.pincode)
+           }else if(res.data.status === 401){
+            dispatch(LogoutAdmin())
+            toastError(res.data.message)
+            navigate('/admin/login')
+           }
+           
         }
         fetchData();
-        console.log("hey");
+        
     },[AdminUserDetail,isEdit, userId])
 
     const handleEdit = async() => {

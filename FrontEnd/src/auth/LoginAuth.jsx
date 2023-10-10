@@ -97,7 +97,6 @@ export const HomeAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [getLoginUser] = useGetLoginUserMutation();
-  console.log("hey starter");
   useEffect(() => {
   
     const fetchData = async () => {

@@ -27,9 +27,17 @@ export const AuthenticateToken = (role) => async (req, res, next) => {
     const userId = decoded.userId;
     const userRole = decoded.role;
 
-    if (userRole === role) {
+    if (userRole === role) { 
       req.user = await User.findOne({ email: userId }).select('-password');
-      next();
+      // console.log(req.user);
+      const isBlock = req.user.isBlocked
+      const isDelete = req.user.isDelete
+      if(!isBlock && !isDelete){
+        next();
+      }else{
+        return res.json({ status: 401, message: 'Account Blocked' });
+      }
+      
     } else {
       return res.json({ status: 401, message: 'Unauthorized' });
     }

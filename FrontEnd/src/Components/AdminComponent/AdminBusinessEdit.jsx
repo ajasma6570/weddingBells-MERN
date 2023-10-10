@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {useAdminBusinessDetailsMutation, useAdminBusinessAccDetailsEditMutation } from "../../Redux/Admin/adminApiSlice";
 import { toastError, toastSuccess } from "../toast";
 import { validateEmail } from "../../utils/validation";
 import swalFire from "../../utils/SwalFire";
+import { useDispatch } from "react-redux";
+import { LogoutAdmin } from "../../Redux/Admin/adminSlice";
 
 
 export default function AdminBusinessEdit() {
@@ -23,19 +25,29 @@ export default function AdminBusinessEdit() {
     const [state, setState] = useState("");
     const [pincode, setPincode] = useState("");
     const bgColor= isEdit? "bg-stone-300":""
-  
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     useEffect(()=>{
         const fetchData = async() => {
-            const res= await AdminBusinessDetails({userId})          
-            const userDetails = res.data.userdetail
+            const res= await AdminBusinessDetails({userId})      
+            
+            if(res.data.status === 200){
+              const userDetails = res.data.userdetail
  
-            setName(userDetails.name);
-            setEmail(userDetails.email)
-            setPhone(userDetails.phone)
-            setAddress(userDetails.address)
-            setCity(userDetails.city)
-            setState(userDetails.state)
-            setPincode(userDetails.pincode)
+              setName(userDetails.name);
+              setEmail(userDetails.email)
+              setPhone(userDetails.phone)
+              setAddress(userDetails.address)
+              setCity(userDetails.city)
+              setState(userDetails.state)
+              setPincode(userDetails.pincode)
+            }else if(res.data.status === 401){
+              dispatch(LogoutAdmin())
+              toastError(res.data.message)
+              navigate('/admin/login')
+             }
+           
         }
         fetchData();
     },[AdminBusinessDetails,isEdit, userId])

@@ -32,18 +32,12 @@ export const adminSlice = createSlice({
         ...state,
         userDetails: action.payload
       }
-    },
-    busienssList: (state, action) => {
-      return {
-        ...state,
-        businessDetails: action.payload
-      }
     }
 
     
   },
 });
 
-export const { LoginAdmin, LogoutAdmin, userList, busienssList } = adminSlice.actions;
+export const { LoginAdmin, LogoutAdmin, userList } = adminSlice.actions;
 
 export const adminSLiceReducer = adminSlice.reducer;

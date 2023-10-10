@@ -4,7 +4,7 @@ import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useAdminBusinessBlockMutation, useAdminBusinessDeleteMutation, useAdminBusinessListMutation } from '../../Redux/Admin/adminApiSlice';
 import { toastError, toastSuccess } from '../toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { busienssList } from '../../Redux/Admin/adminSlice';
+import { userList } from '../../Redux/Admin/adminSlice';
 import { useNavigate } from 'react-router-dom';
 import SwalFire from '../../utils/SwalFire';
 
@@ -12,7 +12,7 @@ export default function AdminBusiness() {
   const [AdminBusinessList] = useAdminBusinessListMutation();
   const [AdminBusinessBlock] = useAdminBusinessBlockMutation();
   const [AdminBusinessDelete] = useAdminBusinessDeleteMutation();
-  const users = useSelector((state)=>state.rootReducer.admin.businessDetails)
+  const users = useSelector((state)=>state.rootReducer.admin.userDetails)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [statusChange,setStatusChange] = useState(false)
@@ -23,7 +23,7 @@ export default function AdminBusiness() {
         const response = await AdminBusinessList(); // Replace '/api/userList' with your API endpoint
         if(response.data.status === 200){
           const userDetails = response.data.businessDetails;
-          dispatch(busienssList(userDetails))
+          dispatch(userList(userDetails))
         }else{
           toastError(response.data.message)
           navigate('/admin/dash')
