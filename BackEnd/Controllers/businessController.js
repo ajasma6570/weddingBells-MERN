@@ -57,7 +57,7 @@ const businessController = {
     }
   },
   login: async (req, res) => {
-    console.log("login start");
+
     try {
       const { email, password } = req.body;
 
@@ -420,6 +420,14 @@ const businessController = {
     }
 
 
+  },
+  RoleAuth : async(req,res) => {
+    try{
+      const role = req.role
+      res.json({status:200,role:role,message :"Authenticated"})
+    }catch(error){
+      res.json({status:500, message:error})
+    }
   }
 
   

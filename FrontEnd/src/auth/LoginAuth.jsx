@@ -67,18 +67,6 @@ export const AdminLoginAuth = () => {
   }
 } 
 
-export const UserProfileAuth = () => {
-
-    const userLogin = Cookies.get("userDetails")
-    const isLogin = userLogin? JSON.parse(userLogin) : false
-  
-    if(isLogin.role === "user"){
-        return <SideBar />
-        
-    }else{
-        return <Navigate to='/user/login' />
-    }
-}
 
 export const AdminDashAuth = () =>{
   const userLogin = Cookies.get("userDetails")
@@ -89,7 +77,6 @@ export const AdminDashAuth = () =>{
   }else{
     return <Navigate to="/admin/login" />
   }
-
 }
 
 

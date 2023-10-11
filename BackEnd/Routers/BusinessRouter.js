@@ -19,5 +19,5 @@ business_router.post('/BusinessAccountUpdate',AuthenticateToken("business"),busi
 business_router.post('/BusinessVenueAdd',AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessVenueAdd)
 business_router.post('/BusinessVehicleAdd', AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessVehicleAdd)
 business_router.post('/BuisnessCateringAdd',AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessCateringAdd)
-
+business_router.get('/BusinessProfileAuth',AuthenticateToken("business"),businessController.RoleAuth)
 export default business_router;

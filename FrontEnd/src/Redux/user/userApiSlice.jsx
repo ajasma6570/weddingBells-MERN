@@ -66,6 +66,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
                   Authorization: `Bearer ${jwtToken}`, // Include JWT token in the Authorization header
                 },
             })
+        }),
+        UserProfileAuth : builder.mutation ({
+            query: (data) => ({
+                url:`${USER_URL}/userProfileAuth`,
+                method:'get',
+                params:  data
+            })
         })
        
     })
@@ -81,5 +88,6 @@ export const {
     useResetPasswordMutation,
     useCreateAccountOTPMutation,
     useUpdateDetailsMutation,
-    useGetLoginUserMutation
+    useGetLoginUserMutation,
+    useUserProfileAuthMutation
 } = userApiSlice;

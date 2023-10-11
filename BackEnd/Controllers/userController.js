@@ -355,6 +355,14 @@ const userController = {
   } catch (error) {
     return res.json({ status: 401, message: 'Unauthorized' });
   }
+},
+RoleAuth : async(req,res) => {
+  try{
+    const role = req.role
+    res.json({status:200,role:role,message :"Authenticated"})
+  }catch(error){
+    res.json({status:500, message:error})
+  }
 }
 
   

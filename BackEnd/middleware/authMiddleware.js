@@ -29,6 +29,7 @@ export const AuthenticateToken = (role) => async (req, res, next) => {
 
     if (userRole === role) { 
       req.user = await User.findOne({ email: userId }).select('-password');
+      req.role = role
       // console.log(req.user);
       const isBlock = req.user.isBlocked
       const isDelete = req.user.isDelete

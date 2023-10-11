@@ -6,7 +6,7 @@ import BusinessLoginPage from "./Pages/businessPage/BusinessLoginPage";
 import SignupPageBusiness from "./Pages/businessPage/SignupPageBusiness";
 import AdminLoginPage from "./Pages/adminPages/AdminLoginPage";
 import ForgetPasswordPage from "./Pages/userPage/ForgetPasswordPage";
-import {BusinessLoginAuth , HomeAuth, UserLoginAuth, UserProfileAuth, AdminLoginAuth, AdminDashAuth} from './auth/LoginAuth'
+import {BusinessLoginAuth , HomeAuth, UserLoginAuth, AdminLoginAuth, AdminDashAuth} from './auth/LoginAuth'
 import "./index.css";
 import BusinessForgetPasswordPage from "./Pages/businessPage/BusinessForgetPasswordPage";
 import AboutUsPage from "./Pages/userPage/AboutUsPage";
@@ -26,7 +26,8 @@ import BusinessAccountDetails from "./Components/businessComponent/BusinessAccou
 import BusinessAccountUpdate from "./Components/businessComponent/BusinessAccountUpdate";
 import BusinessAccPasswordChange from "./Components/businessComponent/BusinessAccPasswordChange";
 import BusinessServiceAdd from "./Components/businessComponent/BusinessServiceAdd";
-import BusinessDashBoardPage from "./Pages/businessPage/BusinessDashBoardPage";
+import UserRoleAuth from "./auth/UserRoleAuth";
+import BusinessRoleAuth from "./auth/BusinessRoleAuth";
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
               <Route path="forgetpassword" element={<ForgetPasswordPage />} />
           </Route>
 
-          <Route path="/user/userProfile" element={<UserProfileAuth />}>
+          <Route path="/user/userProfile" element={<UserRoleAuth />}>
                   <Route index element={<AccountDetails />} />
                 <Route path="accountdetails"  element={<AccountDetails/>}/>
                 <Route path="orders" element={<Orders/>}/>
@@ -68,10 +69,8 @@ function App() {
 
          
   {/* business Protected Route */}
-          {/* <Route path="/business" element={<UserPrivateRoute/>}>  
-              <Route path="dashboard" element={<BusinessDashBoardPage />}/>
-          </Route> */}
-          <Route path="/business/dashboard" element={<BusinessDashBoardPage />}>
+          <Route path="/business/dashboard" element={<BusinessRoleAuth />}>
+              <Route index element={<BusinessAccountDetails />} />
             <Route path="businessAccountDetails" element={<BusinessAccountDetails/>}/>
             <Route path="businessAccontUpdate/:userId" element={<BusinessAccountUpdate/>}/>
             <Route path="businessAccPasswordChange/:UserPhone" element={<BusinessAccPasswordChange/>}/> 
