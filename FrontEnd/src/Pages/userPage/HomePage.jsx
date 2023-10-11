@@ -9,8 +9,9 @@ import UseNavbar from '../../Components/userComponents/UseNavbar'
 export default function HomePage() {
   return (
     <>
-        <div style={{backgroundImage:'url("/Assets/banner.jpg")'}} className='h-screen bg-cover ' >
-        <UseNavbar />
+        <div style={{backgroundImage:'url("/Assets/banner.jpg")'}} className='h-full bg-cover ' >
+          <UseNavbar />
+         
 
             <Home className="w-full  mx-auto p-3 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1"/>
         </div>

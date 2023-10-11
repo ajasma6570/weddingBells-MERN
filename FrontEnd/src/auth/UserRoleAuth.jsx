@@ -28,7 +28,7 @@ export default function UserRoleAuth() {
             }
         }
         fetchData()
-    },[userProfileAuth,navigate])
+    },[userProfileAuth,navigate,dispatch])
 
     return (
     <>

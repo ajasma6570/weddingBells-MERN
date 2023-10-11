@@ -19,7 +19,7 @@ export default function SideBar() {
     <>
     <UseNavbar />
     <div className='flex '>
-      <div className={`bg-gray-800 ${sidebarClass} min-h-screen transition-all duration-300 ease-in-out`}>
+      <div className={`bg-gray-800 ${sidebarClass} h-screen transition-all duration-300 ease-in-out`}>
         <div className='flex justify-between px-8'>
           <div className={`text-white text-2xl font-semibold text-center py-3 ${textClass}`}>LOGO</div>
           <div className='mt-4 cursor-pointer' onClick={toggleSidebar}>
@@ -45,7 +45,7 @@ export default function SideBar() {
           </ul>
         </div>
       </div>
-      <div className='bg-gray-200 h-screen w-full pl-5'>
+      <div className='bg-gray-200 h-screen w-full pl-5 overflow-scroll overflow-x-hidden'>
         <Outlet /> {/* This will render the content for the matching route */}
       </div>
     </div>

@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useBusinessCateringAddMutation } from '../../Redux/Business/businessApiSlice'
+import { toastError, toastSuccess } from '../toast'
+import { useDispatch } from 'react-redux'
+import { logoutBusinessAccount } from '../../Redux/Business/businessSlice'
 
 export default function BUsinessCatering() {
 
@@ -14,7 +18,9 @@ const [images, setImages] = useState([]);
 const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
 const {userId} = useParams()
-
+const [BusinessCatering] = useBusinessCateringAddMutation()
+const navigate = useNavigate()
+const dispatch = useDispatch()
 const handleCheckboxChange = () => {
   setIsCheckboxChecked(!isCheckboxChecked);
 };
@@ -30,9 +36,47 @@ const handleImage = (e) => {
   setImages(newImages); // Update the state
 }; 
 
-const handleSubmit = () => {
+const handleSubmit = async() => {
   console.log(name, city, phone, pincode, description, minAmount, maxAmount);
-  console.log(images);
+  const formData = new FormData();
+
+  formData.append('name', name);
+  formData.append('city', city);
+  formData.append('phone', phone);
+  formData.append('pincode', pincode);
+  formData.append('description', description);
+  formData.append('minAmount', minAmount);
+  formData.append('maxAmount', maxAmount);
+  formData.append('userId',userId)
+
+   // Append each image from the selectedImages array
+   for (let i = 0; i < images.length; i++) {
+    formData.append('images', images[i]);
+  }
+
+  try{
+    const res = await BusinessCatering(formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+
+    console.log(res.data.status);
+    if(res.data.status === 200){
+      toastSuccess(res.data.message)
+      navigate('/business/dashboard/businessAccountDetails')
+    }else if(res.data.status === 401){
+      toastError(res.data.message)
+      dispatch(logoutBusinessAccount())
+      navigate('/business/login')
+    }else{
+      toastError(res.data.message)
+    }
+
+  }catch(error){
+    console.log(error);
+  }
+
 }
 
   return (

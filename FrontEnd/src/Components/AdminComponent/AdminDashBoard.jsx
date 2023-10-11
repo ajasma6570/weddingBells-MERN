@@ -53,11 +53,17 @@ export default function AdminDashBoard() {
               </NavLink>
             </li>
             <hr className='bg-white my-2' />
-            <li>
-              <NavLink to="/admin/dash/service" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
-                <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Services</div>
+            <li className="relative group">
+              <NavLink to="/admin/dash/service" class={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon w-10 inline-block"><FontAwesomeIcon icon={faCartShopping} size='lg' color="white" /></div>
+                <div className={`link_text inline-block sm:text-sm md:text-xl text-white text-sm ${textClass}`}>Services</div>
               </NavLink>
+
+              <ul className=" hidden mt-2 space-y-2 bg-gray-800 text-white group-hover:block">
+                <NavLink to="" className="ml-10 block hover:text-gray-500">Venue</NavLink>
+                <NavLink to="" className="ml-10 block hover:text-gray-500">Vehicle</NavLink>
+                <NavLink to="" className="ml-10 block hover:text-gray-500">Catering</NavLink>
+              </ul>
             </li>
             <hr className='bg-white my-2' />
             <li>

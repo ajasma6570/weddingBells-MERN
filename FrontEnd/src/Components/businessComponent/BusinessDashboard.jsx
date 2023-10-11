@@ -17,7 +17,7 @@ export default function BusinessDashboard() {
 
   return (
     <>
-         <div className='flex '>
+         <div className='flex h-screen'>
       <div className={`bg-gray-800 ${sidebarClass} min-h-screen transition-all duration-300 ease-in-out`}>
         <div className='flex justify-between px-8'>
           <div className={`text-white text-2xl font-semibold text-center py-3 ${textClass}`}>LOGO</div>
@@ -51,7 +51,7 @@ export default function BusinessDashboard() {
           </ul>
         </div>
       </div>
-      <div className='bg-gray-200 h-screen w-full pl-5'>
+      <div className='bg-gray-200 h-screen w-full pl-5  overflow-scroll overflow-x-hidden'>
         <Outlet /> {/* This will render the content for the matching route */}
       </div>
     </div>

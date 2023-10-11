@@ -31,8 +31,8 @@ function UseNavbar() {
   };
 
   return (
-    <nav className={`w-full  p-2 ${bgColorClass}`} style={{ height: "4rem" }}>
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className={`w-full  p-2 ${bgColorClass}`} style={{ height: "3.5rem",position:"relative",zIndex:"1"}}>
+      <div className="container mx-auto flex justify-between items-center fixed">
         <div
           onClick={() => navigate("/")}
           className={`${textColorClass} font-bold font-kaushan text-3xl cursor-pointer`}
@@ -116,7 +116,7 @@ function UseNavbar() {
       </div>
 
       {/* Mobile menu (hidden by default) */}
-      <div className={`lg:hidden ${isMobileMenuOpen ? "" : "hidden"}`}>
+      <div className={`lg:hidden bg-zinc-600 border rounded-xl ${isMobileMenuOpen ? "" : "hidden"}`}>
       {Login.name && (
                 <Link
                   to='/user/userProfile'

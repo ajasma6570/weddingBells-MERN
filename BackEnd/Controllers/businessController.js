@@ -8,6 +8,7 @@ import twilio from "twilio";
 import otpGenerator from "otp-generator";
 import Venue from "../Models/venueModel.js"
 import Vehicle from '../Models/vehicleModel.js'
+import Catering from "../Models/cateringModel.js";
 
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -57,7 +58,6 @@ const businessController = {
     }
   },
   login: async (req, res) => {
-
     try {
       const { email, password } = req.body;
 
@@ -391,7 +391,7 @@ const businessController = {
   },
   BusinessCateringAdd : async(req, res) => {
     const { name, city, phone, pincode, description, minAmount, maxAmount, userId } = req.body;
- 
+    console.log(name, city, phone, pincode, description, minAmount, maxAmount, userId );
     const arrImages = [];
     if (req.files) {
       for (let i = 0; i < req.files.length; i++) {
@@ -399,7 +399,7 @@ const businessController = {
       }
     }
     try {
-      const newCatering = new Venue({
+      const newCatering = new Catering({
         name,
         city,
         phone,
@@ -408,12 +408,12 @@ const businessController = {
         minAmount,
         maxAmount,
         image: arrImages, // Assuming "images" is the field name for the uploaded images
-        providerid: userId, // Assuming "provider" is another field
+        providerId: userId, // Assuming "provider" is another field
       });
   
       await newCatering.save();
   
-      res.status(200).json({ message: 'Catering saved successfully' });
+      res.json({ status:200,message: 'Catering saved successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error saving Catering' });

@@ -6,16 +6,12 @@ import { Link } from "react-router-dom";
 export default function ContactUsPage() {
   return (
     <>
-      <div
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-      >
-        <UseNavbar />
+      <div style={{height:"3rem"}}>
+      <UseNavbar />
+      </div>
+       
 
-        <div
-          style={{ flex: 1, display: "flex", flexDirection: "column" }}
-          className="bg-stone-200"
-        >
-          <div className="w-9/12 mx-auto pt-10 flex flex-col justify-center items-center">
+          <div className="w-9/12 mx-auto pt-10 flex flex-col justify-center items-center h-96">
             <h1 className="font-sans font-semibold text-center text-3xl">
               Feel free to contact us at your convenience and we’ll be happy to
               get in touch with you.{" "}
@@ -43,10 +39,10 @@ export default function ContactUsPage() {
               
             </div>
           </div>
-        </div>
+   
 
         <Footer />
-      </div>
+     
     </>
   );
 }

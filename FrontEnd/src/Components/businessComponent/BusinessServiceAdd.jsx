@@ -35,7 +35,7 @@ export default function BusinessServiceAdd() {
           Select your Service Type
         </label>
         <select
-          className="block w-36 border rounded-md cursor-pointer"
+          className="block w-44 border rounded-md cursor-pointer"
           id="dropdown"
           name="service"
           onChange={handleSelectChange}

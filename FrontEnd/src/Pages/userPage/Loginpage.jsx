@@ -6,15 +6,11 @@ import UseNavbar from "../../Components/userComponents/UseNavbar";
 export default function Loginpage() {
   return (
     <>
-     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-    <UseNavbar />
-
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+     <UseNavbar />
+   
       <Login />
-      </div>
-
       <Footer />
-      </div>
+      
     </>
   );
 }

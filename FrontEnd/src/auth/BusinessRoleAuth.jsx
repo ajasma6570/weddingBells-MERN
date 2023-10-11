@@ -27,7 +27,7 @@ export default function BusinessRoleAuth() {
             }
         }
         fetchData()
-    },[BusinessProfileAuth,navigate])
+    },[BusinessProfileAuth,navigate,dispatch])
 
     return (
     <>

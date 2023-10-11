@@ -40,7 +40,6 @@ export default function BusinessLogin() {
 
     const res = await BusinessLogin({ email, password });
     if (res.data.status === 200) {
-        console.log("sucess");
         const userId = res.data.Businessdetails.id;
         const token = res.data.Businessdetails.token;
 
@@ -50,7 +49,6 @@ export default function BusinessLogin() {
         navigate("/business/dashboard", { replace: true });
 
     } else {
-      console.log("failesd");
       toastError(res.data.message);
       navigate("/business/login");
     }

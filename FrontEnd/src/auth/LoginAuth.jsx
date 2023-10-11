@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Navigate ,Outlet, useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
-import SideBar from "../Pages/userPage/SideBar";
 import HomePage from "../Pages/userPage/HomePage";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../Redux/user/userSlice";

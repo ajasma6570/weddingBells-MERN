@@ -17,9 +17,9 @@ const Login = useSelector((state)=>state.rootReducer.business)
   }
   return (
     <>
-    <div className='flex flex-col min-h-screen'>
+    <div className='flex flex-col h-screen'>
 
-    <div className='flex bg-gray-800'>
+    <div className='flex bg-gray-800 ' >
       <ul className='flex'>
         <li className='ml-10 text-white font-kaushan'>Wedding Bells</li>
       </ul>
@@ -37,10 +37,8 @@ const Login = useSelector((state)=>state.rootReducer.business)
       </ul>
     </div>
 
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
     <BusinessDashboard />
-    </div>
-
+   
      <BusinessFooter />
 
 
