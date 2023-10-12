@@ -308,7 +308,7 @@ const userController = {
         const userDetails = await User.findOne({ _id: userId });
 
         return res.json({ status: 200, message: "Update details successfully" ,userdetails: {
-          id: userDetails._id,
+          _id: userDetails._id,
           name: userDetails.name,
           email:userDetails.email,
           phone: userDetails.phone,
