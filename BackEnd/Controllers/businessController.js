@@ -9,6 +9,7 @@ import otpGenerator from "otp-generator";
 import Venue from "../Models/venueModel.js"
 import Vehicle from '../Models/vehicleModel.js'
 import Catering from "../Models/cateringModel.js";
+import vehicle from "../Models/vehicleModel.js";
 
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -78,7 +79,7 @@ const businessController = {
               status: 200,
               message: "Business Account Loginned",
               Businessdetails: {
-                id: UserFind._id,
+                _id: UserFind._id,
                 name: UserFind.name,
                 email,
                 phone: UserFind.phone,
@@ -428,7 +429,22 @@ const businessController = {
     }catch(error){
       res.json({status:500, message:error})
     }
+  },
+  RequestCheck: async (req, res) => {
+    try {
+      const userId  = req.body.userId; 
+      console.log(userId);
+      const venues = await Venue.find({providerId:userId,requestAccept:false})
+      const vehicles = await vehicle.find({providerId:userId,requestAccept:false})
+      const caterings = await Catering.find({providerId:userId,requestAccept:false})
+
+      res.json({status:200, venues,vehicles,caterings });
+
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
+  
 
   
      

@@ -25,8 +25,6 @@ export default function BusinessAccountUpdate() {
     const [BusinessAccountUpdate] = useBusinessAccountUpdateMutation()
 
     const handleUpdate = async() => {
-      console.log(business);
-      console.log(business.id);
       if (
         !name ||
         !email ||

@@ -8,6 +8,7 @@ export default function BusinessDashboard() {
 
   const business = useSelector((state) => state.rootReducer.business);
 
+
   const toggleSidebar = () => {
     setSidebarMinimized(!isSidebarMinimized);
   };
@@ -35,14 +36,14 @@ export default function BusinessDashboard() {
             </li>
             <hr className='bg-white my-2' />
             <li>
-              <NavLink to={`/business/dashboard/businessAddService/${business.id}`} className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+              <NavLink to={`/business/dashboard/businessAddService/${business._id}`} className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
                 <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Add Services</div>
               </NavLink>
             </li>
             <hr className='bg-white my-2' />
             <li>
-              <NavLink to="" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+              <NavLink to={`/business/dashboard/businessRequests/${business._id}`} className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
                 <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Requests</div>
               </NavLink>

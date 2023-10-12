@@ -20,4 +20,5 @@ business_router.post('/BusinessVenueAdd',AuthenticateToken("business"),businessU
 business_router.post('/BusinessVehicleAdd', AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessVehicleAdd)
 business_router.post('/BuisnessCateringAdd',AuthenticateToken("business"),businessUpload.array("images"),businessController.BusinessCateringAdd)
 business_router.get('/BusinessProfileAuth',AuthenticateToken("business"),businessController.RoleAuth)
+business_router.post('/BusinessRequestCheck',businessController.RequestCheck)
 export default business_router;
