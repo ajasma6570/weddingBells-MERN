@@ -7,6 +7,8 @@ export default function AdminCarteringRequests() {
 
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true);
+
   const [AdminCarteringRequests] = useAdminCateringRequestListMutation()
 
   const handleSelect = (index) => {
@@ -19,14 +21,14 @@ export default function AdminCarteringRequests() {
 
   useEffect(()=>{
     const fetchData = async() => {
-
+      setLoading(true); 
       const res = await AdminCarteringRequests()
         if(res.data.status === 200){
           setData(res.data.cateringRequestList)
         }else{
           console.log("error");
         }
-
+        setLoading(false); 
     }
 
     fetchData()
@@ -63,7 +65,15 @@ export default function AdminCarteringRequests() {
                 </tr>
             </thead>
             <tbody>
-            {data.length === 0 ? (
+            
+            {loading ? ( // Check loading state
+              <tr>
+                <td colSpan="8" className="text-center">
+                  <h1 className="text-3xl py-10 font-semibold text-gray-400">Loading...</h1>
+                </td>
+              </tr>
+            ) : 
+            data.length === 0 ? (
               <tr>
                 <td colSpan="8" className="text-center">
                   <h1 className='text-3xl py-10 font-semibold text-gray-400'>No User Found</h1>

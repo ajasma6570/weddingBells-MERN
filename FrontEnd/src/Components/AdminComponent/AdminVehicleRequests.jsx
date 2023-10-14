@@ -5,7 +5,7 @@ import { useAdminVehicleRequestListMutation } from "../../Redux/Admin/adminApiSl
 export default function AdminVehicleRequests() {
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [data, setData] = useState([])
-
+  const [loading, setLoading] = useState(true);
   const [AdminVehicleRequests] = useAdminVehicleRequestListMutation()
 
   const handleSelect = (index) => {
@@ -19,14 +19,14 @@ export default function AdminVehicleRequests() {
 
   useEffect(()=>{
     const fetchData = async() => {
-
+      setLoading(true); 
       const res = await AdminVehicleRequests()
         if(res.data.status === 200){
           setData(res.data.vehicleRequestList)
         }else{
           console.log("error");
         }
-
+        setLoading(false);
     }
     fetchData()
   },[AdminVehicleRequests])
@@ -64,7 +64,15 @@ export default function AdminVehicleRequests() {
             </tr>
           </thead>
           <tbody>
-          {data.length === 0 ? (
+          
+          {loading ? ( // Check loading state
+              <tr>
+                <td colSpan="8" className="text-center">
+                  <h1 className="text-3xl py-10 font-semibold text-gray-400">Loading...</h1>
+                </td>
+              </tr>
+            ) : 
+          data.length === 0 ? (
               <tr>
                 <td colSpan="8" className="text-center">
                   <h1 className='text-3xl py-10 font-semibold text-gray-400'>No User Found</h1>
