@@ -3,7 +3,7 @@ import { useBusienssRequestCheckMutation } from '../../Redux/Business/businessAp
 import { useParams } from 'react-router-dom';
 
 export default function BusinessRequests() {
-    const [venue,setVenue] = useState([])
+    const [venue,setVenue] = useState([]) 
     const [vehicle, setVehicle] = useState([])
     const [catering, setCatering] = useState([])
 
@@ -27,14 +27,10 @@ export default function BusinessRequests() {
       fetchData()
     },[BusienssRequestCheck,userId])
 
-    console.log(venue);
-    console.log(vehicle);
-    console.log(catering);
-
   return (
     <>
 
-    {/* Venue table */}
+
     <div className='relative w-11/12 flex flex-col  mb-12'>
 
         <div className="flex flex-wrap items-center">
@@ -43,7 +39,7 @@ export default function BusinessRequests() {
             </div>
         </div>
 
-
+    {/* Venue table */}
     {venue.length > 0 && 
        <div className='block bg-transparent m-4 p-2 w-full overflow-x-auto shadow-stone-600 shadow-lg'>
        <h1 className='text-xl font-semibold text text-gray-800'>Venue</h1>
@@ -70,7 +66,7 @@ export default function BusinessRequests() {
                 month: 'long',
                 day: 'numeric',
               })}</td>
-                <td className="text-md px-12 py-3">Pending</td>
+                <td className="text-md px-12 py-3">{obj.requestAccept ? "Accepted" : "pending"}</td>
            </tr>
            ))}
          </tbody>

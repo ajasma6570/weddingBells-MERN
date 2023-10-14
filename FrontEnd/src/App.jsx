@@ -29,6 +29,7 @@ import BusinessServiceAdd from "./Components/businessComponent/BusinessServiceAd
 import UserRoleAuth from "./auth/UserRoleAuth";
 import BusinessRoleAuth from "./auth/BusinessRoleAuth";
 import BusinessRequests from "./Components/businessComponent/BusinessRequests";
+import AdminRequestManagement from "./Components/AdminComponent/AdminRequestManagement";
 
 function App() {
   return (
@@ -94,6 +95,8 @@ function App() {
           <Route path="booking" element={<AdminBooking/>}/>
           <Route path="userEdit/:userId" element={<AdminUserEdit/>}/>
           <Route path="businessEdit/:userId" element={<AdminBusinessEdit />} />
+          {/* Descendant Routes */}
+          <Route path="requestManagement/*" element={<AdminRequestManagement/>}/>  
           </Route>
          
 

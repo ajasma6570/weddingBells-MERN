@@ -433,7 +433,6 @@ const businessController = {
   RequestCheck: async (req, res) => {
     try {
       const userId  = req.body.userId; 
-      console.log(userId);
       const venues = await Venue.find({providerId:userId,requestAccept:false})
       const vehicles = await vehicle.find({providerId:userId,requestAccept:false})
       const caterings = await Catering.find({providerId:userId,requestAccept:false})

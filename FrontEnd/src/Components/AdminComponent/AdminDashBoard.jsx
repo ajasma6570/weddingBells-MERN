@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faUser, faCartShopping, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faCartShopping, faRightFromBracket , faDiamond, faStar} from '@fortawesome/free-solid-svg-icons';
 import { LogoutAdmin } from "../../Redux/Admin/adminSlice";
 import { useDispatch } from 'react-redux';
 export default function AdminDashBoard() {
@@ -38,37 +38,38 @@ export default function AdminDashBoard() {
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>DashBoard</div>
               </NavLink>
             </li>
-            <hr className='bg-white my-2' />
+            <hr className='bg-white m' />
             <li>
-              <NavLink to="/admin/dash/user" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
+              <NavLink to="/admin/dash/user" className={`text-white font-sans m cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>User List</div>
               </NavLink>
             </li>
             <hr className='bg-white my-2' />
             <li>
               <NavLink to="/admin/dash/business" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
+                <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Business List</div>
               </NavLink>
             </li>
             <hr className='bg-white my-2' />
-            <li className="relative group">
-              <NavLink to="/admin/dash/service" class={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon w-10 inline-block"><FontAwesomeIcon icon={faCartShopping} size='lg' color="white" /></div>
-                <div className={`link_text inline-block sm:text-sm md:text-xl text-white text-sm ${textClass}`}>Services</div>
+            <li>
+              <NavLink to="/admin/dash/requestManagement" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon"><FontAwesomeIcon icon={faStar} size='lg' /></div>
+                <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Request Lists</div>
               </NavLink>
-
-              <ul className=" hidden mt-2 space-y-2 bg-gray-800 text-white group-hover:block">
-                <NavLink to="" className="ml-10 block hover:text-gray-500">Venue</NavLink>
-                <NavLink to="" className="ml-10 block hover:text-gray-500">Vehicle</NavLink>
-                <NavLink to="" className="ml-10 block hover:text-gray-500">Catering</NavLink>
-              </ul>
+            </li>
+            <hr className='bg-white my-2' />
+            <li>
+              <NavLink to="/admin/dash/service" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon"><FontAwesomeIcon icon={faStar} size='lg' /></div>
+                <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Services</div>
+              </NavLink>
             </li>
             <hr className='bg-white my-2' />
             <li>
               <NavLink to="/admin/dash/booking" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
+                <div className="icon"><FontAwesomeIcon icon={faStar} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Bookings</div>
               </NavLink>
             </li>
