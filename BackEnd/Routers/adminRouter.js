@@ -20,4 +20,8 @@ admin_router.post('/businessDelete',AuthenticateToken("admin"),adminController.d
 admin_router.post('/businessDetails',AuthenticateToken("admin"),adminController.businessDetail)
 admin_router.post('/businessAccDetailsEdit',AuthenticateToken("admin"),adminController.businessDetailEdit)
 
+admin_router.get('/venueRequestList',adminController.venueRequestList)
+admin_router.get('/vehicleRequestList',adminController.vehicleRequestList)
+admin_router.get('/cateringRequestList',adminController.cateringRequestList)
+
 export default admin_router;

@@ -28,8 +28,8 @@ export default function AdminRequestManagement() {
         <div class="inline-flex gap-5">
           <Link
             to="" // <-- Corrected path
-            className={`text-gray-800 hover:bg-gray-300 font-bold py-2 px-4 rounded-md ${
-              isActiveRoute("requestManagement") ? "bg-gray-600" : "bg-gray-400"
+            className={`text-gray-800 hover:bg-gray-200 font-bold py-2 px-4 rounded-md ${
+              isActiveRoute("requestManagement") ? "bg-gray-500" : "bg-gray-300"
             }`}
           >
             Venue
@@ -37,8 +37,8 @@ export default function AdminRequestManagement() {
 
           <Link
             to="vehicles"
-            className={`text-gray-800 hover:bg-gray-300 font-bold py-2 px-4 rounded-md ${
-              isActiveRoute("vehicles") ? "bg-gray-600" : "bg-gray-400"
+            className={`text-gray-800 hover:bg-gray-200 font-bold py-2 px-4 rounded-md ${
+              isActiveRoute("vehicles") ? "bg-gray-500" : "bg-gray-300"
             }`}
           >
             Vehicle
@@ -46,8 +46,8 @@ export default function AdminRequestManagement() {
 
           <Link
             to="caterings"
-            className={`text-gray-800 hover:bg-gray-300 font-bold py-2 px-4 rounded-md ${
-              isActiveRoute("caterings") ? "bg-gray-600" : "bg-gray-400"
+            className={`text-gray-800 hover:bg-gray-200 font-bold py-2 px-4 rounded-md ${
+              isActiveRoute("caterings") ? "bg-gray-500" : "bg-gray-300"
             }`}
           >
             Catering

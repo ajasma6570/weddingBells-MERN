@@ -38,7 +38,7 @@ export default function AdminDashBoard() {
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>DashBoard</div>
               </NavLink>
             </li>
-            <hr className='bg-white m' />
+            <hr className='bg-white my-2' />
             <li>
               <NavLink to="/admin/dash/user" className={`text-white font-sans m cursor-pointer flex hover:text-slate-500`} activeClassName="active">
                 <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>

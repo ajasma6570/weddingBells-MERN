@@ -1,14 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
+import { useAdminCateringRequestListMutation } from '../../Redux/Admin/adminApiSlice';
 
 
 export default function AdminCarteringRequests() {
 
-    const [isSelect, setIsSelect] = useState(false);
+  const [selectedIndexes, setSelectedIndexes] = useState([]);
+  const [data, setData] = useState([])
+  const [AdminCarteringRequests] = useAdminCateringRequestListMutation()
 
-    const handleSelect = () => {
-      setIsSelect(!isSelect);
-    };
+  const handleSelect = (index) => {
+    setSelectedIndexes((prevIndexes) =>
+      prevIndexes.includes(index)
+        ? prevIndexes.filter((prevIndex) => prevIndex !== index)
+        : [...prevIndexes, index]
+    );
+  };
+
+  useEffect(()=>{
+    const fetchData = async() => {
+
+      const res = await AdminCarteringRequests()
+        if(res.data.status === 200){
+          setData(res.data.cateringRequestList)
+        }else{
+          console.log("error");
+        }
+
+    }
+
+    fetchData()
+  },[AdminCarteringRequests])
+
+  const handleView = (id) =>{
+    console.log(id);
+  }
+
+  const handleAccept = (id) =>{
+    console.log(id);
+  }
+
+  const handleReject = (id) =>{
+    console.log(id);
+  }
+
   return (
     <>
         {/* Catering Request Table */}
@@ -21,27 +56,28 @@ export default function AdminCarteringRequests() {
                     <th className='text-md px-10 py-3'>Name</th>
                     <th className='text-md px-10 py-3'>City</th>
                     <th className='text-md px-10 py-3'>Phone</th>
-                    <th className='text-md px-10 py-3'>Capacity</th>
-                    <th className='text-md px-10 py-3'>Amount</th>
+                    <th className='text-md px-10 py-3'>Min Amount</th>
+                    <th className='text-md px-10 py-3'>Max Amount</th>
                     <th className='text-md px-10 py-3'>Created Date</th>
                     <th className='text-md px-10 py-3'>Action</th>
                 </tr>
             </thead>
             <tbody>
+            {data.map((obj, index)=>(
                 <tr>
-                <td className='text-md pl-8 py-3'>1</td>
-                <td className='text-md pl-8 py-3'>NBF Hall</td>
-                <td className='text-md pl-4 py-3'>Ernakulam</td>
-                <td className='text-md pl-5 py-3'>88916454560</td>
-                <td className='text-md pl-16 py-3'>500</td>
-                <td className='text-md pl-11 py-3'>150000</td>
-                <td className='text-md pl-8 py-3'>october/10/2023</td> 
+                <td className='text-md pl-8 py-3'>{index+1}</td>
+                <td className='text-md pl-8 py-3'>{obj.name}</td>
+                <td className='text-md pl-4 py-3'>{obj.city}</td>
+                <td className='text-md pl-5 py-3'>{obj.phone}</td>
+                <td className='text-md pl-16 py-3'>{obj.minAmount}</td>
+                <td className='text-md pl-11 py-3'>{obj.maxAmount}</td>
+                <td className="text-md pl-8 py-3">{`${new Date(obj.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(obj.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(obj.createdAt).getFullYear()}`}</td>
                 <td className='text-md pl-8 py-3'>
                 <div class="relative inline-block text-left">
                   <div>
                     <button
-                      class="inline-flex justify-center w-full px-4 py-1 text-sm font-medium text-gray-700 bg-gray-300 border border-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
-                      onClick={handleSelect}
+                      class="inline-flex justify-center w-full px-4 py-1 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-500 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                      onClick={() => handleSelect(index)}
                     >
                       Select
                       <svg
@@ -60,23 +96,29 @@ export default function AdminCarteringRequests() {
                       </svg>
                     </button>
                   </div>
-                  {isSelect && (
-                    <div class="absolute right-0 w-36 mt-2 origin-top-right bg-gray-300 border border-gray-400 rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                  {selectedIndexes.includes(index) && (
+                    <div class="absolute right-0 w-36 mt-2 origin-top-right bg-gray-100 border border-gray-400 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10">
                       <div
                         class=""
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="options-menu"
                       >
-                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-md">
+                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
+                         onClick={()=>handleView(obj._id)}
+                        >
                           View
                         </Link>
                         <hr className="bg-gray-400 h-1" />
-                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-md">
+                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
+                         onClick={()=>handleAccept(obj._id)}
+                        >
                           Accept
                         </Link>
                         <hr className="bg-gray-400 h-1" />
-                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-md">
+                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
+                         onClick={()=>handleReject(obj._id)}
+                        >
                           Reject
                         </Link>
                       </div>
@@ -86,6 +128,7 @@ export default function AdminCarteringRequests() {
                     
                     </td> 
                 </tr>
+                  ))}
             </tbody>
         </table>
     </div>

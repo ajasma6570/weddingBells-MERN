@@ -1,6 +1,9 @@
 import User from "../Models/userModel.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/tokenGenerator.js";
+import Venue from '../Models/venueModel.js'
+import Vehicle from '../Models/vehicleModel.js'
+import Catering from '../Models/cateringModel.js'
 
 const adminController = {
   login: async (req, res) => {
@@ -264,9 +267,34 @@ const adminController = {
     }catch(error){
       return res.json({ status: 500, message: "internal server error" });
     }
+  },
+  venueRequestList : async(req, res) => {
+    try {
+      const venueRequestList =await Venue.find({requestAccept:false})
+      res.status(200).json({status:200,venueRequestList})
+    } catch (error) {
+      res.status(500).json({message:error})
+    }
+    
+  },
+  vehicleRequestList : async(req, res) => {
+    try {
+      const vehicleRequestList =await Vehicle.find({requestAccept:false})
+      res.status(200).json({status:200,vehicleRequestList})
+    } catch (error) {
+      res.status(500).json({message:error})
+    }
+    
+  },
+  cateringRequestList : async(req, res) => {
+    try {
+      const cateringRequestList =await Catering.find({requestAccept:false})
+      res.status(200).json({status:200,cateringRequestList})
+    } catch (error) {
+      res.status(500).json({message:error})
+    }
+    
   }
-
-
 
 
 

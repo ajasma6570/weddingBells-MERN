@@ -114,13 +114,8 @@ export default function AdminUser() {
                 <td className='p-3'>{user.name}</td>
                 <td className='p-3'>{user.email}</td>
                 <td className='p-3'>{user.city}</td>
-                <td className='p-3'>
-                  {new Date(user.CreatedAt).toLocaleDateString('en-US', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </td>
+                <td className="text-md pl-8 py-3">{`${new Date(user.CreatedAt).getDate().toString().padStart(2, '0')}/${(new Date(user.CreatedAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(user.CreatedAt).getFullYear()}`}</td>
+
                 <td className='p-3'>
                 {!user.isBlocked &&  <button className='btn border border-black rounded-md px-3 bg-green-600 text-white font-semibold'
                 onClick={()=>handleBlock(user._id, user.isBlocked)}
