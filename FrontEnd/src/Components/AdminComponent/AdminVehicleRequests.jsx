@@ -64,7 +64,14 @@ export default function AdminVehicleRequests() {
             </tr>
           </thead>
           <tbody>
-          {data.map((obj, index)=>(
+          {data.length === 0 ? (
+              <tr>
+                <td colSpan="8" className="text-center">
+                  <h1 className='text-3xl py-10 font-semibold text-gray-400'>No User Found</h1>
+                </td>
+              </tr>
+            ) : (
+        data.map((obj, index)=>(
             <tr>
               <td className="text-md pl-8 py-3">{index +1}</td>
               <td className="text-md pl-8 py-3">{obj.name}</td>
@@ -128,7 +135,8 @@ export default function AdminVehicleRequests() {
                 </div>
               </td>
             </tr>
-               ))}
+               ))
+               )}
           </tbody>
         </table>
       </div>
