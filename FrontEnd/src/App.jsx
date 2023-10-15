@@ -31,6 +31,9 @@ import BusinessRoleAuth from "./auth/BusinessRoleAuth";
 import BusinessRequests from "./Components/businessComponent/BusinessRequests";
 import AdminRequestManagement from "./Components/AdminComponent/AdminRequestManagement";
 import BusinessServiceList from "./Components/businessComponent/BusinessServiceList";
+import VenueListPage from "./Pages/userPage/VenueListPage"
+import VehicleListPage from "./Pages/userPage/VehicleListPage"
+import CateringListPage from "./Pages/userPage/CateringListPage"
 
 function App() {
   return (
@@ -43,6 +46,9 @@ function App() {
           <Route path="/" element={<HomeAuth />} />
           <Route path='/aboutus' element={<AboutUsPage />} />
           <Route path="/contactus" element={<ContactUsPage />}/>
+          <Route  path="/venueList" element={<VenueListPage/>}/>
+          <Route  path="/vehicleList" element={<VehicleListPage/>}/>
+          <Route  path="/cateringList" element={<CateringListPage/>}/>
 
     {/* user Private Route */}
     

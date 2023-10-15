@@ -21,20 +21,20 @@ export default function HomePage() {
 
        
         <div className='w-full  mx-auto p-3 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5 '>
-            <Card />
-            <Card />
-            <Card />
+            <Card service="Venue" image="/Assets/ServiceVenue.jpg" link="/venueList"/>
+            <Card service="Vehicle" image="/Assets/ServiceVehicle.jpg" link="/vehicleList"/>
+            <Card service="Catering" image="/Assets/ServiceCatering.jpg" link="/cateringList"/>
            
         </div>
-        <div className="bg-gradient-to-b from-yellow-200 to-white " >
+        {/* <div className="bg-gradient-to-b from-yellow-200 to-white " >
             <h2 className='ml-5 text-3xl font-semibold'>Our Clients Reviews</h2>
             <span className='text-blue-500 ml-5'>Write Comment</span>
             
-            <div className=' mx-auto'>
+            <div className=' mx-auto'> */}
             {/* <ClientReviews /> */}
-            </div>
+            {/* </div>
          
-            </div>
+            </div> */}
 
             <div>
             <Footer />

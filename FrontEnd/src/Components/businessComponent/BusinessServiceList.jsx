@@ -72,7 +72,7 @@ export default function BusinessServiceList() {
                 month: 'long',
                 day: 'numeric',
               })}</td>
-                <td className="text-md px-12 py-3">{obj.requestAccept ? "Accepted" : "pending"}</td>
+                <td className="text-md px-12 py-3">Accepted</td>
            </tr>
            ))}
          </tbody>

@@ -7,6 +7,9 @@ import twilio from "twilio";
 import otpGenerator from "otp-generator";
 import MobileOTP from "../Models/MobileOTPModel.js";
 import jwt from "jsonwebtoken"
+import Venue from "../Models/venueModel.js"
+import Vehicle from "../Models/vehicleModel.js"
+import Catering from '../Models/cateringModel.js'
 
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -362,6 +365,30 @@ RoleAuth : async(req,res) => {
     res.json({status:200,role:role,message :"Authenticated"})
   }catch(error){
     res.json({status:500, message:error})
+  }
+},
+venueList : async (req, res) => {
+  try {
+    const venueLists = await Venue.find({requestStatus:"accept"})
+    res.json({status:200,venueLists})
+  } catch (error) {
+  res.json({status:500, message:error}) 
+  }
+},
+vehicleList : async(req, res) => {
+  try {
+    const vehicleLists = await Vehicle.find({requestStatus:"accept"})
+    res.json({status:200,vehicleLists})
+  } catch (error) {
+    res.json({status:500, message:error})   
+  }
+},
+cateringList : async(req, res) => {
+  try {
+    const cateringLists = await Catering.find({requestStatus:"accept"})
+    res.json({status:200,cateringLists})
+  } catch (error) {
+    res.json({status:500, message:error})  
   }
 }
 

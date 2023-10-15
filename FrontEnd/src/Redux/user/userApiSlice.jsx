@@ -73,7 +73,28 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method:'get',
                 params:  data
             })
-        })
+        }),
+        VenueLists : builder.mutation ({
+            query : (data) => ({
+                url: `${USER_URL}/venueLists`,
+                method: "get",
+                params: DataTransfer
+            })
+        }),
+        VehicleLists  :builder.mutation ({
+            query : (data) => ({
+                url: `${USER_URL}/vehicleLists`,
+                method: 'get',
+                params: data
+            })
+        }),
+        CateringLists : builder.mutation ({
+            query : (data) => ({
+                url : `${USER_URL}/cateringLists`,
+                method: "get",
+                params: data
+            })
+        }) 
        
     })
     
@@ -89,5 +110,9 @@ export const {
     useCreateAccountOTPMutation,
     useUpdateDetailsMutation,
     useGetLoginUserMutation,
-    useUserProfileAuthMutation
+    useUserProfileAuthMutation,
+    useVenueListsMutation,
+    useVehicleListsMutation,
+    useCateringListsMutation
+
 } = userApiSlice;

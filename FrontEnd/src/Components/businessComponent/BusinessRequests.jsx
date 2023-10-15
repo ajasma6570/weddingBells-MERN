@@ -66,7 +66,7 @@ export default function BusinessRequests() {
                 month: 'long',
                 day: 'numeric',
               })}</td>
-                <td className="text-md px-12 py-3">{obj.requestAccept ? "Accepted" : "pending"}</td>
+                <td className="text-md px-12 py-3">pending</td>
            </tr>
            ))}
          </tbody>

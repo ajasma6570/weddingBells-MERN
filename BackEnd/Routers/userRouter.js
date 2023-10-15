@@ -17,4 +17,8 @@ user_router.get('/getUser',userController.homeAuth)
 user_router.put('/userDetailsUpdate',AuthenticateToken("user"),userController.updateDetails)
 user_router.get('/userProfileAuth',AuthenticateToken("user"),userController.RoleAuth)
 
+user_router.get('/venueLists',userController.venueList)
+user_router.get('/vehicleLists',userController.vehicleList)
+user_router.get('/cateringLists',userController.cateringList)
+
 export default user_router;

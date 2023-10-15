@@ -7,7 +7,8 @@
     }, 
     filename:(req,file,cd)=> {
         const originalFileName = file.originalname;
-        cd(null,originalFileName)
+        const fileNameWithoutSpaces = originalFileName.replace(/\s/g, ''); // Remove all spaces
+        cd(null, fileNameWithoutSpaces);
     }
 })
 
