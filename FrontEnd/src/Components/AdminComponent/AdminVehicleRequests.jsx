@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAdminVehicleRequestListMutation } from "../../Redux/Admin/adminApiSlice";
+import { useAdminVehicleRequestListMutation, useAdminVehicleRequestHandleMutation } from "../../Redux/Admin/adminApiSlice";
+import { toastError, toastSuccess } from "../toast";
 
 export default function AdminVehicleRequests() {
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true);
   const [AdminVehicleRequests] = useAdminVehicleRequestListMutation()
+  const [AdminVehicleRequestHandle] = useAdminVehicleRequestHandleMutation()
+  const [statusChange,setStatusChange] = useState(false)
 
   const handleSelect = (index) => {
     setSelectedIndexes((prevIndexes) =>
@@ -16,6 +19,15 @@ export default function AdminVehicleRequests() {
     );
   };
 
+  const handleRequest = async(id,value) =>{
+    const res =  await AdminVehicleRequestHandle({id, value})
+      if(res.data.status === 200){
+        toastSuccess(res.data.message)
+        setStatusChange(!statusChange)
+      }else{
+        toastError(res.data.message)
+      }
+  }
 
   useEffect(()=>{
     const fetchData = async() => {
@@ -29,20 +41,14 @@ export default function AdminVehicleRequests() {
         setLoading(false);
     }
     fetchData()
-  },[AdminVehicleRequests])
+  },[AdminVehicleRequests,statusChange])
 
 
   const handleView = (id) =>{
     console.log(id);
   }
 
-  const handleAccept = (id) =>{
-    console.log(id);
-  }
 
-  const handleReject = (id) =>{
-    console.log(id);
-  }
   return (
     <>
       {/* Vehicles Request Table END*/}
@@ -127,13 +133,15 @@ export default function AdminVehicleRequests() {
                         </Link>
                         <hr className="bg-gray-400 h-1" />
                         <Link class="block px-4 py-2 text-sm text-gray-700 font-semibold hover:bg-gray-300 rounded-md"
-                         onClick={()=>handleAccept(obj._id)}
+                         data-action="accept" 
+                         onClick={(e)=>handleRequest(obj._id, e.target.dataset.action)}
                         >
                           Accept
                         </Link>
                         <hr className="bg-gray-400 h-1" />
                         <Link class="block px-4 py-2 text-sm text-gray-700 font-semibold hover:bg-gray-300 rounded-md"
-                         onClick={()=>handleReject(obj._id)}
+                        data-action="reject" 
+                        onClick={(e)=>handleRequest(obj._id, e.target.dataset.action)}
                         >
                           Reject
                         </Link>

@@ -270,7 +270,7 @@ const adminController = {
   },
   venueRequestList : async(req, res) => {
     try {
-      const venueRequestList =await Venue.find({requestAccept:false})
+      const venueRequestList =await Venue.find({requestStatus:"pending"})
       res.status(200).json({status:200,venueRequestList})
     } catch (error) {
       res.status(500).json({message:error})
@@ -279,7 +279,7 @@ const adminController = {
   },
   vehicleRequestList : async(req, res) => {
     try {
-      const vehicleRequestList =await Vehicle.find({requestAccept:false})
+      const vehicleRequestList =await Vehicle.find({requestStatus:"pending"})
       res.status(200).json({status:200,vehicleRequestList})
     } catch (error) {
       res.status(500).json({message:error})
@@ -288,13 +288,70 @@ const adminController = {
   },
   cateringRequestList : async(req, res) => {
     try {
-      const cateringRequestList =await Catering.find({requestAccept:false})
-      res.status(200).json({status:200,cateringRequestList})
+      const cateringRequestList =await Catering.find({requestStatus:"pending"})
+      res.json({status:200,cateringRequestList})
     } catch (error) {
-      res.status(500).json({message:error})
+      res.json({status:500,message:error})
     }
-    
+  },
+cateringRequestHandle : async(req, res) => {
+  try {
+    const {id, value} = req.body
+    const updatedDocument = await Catering.findByIdAndUpdate(
+      id,
+      { requestStatus: value },
+      { new: true } 
+    );
+  
+    if (updatedDocument) {
+      res.json({ status:200,message: 'Service status updated successfully', updatedDocument });
+    } else {
+      res.status(404).json({ message: 'Service not found' });
+    }
+  } catch (error) {
+    res.status(500).json({message:error})
+
   }
+},
+venueRequestHandle : async(req, res) => {
+  try {
+  
+
+    const {id, value} = req.body
+    const updatedDocument = await Venue.findByIdAndUpdate(
+      id,
+      { requestStatus: value },
+      { new: true } 
+    );
+  
+    if (updatedDocument) {
+      res.json({ status:200,message: 'Service status updated successfully', updatedDocument });
+    } else {
+      res.status(404).json({ message: 'Service not found' });
+    }
+
+  } catch (error) {
+    res.status(500).json({message:error})
+  }
+},
+vehicleRequestHandle : async(req, res) => {
+  try {
+    const {id, value} = req.body
+    const updatedDocument = await Vehicle.findByIdAndUpdate(
+      id,
+      { requestStatus: value },
+      { new: true } 
+    );
+  
+    if (updatedDocument) {
+      res.json({ status:200,message: 'Service status updated successfully', updatedDocument });
+    } else {
+      res.status(404).json({ message: 'Service not found' });
+    }
+  } catch (error) {
+    res.status(500).json({message:error})
+  }
+}
 
 
 

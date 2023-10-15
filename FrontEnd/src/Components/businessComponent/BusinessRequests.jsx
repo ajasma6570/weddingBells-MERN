@@ -13,6 +13,7 @@ export default function BusinessRequests() {
     useEffect(()=>{
       const fetchData = async() => {
         const res = await BusienssRequestCheck({userId})
+        console.log(res.data);
         if(res.data.status === 200 ){
           const venues =res.data.venues
           const vehicles =res.data.vehicles

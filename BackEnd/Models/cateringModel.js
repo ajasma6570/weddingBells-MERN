@@ -57,9 +57,10 @@ const cateringSchema = mongoose.Schema ({
         type: Boolean,
         default : false
     },
-    requestAccept : {
-        type : Boolean,
-        default : false
+    requestStatus : {
+        type : String,
+        default : false,
+        default: "pending"
     },
     review : [reviewSchema]
 },{

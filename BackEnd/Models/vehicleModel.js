@@ -62,10 +62,10 @@ const vehicelSchema = mongoose.Schema ({
         type : Boolean,
         default : false
     },
-    requestAccept : {
-        type : Boolean,
+    requestStatus : {
+        type : String,
         required: true,
-        default: false
+        default: "pending"
     },
     pincode : {
         type : Number,

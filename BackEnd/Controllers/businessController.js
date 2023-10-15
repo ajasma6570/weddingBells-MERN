@@ -264,7 +264,6 @@ const businessController = {
     try{
       const userId = req.body.userId;
       const {name, email, phone, address, state, city, pincode } =req.body;
-
       const userFind = await User.findOne({ _id: userId });
       // if(phone.length !== 10){
       //   return res.json({ status: 400, message: "Please enter 10 digits phone number." });
@@ -392,7 +391,6 @@ const businessController = {
   },
   BusinessCateringAdd : async(req, res) => {
     const { name, city, phone, pincode, description, minAmount, maxAmount, userId } = req.body;
-    console.log(name, city, phone, pincode, description, minAmount, maxAmount, userId );
     const arrImages = [];
     if (req.files) {
       for (let i = 0; i < req.files.length; i++) {
@@ -433,10 +431,9 @@ const businessController = {
   RequestCheck: async (req, res) => {
     try {
       const userId  = req.body.userId; 
-      const venues = await Venue.find({providerId:userId,requestAccept:false})
-      const vehicles = await vehicle.find({providerId:userId,requestAccept:false})
-      const caterings = await Catering.find({providerId:userId,requestAccept:false})
-
+      const venues = await Venue.find({providerId:userId,requestStatus:"pending"})
+      const vehicles = await Vehicle.find({providerId:userId,requestStatus:"pending"})
+      const caterings = await Catering.find({providerId:userId,requestStatus:"pending"})
       res.json({status:200, venues,vehicles,caterings });
 
     } catch (error) {

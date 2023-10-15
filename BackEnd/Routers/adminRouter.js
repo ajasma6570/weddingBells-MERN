@@ -24,4 +24,8 @@ admin_router.get('/venueRequestList',adminController.venueRequestList)
 admin_router.get('/vehicleRequestList',adminController.vehicleRequestList)
 admin_router.get('/cateringRequestList',adminController.cateringRequestList)
 
+admin_router.post('/venueRequestHandle',adminController.venueRequestHandle)
+admin_router.post('/vehicleRequestHandle',adminController.vehicleRequestHandle)
+admin_router.post('/cateringRequestHandle',adminController.cateringRequestHandle)
+
 export default admin_router;

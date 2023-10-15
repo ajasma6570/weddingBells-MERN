@@ -45,10 +45,10 @@ const venueSchema = mongoose.Schema({
         required:true,
         default: false
     },
-    requestAccept : {
-        type : Boolean,
+    requestStatus: {
+        type : String,
         required: true,
-        default: false
+        default: "pending"
     },
     service: {
         type: String,

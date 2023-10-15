@@ -18,7 +18,7 @@ export default function BusinessAccountUpdate() {
     const [state, setState] = useState(business.state)
     const [city, setCity] = useState(business.city)
     const [pincode, setPincode] = useState(business.pincode)
-    const userId = business.id;
+    const userId = business._id;
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
