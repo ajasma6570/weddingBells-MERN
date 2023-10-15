@@ -439,6 +439,17 @@ const businessController = {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
+  },
+  activeServices : async(req, res) => {
+    try {
+      const userId  = req.body.userId; 
+      const venues = await Venue.find({providerId:userId,requestStatus:"accept"})
+      const vehicles = await Vehicle.find({providerId:userId,requestStatus:"accept"})
+      const caterings = await Catering.find({providerId:userId,requestStatus:"accept"})
+      res.json({status:200, venues,vehicles,caterings });
+    } catch (error) {
+      res.status(500).json({ message: error.message });     
+    }
   }
   
 

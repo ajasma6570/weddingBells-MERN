@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useBusienssRequestCheckMutation } from '../../Redux/Business/businessApiSlice';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import {  useBusinessActiveServiceMutation } from '../../Redux/Business/businessApiSlice'
 
-export default function BusinessRequests() {
+export default function BusinessServiceList() {
+
     const [venue,setVenue] = useState([]) 
     const [vehicle, setVehicle] = useState([])
     const [catering, setCatering] = useState([])
+    const [loading, setLoading] = useState(true);
+
 
     const {userId} = useParams() 
 
-    const [BusienssRequestCheck] = useBusienssRequestCheckMutation()
+    const [BusinessActiveService] = useBusinessActiveServiceMutation()
+
     useEffect(()=>{
       const fetchData = async() => {
-        const res = await BusienssRequestCheck({userId})
+        setLoading(true); 
+        const res = await BusinessActiveService({userId})
         if(res.data.status === 200 ){
           const venues =res.data.venues
           const vehicles =res.data.vehicles
@@ -23,9 +28,10 @@ export default function BusinessRequests() {
         }else{
           console.log("error!!!!");
         }
+        setLoading(false); 
       }
       fetchData()
-    },[BusienssRequestCheck,userId])
+    },[BusinessActiveService,userId])
 
   return (
     <>
@@ -35,7 +41,7 @@ export default function BusinessRequests() {
 
         <div className="flex flex-wrap items-center">
             <div className="relatve w-full px-4 max-w-full">
-                <h3 className="font-semibold text-2xl p-2 m-4">Requests</h3>
+                <h3 className="font-semibold text-2xl p-2 m-4 text-gray-600">Active Services</h3>
             </div>
         </div>
 
@@ -116,17 +122,17 @@ export default function BusinessRequests() {
         <table className="">
           <thead className=''>
             <tr className='border border-solid border-l-0 bottom-0'>
-              <th className="text-md px-12 py-3">SL :No</th>
-              <th className="text-md px-12 py-3">Name</th>
-              <th className="text-md px-12 py-3">City</th>
-              <th className="text-md px-12 py-3">Created Date</th>
-              <th className="text-md px-12 py-3">Status</th>
+              <th className="text-md px-5 py-3">SL:NO</th>
+              <th className="text-md px-8 py-3">Name</th>
+              <th className="text-md px-8 py-3">City</th>
+              <th className="text-md px-8 py-3">Created Date</th>
+              <th className="text-md px-8 py-3">Status</th>
             </tr>
           </thead>
           <tbody className=''>
           {catering.map((obj,index)=>(
            <tr className="" key={index}>
-             <td className="text-md px-12 py-3">{index + 1}</td>
+             <td className="text-md px-8 py-3">{index + 1}</td>
              <td className="text-md px-12 py-3">{obj.name}</td>
              <td className="text-md px-12 py-3">{obj.city}</td>
              <td className="text-md px-12 py-3">{new Date(obj.createdAt).toLocaleDateString('en-US', {
@@ -134,7 +140,7 @@ export default function BusinessRequests() {
                 month: 'long',
                 day: 'numeric',
               })}</td>
-             <td className="text-md px-12 py-3">Pending</td>
+             <td className="text-md px-12 py-3">Accepted</td>
            
             </tr>
            ))}
@@ -143,13 +149,16 @@ export default function BusinessRequests() {
       </div>
     }
 
-    {!venue.length > 0 && !vehicle.length > 0 && !catering.length > 0 && 
-    <>
-    <h1 className='text-3xl text-gray-600 text-center py-20 font-semibold'>No Request Found</h1>
-    </>
-    }
+{loading ? (
+  <h1 className='text-3xl text-gray-600 text-center py-20 font-semibold'>Loading...</h1>
+) : (
+  !venue.length > 0 && !vehicle.length > 0 && !catering.length > 0 ? (
+    <h1 className='text-3xl text-gray-600 text-center py-20 font-semibold'>No Services Found</h1>
+  ) : null
+)}
+
 
 </div>
     </>
-  );
+  )
 }

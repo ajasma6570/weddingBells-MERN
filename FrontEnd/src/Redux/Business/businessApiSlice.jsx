@@ -88,6 +88,13 @@ export const businessApiSlice = apiSlice.injectEndpoints({
       method : "post",
       body : data
     })
+  }),
+  BusinessActiveService : builder.mutation ({
+    query : (data) => ({
+      url: `${BUSINESS_URL}/BusinessActiveServices`,
+      method : 'post',
+      body : data
+    })
   })
   }),
 });
@@ -104,7 +111,8 @@ export const {
   useBusinessVehicleAddMutation,
   useBusinessCateringAddMutation,
   useBusinessProfileAuthMutation,
-  useBusienssRequestCheckMutation
+  useBusienssRequestCheckMutation,
+  useBusinessActiveServiceMutation
  
 } =
   businessApiSlice;

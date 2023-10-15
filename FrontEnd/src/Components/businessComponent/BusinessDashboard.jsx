@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faDiamond } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 export default function BusinessDashboard() {
   const [isSidebarMinimized, setSidebarMinimized] = useState(false);
@@ -37,15 +37,22 @@ export default function BusinessDashboard() {
             <hr className='bg-white my-2' />
             <li>
               <NavLink to={`/business/dashboard/businessAddService/${business._id}`} className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
+                <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Add Services</div>
               </NavLink>
             </li>
             <hr className='bg-white my-2' />
             <li>
               <NavLink to={`/business/dashboard/businessRequests/${business._id}`} className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
-                <div className="icon"><FontAwesomeIcon icon={faCartShopping} size='lg' /></div>
+                <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Requests</div>
+              </NavLink>
+            </li>
+            <hr className='bg-white my-2' />
+            <li>
+              <NavLink to={`/business/dashboard/businessServiceList/${business._id}`} className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
+                <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Service</div>
               </NavLink>
             </li>
             <hr className='bg-white my-2' />

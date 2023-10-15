@@ -30,6 +30,7 @@ import UserRoleAuth from "./auth/UserRoleAuth";
 import BusinessRoleAuth from "./auth/BusinessRoleAuth";
 import BusinessRequests from "./Components/businessComponent/BusinessRequests";
 import AdminRequestManagement from "./Components/AdminComponent/AdminRequestManagement";
+import BusinessServiceList from "./Components/businessComponent/BusinessServiceList";
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
             <Route path="businessAccPasswordChange/:UserPhone" element={<BusinessAccPasswordChange/>}/> 
             <Route path="businessAddService/:userId" element={<BusinessServiceAdd/>}/>
             <Route path="businessRequests/:userId" element={<BusinessRequests/>}/>
+            <Route path="businessServiceList/:userId" element={<BusinessServiceList/>}/>
           </Route>
 
  
