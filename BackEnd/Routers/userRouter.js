@@ -30,4 +30,6 @@ user_router.post('/venueAddtoCart',cartController.venueCart)
 user_router.post('/vehicleAddtoCart',cartController.vehicleCart)
 user_router.post('/cateringAddtoCart',cartController.cateringCart)
 
+user_router.post('/getCartDetails',cartController.getCartDetails)
+
 export default user_router;

@@ -48,7 +48,7 @@ const cartController = {
         }
       },
       cateringCart : async (req, res) => {
-        const {userId, cateringId, form, to} = req.body;
+        const {userId, cateringId, from, to} = req.body;
       
         try {
           const updatedCart = await Cart.findOneAndUpdate(
@@ -56,8 +56,8 @@ const cartController = {
             {
               $push: {
                 Catering: {
-                  venueId: cateringId,
-                  from: form,
+                  cateringId: cateringId,
+                  from: from,
                   to: to
                 }
               }
@@ -69,6 +69,19 @@ const cartController = {
         } catch (err) {
           return res.status(500).json({ error: 'Error updating cart' });
         }
+      },
+      getCartDetails : async(req, res) => {
+        console.log("started");
+        const {userId} = req.body
+        try{
+          const cartDetails =await Cart.findOne({userId}).populate('venues.venueId').populate('Vehicle.vehicleId').populate('Catering.cateringId')
+         console.log(cartDetails);
+          res.json({status:200,cartDetails})
+        }catch(error){
+          return res.status(500).json({ error: 'Error updating cart' });
+
+        }
+        
       }
       
 }
