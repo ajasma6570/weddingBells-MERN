@@ -80,9 +80,16 @@ function UseNavbar() {
           </Link>
 
           {Login.name && (
+            <>
+             <Link
+             className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+             to='/userCart'
+           >
+             Cart
+           </Link>
             <div className="relative ">
               <span
-                className={`cursor-pointer ${textColorClass} font-sans text-2xl hover:text-gray-300`}
+                className={`cursor-pointer ${textColorClass} font-sans text-xl hover:text-gray-300`}
                 onClick={handleDropdownToggle}
               >
                 Welcome {Login.name}
@@ -102,6 +109,7 @@ function UseNavbar() {
                 </div>
               )}
             </div>
+            </>
           )}
 
           {!Login.name && (

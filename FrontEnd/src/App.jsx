@@ -34,6 +34,11 @@ import BusinessServiceList from "./Components/businessComponent/BusinessServiceL
 import VenueListPage from "./Pages/userPage/VenueListPage"
 import VehicleListPage from "./Pages/userPage/VehicleListPage"
 import CateringListPage from "./Pages/userPage/CateringListPage"
+import VenueDetailPage from "./Pages/userPage/VenueDetailPage";
+import VehicleDetailPage from "./Pages/userPage/VehicleDetailPage";
+import CateringDetailPage from "./Pages/userPage/CateringDetailPage";
+import UserCartPage from "./Pages/userPage/UserCartPage";
+import UserBookingCompletedPage from "./Pages/userPage/UserBookingCompletedPage";
 
 function App() {
   return (
@@ -49,6 +54,12 @@ function App() {
           <Route  path="/venueList" element={<VenueListPage/>}/>
           <Route  path="/vehicleList" element={<VehicleListPage/>}/>
           <Route  path="/cateringList" element={<CateringListPage/>}/>
+          <Route path="/venueDetail" element={<VenueDetailPage/>}/>
+          <Route path="/vehicleDetail" element={<VehicleDetailPage/>}/>
+          <Route path="/cateringDetail" element={<CateringDetailPage/>}/>
+          <Route path="/userCart" element={<UserCartPage/>}/>
+          <Route path="userBookingCompleted" element={<UserBookingCompletedPage/>}/>
+
 
     {/* user Private Route */}
     

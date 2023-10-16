@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faUser, faCartShopping, faRightFromBracket , faDiamond, faStar} from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faRightFromBracket , faDiamond, faStar} from '@fortawesome/free-solid-svg-icons';
 import { LogoutAdmin } from "../../Redux/Admin/adminSlice";
 import { useDispatch } from 'react-redux';
 export default function AdminDashBoard() {
