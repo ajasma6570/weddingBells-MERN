@@ -10,6 +10,7 @@ export default function UserCartPage() {
     <UseNavbar/>
     <UserCart/>
     <Footer/>
+
     </>
   )
 }

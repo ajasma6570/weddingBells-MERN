@@ -235,7 +235,7 @@ const userController = {
               to: `+918891645456`,
             })
             .then(async () => {
-              const HashedOTP = await bcrypt.hash(OTP, 10);
+              const HashedOTP = await bcrypt.hash(OTP, 10); 
 
               const newOTP = new MobileOTP({
                 phone,
@@ -389,6 +389,45 @@ cateringList : async(req, res) => {
     res.json({status:200,cateringLists})
   } catch (error) {
     res.json({status:500, message:error})  
+  }
+},
+venueDetail : async(req, res) => {
+  try {
+    const {venueId} = req.body
+    const venueDetail = await Venue.findOne({_id:venueId})
+    if(venueDetail){
+      res.json({status:200,venueDetail})
+    }else{
+      res.json({status:404,message:"Not found"})
+    }
+  } catch (error) {
+    res.json({status:500, message:error})    
+  }
+},
+vehicleDetail : async(req, res) => {
+  try {
+    const {vehicleId} = req.body
+    const vehicleDetail = await Vehicle.findOne({_id:vehicleId})
+    if(vehicleDetail){
+      res.json({status:200,vehicleDetail})
+    }else{
+      res.json({status:404,message:"Not found"})
+    }
+  } catch (error) {
+    res.json({status:500, message:error})    
+  }
+},
+cateringDetail : async(req, res) => {
+  try {
+    const {cateringId} = req.body
+    const cateringDetail = await Catering.findOne({_id:cateringId})
+    if(cateringDetail){
+      res.json({status:200,cateringDetail})
+    }else{
+      res.json({status:404,message:"Not found"})
+    }
+  } catch (error) {
+    res.json({status:500, message:error})    
   }
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useVenueListsMutation } from '../../Redux/user/userApiSlice';
+import { Link } from 'react-router-dom';
 
 export default function VenueList() {
   const [venueLists] = useVenueListsMutation();
@@ -43,7 +44,8 @@ export default function VenueList() {
         
           ) : ( 
             venueList.map((venue, index) => (
-              <div className="flex justify-between p-10 gap-8" key={index}>
+              <Link to={`venueDetail/${venue._id}`}>
+              <div className="flex justify-between p-10 gap-8 cursor-pointer" key={index}>
                 <div className="bg-black h-64 w-3/6"
                   style={{
                     background: `url('/Pictures/${venue.image[0]}')`,
@@ -61,6 +63,7 @@ export default function VenueList() {
                   <p className='text-gray-500'>From ₹{venue.amount} <small> per day</small></p>
                 </div>
               </div>
+              </Link>
             ))
           )}
         </div>

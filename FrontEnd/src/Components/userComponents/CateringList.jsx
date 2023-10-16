@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useCateringListsMutation } from '../../Redux/user/userApiSlice';
+import { Link } from 'react-router-dom';
 
 export default function CateringList() {
 
@@ -43,7 +44,8 @@ export default function CateringList() {
           ) : ( 
 
        cateringList.map((catering, index) => (
-              <div className="flex justify-between p-10 gap-8" key={index}>
+        <Link to={`/cateringList/cateringDetail/${catering._id}`}>
+              <div className="flex justify-between p-10 gap-8 cursor-pointer" key={index}>
                 <div className="bg-black h-64 w-3/6"
                   style={{
                     background: `url('/Pictures/${catering.image[0]}')`,
@@ -61,6 +63,7 @@ export default function CateringList() {
                   <p className='text-gray-500'>Max Amount : {catering.maxAmount}<small> per head</small></p>
                 </div>
               </div>
+              </Link>
             ))
           )}
 

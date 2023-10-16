@@ -54,11 +54,10 @@ function App() {
           <Route  path="/venueList" element={<VenueListPage/>}/>
           <Route  path="/vehicleList" element={<VehicleListPage/>}/>
           <Route  path="/cateringList" element={<CateringListPage/>}/>
-          <Route path="/venueDetail" element={<VenueDetailPage/>}/>
-          <Route path="/vehicleDetail" element={<VehicleDetailPage/>}/>
-          <Route path="/cateringDetail" element={<CateringDetailPage/>}/>
-          <Route path="/userCart" element={<UserCartPage/>}/>
-          <Route path="userBookingCompleted" element={<UserBookingCompletedPage/>}/>
+          <Route path="/venueList/venueDetail/:venueId" element={<VenueDetailPage/>}/>
+          <Route path="/vehicleList/vehicleDetail/:vehicleId" element={<VehicleDetailPage/>}/>
+          <Route path="/cateringList/cateringDetail/:cateringId" element={<CateringDetailPage/>}/>
+         
 
 
     {/* user Private Route */}
@@ -75,9 +74,11 @@ function App() {
                 <Route path="orders" element={<Orders/>}/>
                 <Route path="accountUpdate/:userId" element={<AccountUpdate />}/>
                 <Route path="passwordChange/:UserPhone" element={<UserProfilePasswordChange/>} />
-               
           </Route>
-        
+
+            <Route path="/userCart" element={<UserCartPage/>}/>
+            <Route path="/userBookingCompleted" element={<UserBookingCompletedPage/>}/>
+
 
   {/* Business private routes */}
           <Route path="/business" element={<BusinessLoginAuth />}>

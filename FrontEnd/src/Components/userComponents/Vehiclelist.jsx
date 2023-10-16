@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useVehicleListsMutation } from '../../Redux/user/userApiSlice';
+import { Link } from 'react-router-dom';
 
 export default function Vehiclelist() {
 
@@ -44,7 +45,8 @@ export default function Vehiclelist() {
         
           ) : ( 
             vehicleList.map((vehicle, index) => (
-              <div className="flex justify-between p-10 gap-8" key={index}>
+              <Link to={`vehicleDetail/${vehicle._id}`}>
+              <div className="flex justify-between p-10 gap-8 cursor-pointer" key={index}>
                 <div className="bg-black h-64 w-3/6"
                   style={{
                     background: `url('/Pictures/${vehicle.image[0]}')`,
@@ -64,6 +66,7 @@ export default function Vehiclelist() {
                   <p className='text-gray-600'>Extra Kiolmeters : ₹{vehicle.extraKilometerAmount}<small> per km</small></p>
                 </div>
               </div>
+              </Link>
             ))
           )}
 

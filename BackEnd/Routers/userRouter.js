@@ -21,4 +21,7 @@ user_router.get('/venueLists',userController.venueList)
 user_router.get('/vehicleLists',userController.vehicleList)
 user_router.get('/cateringLists',userController.cateringList)
 
+user_router.post('/venueDetails',userController.venueDetail)
+user_router.post('/vehicleDetails', userController.vehicleDetail)
+user_router.post('/cateringDetails',userController.cateringDetail)
 export default user_router;
