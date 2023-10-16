@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useVehicleDetailsMutation } from '../../Redux/user/userApiSlice';
+import { useVehicleAddtoCartMutation, useVehicleDetailsMutation } from '../../Redux/user/userApiSlice';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
-import { toastError } from '../toast';
-import { useParams } from 'react-router-dom';
+import { toastError, toastSuccess } from '../toast';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function VehicleDetail() {
 
@@ -15,7 +16,12 @@ export default function VehicleDetail() {
    const [VehicleDetail] = useVehicleDetailsMutation()
    const [detail,setDetail] = useState([])
    const [loading, setLoading] = useState(true);
- 
+   const [from,setFrom] = useState("")
+   const [to,setTo] = useState("")
+   const navigate = useNavigate()
+   const userData = useSelector((state)=>state.rootReducer.user)
+
+   const [vehicleAddtoCart]= useVehicleAddtoCartMutation()
    useEffect(()=>{
      const fetchData = async() => {
        setLoading(true); 
@@ -50,6 +56,16 @@ export default function VehicleDetail() {
      setCurrentIndex(slideIndex);
    };
 
+   const handleAddtoCart = async(vehicleId) => {
+    const userId = userData._id
+   const res = await vehicleAddtoCart({vehicleId,userId,from,to })
+    if(res.data.status === 200){
+      toastSuccess(res.data.message)
+      navigate('/vehicleList')
+    }else{
+      toastError(res.data.error)
+    }
+  }
  
   return (
     <div>
@@ -99,11 +115,13 @@ export default function VehicleDetail() {
               <div className='w-full md:w-1/2'>
                 <div className='border border-black w-96 h-60 rounded-lg'>
                   <p className='p-2 text-2xl font-medium'>Reserve Your Venue</p>
-                  <span className='pl-5 block'>From : <input type='date' className='border border-black rounded-lg' min={minDate} /> </span>
-                  <span className='pl-10 py-5 block'>To : <input type='date' className='border border-black rounded-lg' min={minDate} /> </span>
+                  <span className='pl-5 block'>From : <input type='date' className='border border-black rounded-lg' min={minDate} onChange={(e)=>setFrom(e.target.value)}/> </span>
+                  <span className='pl-10 py-5 block'>To : <input type='date' className='border border-black rounded-lg' min={minDate} onChange={(e)=>setTo(e.target.value)}/> </span>
                   <p className='text-sm font-semibold pl-5'>Rent amount varies on holidays, please ask our advisor.</p>
                   <div className='ml-36 py-5'>
-                    <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-yellow-700 rounded">
+                    <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
+                    onClick={(e)=>handleAddtoCart(detail._id)}
+                    >
                       Add to Basket
                     </button>
                   </div>

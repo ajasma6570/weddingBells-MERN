@@ -115,8 +115,28 @@ export const userApiSlice = apiSlice.injectEndpoints({
                  method: "post",
                  body: data   
             })
-        })
-       
+        }),
+        VenueAddTOCart : builder.mutation ({
+            query : (data) => ({
+                url: `${USER_URL}/venueAddtoCart`,
+                method: 'post',
+                body : data
+            })
+        }),
+        VehicleAddtoCart : builder.mutation ({
+            query : (data) => ({
+                url:`${USER_URL}/vehicleAddtoCart`,
+                method: 'post',
+                body : data
+            })
+        }),
+        CateringAddtoCart : builder.mutation ({
+            query : (data) => ({
+                url:`${USER_URL}/cateringAddtoCart`,
+                method: 'post',
+                body : data
+            })
+        }),
     })
     
 })
@@ -137,6 +157,9 @@ export const {
     useCateringListsMutation,
     useVenueDetailsMutation,
     useVehicleDetailsMutation,
-    useCateringDetailsMutation
+    useCateringDetailsMutation,
+    useVenueAddTOCartMutation,
+    useVehicleAddtoCartMutation,
+    useCateringAddtoCartMutation
 
 } = userApiSlice;

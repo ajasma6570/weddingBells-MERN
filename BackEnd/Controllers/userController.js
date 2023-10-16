@@ -83,7 +83,7 @@ const userController = {
               status: 200,
               message: "User logged in.",
               userdetails: {
-                id: userFind._id,
+                _id: userFind._id,
                 name: userFind.name,
                 email,
                 phone: userFind.phone,
@@ -429,7 +429,7 @@ cateringDetail : async(req, res) => {
   } catch (error) {
     res.json({status:500, message:error})    
   }
-}
+},
 
   
 };

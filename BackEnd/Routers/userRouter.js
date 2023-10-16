@@ -1,6 +1,7 @@
 import express from "express";
 import userController from "../Controllers/userController.js";
 import AuthenticateToken from "../middleware/authMiddleware.js";
+import cartController from "../Controllers/cartController.js";
 
 const user_router = express.Router();
 
@@ -24,4 +25,9 @@ user_router.get('/cateringLists',userController.cateringList)
 user_router.post('/venueDetails',userController.venueDetail)
 user_router.post('/vehicleDetails', userController.vehicleDetail)
 user_router.post('/cateringDetails',userController.cateringDetail)
+
+user_router.post('/venueAddtoCart',cartController.venueCart)
+user_router.post('/vehicleAddtoCart',cartController.vehicleCart)
+user_router.post('/cateringAddtoCart',cartController.cateringCart)
+
 export default user_router;
