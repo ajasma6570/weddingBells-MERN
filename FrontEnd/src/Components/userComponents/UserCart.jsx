@@ -224,7 +224,7 @@ const handleRemove =async(itemId,service) =>{
 <div className=' h-48 w-60 border border-black p-5 rounded-lg'>
     <p className='tex-md font-semibold'>Payment method</p>
     <p className='font-semibold pl-5 py-1'>Amount : 5000rs</p>
-    <p className='pl-5 py-1'><input type='radio'/> Razorpay</p>
+    <p className='pl-5 py-1'>Payment :  Razorpay</p>
     <div className='pl-16 py-2'>
 
       {!tick && 

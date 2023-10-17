@@ -6,7 +6,6 @@ import crypto  from "crypto"
 const paymentController = {
 
     orders : async (req, res) => { 
-        console.log("start order");
         try { 
 
             const instance = new Razorpay({

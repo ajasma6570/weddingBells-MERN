@@ -6,6 +6,8 @@ export default function CateringList() {
 
   const [CateringLists] = useCateringListsMutation()
   const [cateringList,setCateringList] = useState([]) 
+  const [search,setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("lowToHigh")
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -22,17 +24,25 @@ export default function CateringList() {
         <h1 className='text-3xl font-bold pl-10 p-5 py-3'>Catering</h1>
 
         <div className='flex justify-around py-3'>
-            <div>
+            {/* <div>
                 <span >Filter : </span>
                 <input className="border border-black rounded-md" type='text' placeholder="enter search.."/>
+            </div> */}
+            <div>
+              <span>Search : </span>
+              <input className="border border-black rounded-md px-5" type='text' placeholder="enter search.." 
+              onChange={(e)=>setSearch(e.target.value)}
+              />
             </div>
             <div>
-                <span>search : </span>
-                <input className="border border-black rounded-md" type='text' placeholder="enter search.."/>
-            </div>
-            <div>
-                <span>SortBy : </span>
-                <input className="border border-black rounded-md" type='text' placeholder="enter search.."/>
+              <span>Sort By Price : </span>
+              <select className="border border-black rounded-md" 
+               value={sortOrder}
+               onChange={(e) => setSortOrder(e.target.value)}
+              >
+                    <option value="lowToHigh">Low to High</option>
+                    <option value="HighTOlow">High to Low</option>
+                </select>
             </div>
         </div>
 
@@ -43,7 +53,16 @@ export default function CateringList() {
         
           ) : ( 
 
-       cateringList.map((catering, index) => (
+       cateringList.filter((item) => {
+        return search.toLowerCase() === "" ?
+        item : item.name.toLowerCase().includes(search) || item.city.toLowerCase().includes(search) 
+      }).sort((venueA, venueB) => {
+        if (sortOrder === 'lowToHigh') {
+          return venueA.minAmount - venueB.minAmount;
+        } else {
+          return venueB.minAmount - venueA.minAmount;
+        }
+      }).map((catering, index) => (
         <Link to={`/cateringList/cateringDetail/${catering._id}`}>
               <div className="flex justify-between p-10 gap-8 cursor-pointer" key={index}>
                 <div className="bg-black h-64 w-3/6"
