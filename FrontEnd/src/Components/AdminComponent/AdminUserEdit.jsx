@@ -48,7 +48,7 @@ export default function AdminUserEdit() {
         }
         fetchData();
         
-    },[AdminUserDetail,isEdit, userId])
+    },[AdminUserDetail,isEdit, userId,dispatch,navigate])
 
     const handleEdit = async() => {
       swalFire("Edit this User").then(async(result)=>{

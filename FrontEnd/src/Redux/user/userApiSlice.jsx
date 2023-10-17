@@ -150,7 +150,21 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method: 'post',
                 body : data
             })
-        })
+        }),
+        PaymentOrder : builder.mutation ({
+            query : (data) => ({
+                url:`${USER_URL}/UserPaymentOrders`,
+                method: 'post',
+                body : data
+            })
+        }),
+        PaymentVerify : builder.mutation ({
+            query : (data) => ({
+                url:`${USER_URL}/UserPaymentVerify`,
+                method: 'post',
+                body : data
+            })
+        }),
     })
     
 })
@@ -176,6 +190,8 @@ export const {
     useVehicleAddtoCartMutation,
     useCateringAddtoCartMutation,
     useCartDetialsMutation,
-    useCartItemRemoveMutation
+    useCartItemRemoveMutation,
+    usePaymentOrderMutation,
+    usePaymentVerifyMutation
 
 } = userApiSlice;

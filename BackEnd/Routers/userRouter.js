@@ -2,6 +2,7 @@ import express from "express";
 import userController from "../Controllers/userController.js";
 import AuthenticateToken from "../middleware/authMiddleware.js";
 import cartController from "../Controllers/cartController.js";
+import paymentController from "../Controllers/paymentController.js";
 
 const user_router = express.Router();
 
@@ -32,5 +33,8 @@ user_router.post('/cateringAddtoCart',cartController.cateringCart)
 
 user_router.post('/getCartDetails',cartController.getCartDetails)
 user_router.post('/cartRemoveItem',cartController.removeCartItem)
+
+user_router.post('/UserPaymentOrders',paymentController.orders)
+user_router.post('UserPaymentVerify',paymentController.verify)
  
 export default user_router;

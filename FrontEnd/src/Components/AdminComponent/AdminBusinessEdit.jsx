@@ -50,7 +50,7 @@ export default function AdminBusinessEdit() {
            
         }
         fetchData();
-    },[AdminBusinessDetails,isEdit, userId])
+    },[AdminBusinessDetails,isEdit, userId,dispatch,navigate])
 
     const handleEdit = async() => {
       swalFire("Edit this Business Account").then(async(result)=>{

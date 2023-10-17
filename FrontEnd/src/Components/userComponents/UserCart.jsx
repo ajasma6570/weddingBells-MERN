@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useCartDetialsMutation, useCartItemRemoveMutation } from '../../Redux/user/userApiSlice'
+import { useCartDetialsMutation, useCartItemRemoveMutation, usePaymentOrderMutation, usePaymentVerifyMutation } from '../../Redux/user/userApiSlice'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faTrash } from '@fortawesome/free-solid-svg-icons';
 import {toastError, toastSuccess} from "../toast"
+import axios from "axios"
 
 export default function UserCart() {
 
@@ -14,7 +15,8 @@ export default function UserCart() {
   const [CartItemRemove] = useCartItemRemoveMutation()
   const [remove,setRemove] = useState(false)
   const [loading, setLoading] = useState(true);
-
+  const [paymentOrders] = usePaymentOrderMutation()
+  const [paymentVerify] = usePaymentVerifyMutation()
 
 
   const handleCheckboxChange = (e) => {
@@ -49,6 +51,57 @@ const handleRemove =async(itemId,service) =>{
 
   const handleDisableButton =() => {
     toastError("Please read & tick above condition")
+  }
+
+
+  const [book, setBook] = useState({
+		name: "Wedding Bells",
+		author: "Wedding Bells",
+		img: "/Assets/RazorPayImg.jpg",
+		price: 5000,
+	});
+
+  const initPayment = (data) => {
+    const options = {
+      key: "rzp_test_SiqHdWQEZYyY3R",
+      amount: data.amount,
+      currency: data.currency,
+      name: book.name,
+      description: "Test Transaction",
+      image: book.img,
+      order_id: data.id,
+      handler: async (response) => {
+        try {
+          const verifyUrl = "http://localhost:4000/user/UserPaymentVerify";
+          const { data } = await axios.post(verifyUrl, { response });
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+  
+    console.log("open");
+    // Initialize Razorpay outside of the window.onload function
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+    
+
+
+
+  const handlePayNow = async() => {
+    try {
+			const orderUrl = "http://localhost:4000/user/UserPaymentOrders";
+			const { data } = await axios.post(orderUrl, { amount: book.price });
+			console.log(data);
+			initPayment(data.data);
+		} catch (error) {
+			console.log(error);
+		}
   }
 
   return (
@@ -179,7 +232,9 @@ const handleRemove =async(itemId,service) =>{
 
       }
   {tick && 
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded-full">Pay Now</button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded-full"
+      onClick={handlePayNow}
+      >Pay Now</button>
 
   }
 </div>
