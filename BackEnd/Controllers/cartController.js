@@ -71,18 +71,60 @@ const cartController = {
         }
       },
       getCartDetails : async(req, res) => {
-        console.log("started");
         const {userId} = req.body
         try{
           const cartDetails =await Cart.findOne({userId}).populate('venues.venueId').populate('Vehicle.vehicleId').populate('Catering.cateringId')
-         console.log(cartDetails);
           res.json({status:200,cartDetails})
         }catch(error){
           return res.status(500).json({ error: 'Error updating cart' });
 
         }
         
+      },
+      removeCartItem: async (req, res) => {
+        try {
+          const { userId, itemId, service } = req.body;
+      
+          if (service === "venues" || service === "Vehicle" || service === "Catering") {
+            try {
+              const result = await Cart.updateOne(
+                { userId },
+                { $pull: { [service]: { _id: itemId } } }
+              );
+      
+              if (result.acknowledged) {
+                if (result.matchedCount > 0 && result.modifiedCount > 0) {
+
+
+
+                  const cart = await Cart.findOne({ userId });
+                  if (
+                    !cart.venues.length &&
+                    !cart.Vehicle.length &&
+                    !cart.Catering.length
+                  ) {
+                    // Delete the user's cart
+                    await Cart.deleteOne({ userId });
+                  }
+
+                  res.json({ status: 200, message: "Item removed successfully" });
+                } else {
+                  res.json({ status: 404, message: `Item not found in the ${service}` });
+                }
+              } else {
+                res.json({ status: 404, message: "Update operation not acknowledged" });
+              }
+            } catch (error) {
+              res.status(500).json({ error: "An error occurred while removing the item" });
+            }
+          } else {
+            res.status(400).json({ error: "Invalid service type" });
+          }
+        } catch (error) {
+          res.status(500).json({ message: error });
+        }
       }
+      
       
 }
 

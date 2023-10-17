@@ -31,5 +31,6 @@ user_router.post('/vehicleAddtoCart',cartController.vehicleCart)
 user_router.post('/cateringAddtoCart',cartController.cateringCart)
 
 user_router.post('/getCartDetails',cartController.getCartDetails)
-
+user_router.post('/cartRemoveItem',cartController.removeCartItem)
+ 
 export default user_router;

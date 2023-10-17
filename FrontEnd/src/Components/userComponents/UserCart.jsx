@@ -1,33 +1,56 @@
 import React, { useEffect, useState } from 'react'
-import { useCartDetialsMutation } from '../../Redux/user/userApiSlice'
+import { useCartDetialsMutation, useCartItemRemoveMutation } from '../../Redux/user/userApiSlice'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faTrash } from '@fortawesome/free-solid-svg-icons';
+import {toastError, toastSuccess} from "../toast"
 
 export default function UserCart() {
 
   const [CartDetials] = useCartDetialsMutation()
   const userData = useSelector((state)=>state.rootReducer.user)
   const [cart,setCart] = useState([])
+  const [tick,setTick] = useState(false)
+  const [CartItemRemove] = useCartItemRemoveMutation()
+  const [remove,setRemove] = useState(false)
+  const [loading, setLoading] = useState(true);
+
+
+
+  const handleCheckboxChange = (e) => {
+    setTick(e.target.checked);
+  };
+
+const handleRemove =async(itemId,service) =>{
+  const userId = userData._id
+  const res= await CartItemRemove({userId,itemId,service})
+  if(res.data.status === 200){
+    toastSuccess(res.data.message)
+    setRemove(!remove)
+  }
+}
+
 
   useEffect(()=>{
     const fetchData = async() => {
+      setLoading(true); 
       const userId = userData._id
-      console.log(userId);
       const  res = await CartDetials({userId})
-      console.log(res);
       if(res.data.status === 200){
         const cartData = res.data.cartDetails
         setCart(cartData)
       }else{
-        console.log("error");
+        toastError("internal server error...")
       }
-    
+      setLoading(false); 
     }
-    fetchData()
-  },[CartDetials,userData])
+    fetchData()  
+  },[CartDetials,userData,remove])
 
-  console.log(cart);
+  const handleDisableButton =() => {
+    toastError("Please read & tick above condition")
+  }
+
   return (
     <>
 
@@ -40,11 +63,16 @@ export default function UserCart() {
             </div>
         </div>
 
-    {cart ? (
+        {loading ? ( // Check loading state
+          <div className='h-screen w-full'>
+            <h1 className='text-3xl font-semibold text-gray-500 py-20 text-center'>Loading...</h1>
+          </div>
+            ) :
+              cart ? (
       <>
       <div className='border border-black '>  
    
-   <div className='block bg-transparent m-4 p-2 w-9/12 mx-auto overflow-x-auto  '>
+   <div className='block bg-transparent m-4 p-2 w-11/12 mx-auto overflow-x-auto  '>
    <table className="">
      <thead className=''>
        <tr className='border border-solid border-l-0 bottom-0 '>
@@ -63,8 +91,8 @@ export default function UserCart() {
        <h1 className='text-xl font-semibold text text-gray-800'>Venue</h1>
        {cart.venues.map((obj, index)=>(
        <tr className="" >
-         <td className="text-md px-20 py-3">
-          <img src={`/Pictures/${obj.venueId.image[0]}`} alt="" />
+         <td className="text-md px-28 py-3">
+          <img src={`/Pictures/${obj.venueId.image[0]}`} alt="" style={{height:"5rem",width:"10rem"}} />
          </td>
          <td className="text-md px-10 py-3">{obj.venueId.name}</td>
          <td className="text-md px-20 py-3">{obj.venueId.city}</td>
@@ -72,7 +100,9 @@ export default function UserCart() {
             <p>from : {obj.from}</p>
             <p>to : {obj.to}</p>
          </td>
-         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} /></td>
+         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-blue-500 hover:text-red-500" 
+         onClick={()=>handleRemove(obj._id,"venues")}
+         /></td>
        </tr>
        ))}
        </>
@@ -83,8 +113,8 @@ export default function UserCart() {
        <h1 className='text-xl font-semibold text text-gray-800'>Vehicle</h1>
        {cart.Vehicle.map((obj, index)=>(
        <tr className="" >
-         <td className="text-md px-20 py-3"> 
-         <img src={`/Pictures/${obj.vehicleId.image[0]}`} alt="" />
+         <td className="text-md px-28 py-3"> 
+         <img src={`/Pictures/${obj.vehicleId.image[0]}`} alt="" style={{height:"5rem",width:"10rem"}}/>
          </td>
          <td className="text-md px-12 py-3">{obj.vehicleId.name}</td>
          <td className="text-md px-20 py-3">{obj.vehicleId.city}</td>
@@ -92,7 +122,9 @@ export default function UserCart() {
             <p>from : {obj.from}</p>
             <p>to : {obj.to}</p>
          </td>
-         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} /></td>
+         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-blue-500 hover:text-red-500" 
+           onClick={()=>handleRemove(obj._id,"Vehicle")}
+         /></td>
        </tr>
        ))}
       </>
@@ -103,8 +135,8 @@ export default function UserCart() {
        <h1 className='text-xl font-semibold text text-gray-800'>Catering</h1>
        {cart.Catering.map((obj, index) => (
        <tr className="" >
-         <td className="text-md px-20 py-3"> 
-         <img src={`/Pictures/${obj.cateringId.image[0]}`} alt="" />
+         <td className="text-md px-28 py-3"> 
+         <img src={`/Pictures/${obj.cateringId.image[0]}`} alt="" style={{height:"5rem",width:"10rem"}}/>
 
          </td>
          <td className="text-md px-10 py-3">{obj.cateringId.name}</td>
@@ -114,7 +146,9 @@ export default function UserCart() {
             <p>from : {obj.from}</p>
             <p>to : {obj.to}</p>
          </td>
-         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} /></td>
+         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-blue-500 hover:text-red-500"
+           onClick={()=>handleRemove(obj._id,"Catering")}
+         /></td>
        </tr>
        ))}
       </>}
@@ -128,7 +162,7 @@ export default function UserCart() {
 </div>
 
 <div className="flex justify-end py-5">
-   <span> <input type="checkbox"/>  Tick this box to verify and confirm the above bookings, then pay 
+   <span> <input type="checkbox"  onChange={handleCheckboxChange} checked={tick}/>  Tick this box to verify and confirm the above bookings, then pay 
     a caution deposit of 5000 (this will deducted from the Total amount).</span>
     
 </div>
@@ -139,9 +173,15 @@ export default function UserCart() {
     <p className='font-semibold pl-5 py-1'>Amount : 5000rs</p>
     <p className='pl-5 py-1'><input type='radio'/> Razorpay</p>
     <div className='pl-16 py-2'>
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded-full">
-    Pay Now
-    </button>
+
+      {!tick && 
+          <button className="bg-gray-300  text-white font-bold py-2 px-4  rounded-full" onClick={handleDisableButton}>Pay Now</button>
+
+      }
+  {tick && 
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded-full">Pay Now</button>
+
+  }
 </div>
 </div>
 </div>

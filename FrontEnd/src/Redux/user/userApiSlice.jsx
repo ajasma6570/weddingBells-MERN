@@ -143,6 +143,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method: 'post',
                 body : data
             })
+        }),
+        CartItemRemove : builder.mutation ({
+            query : (data) => ({
+                url:`${USER_URL}/cartRemoveItem`,
+                method: 'post',
+                body : data
+            })
         })
     })
     
@@ -168,6 +175,7 @@ export const {
     useVenueAddTOCartMutation,
     useVehicleAddtoCartMutation,
     useCateringAddtoCartMutation,
-    useCartDetialsMutation
+    useCartDetialsMutation,
+    useCartItemRemoveMutation
 
 } = userApiSlice;
