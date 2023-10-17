@@ -35,6 +35,6 @@ user_router.post('/getCartDetails',cartController.getCartDetails)
 user_router.post('/cartRemoveItem',cartController.removeCartItem)
 
 user_router.post('/UserPaymentOrders',paymentController.orders)
-user_router.post('UserPaymentVerify',paymentController.verify)
+user_router.post('/UserPaymentVerify',paymentController.verify)
  
 export default user_router;

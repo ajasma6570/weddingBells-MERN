@@ -351,6 +351,31 @@ vehicleRequestHandle : async(req, res) => {
   } catch (error) {
     res.status(500).json({message:error})
   }
+},
+getActiveVenue : async(req, res) => {
+  try {
+    const venueRequestList =await Venue.find({requestStatus:"accept"})
+    res.status(200).json({status:200,venueRequestList})
+  } catch (error) {
+    res.status(500).json({message:error})
+  }
+},
+getActiveVehicle : async(req, res) => {
+  try {
+    const vehicleRequestList =await Vehicle.find({requestStatus:"accept"})
+    res.status(200).json({status:200,vehicleRequestList})
+  } catch (error) {
+    res.status(500).json({message:error})
+  }
+},
+getActiveCatering : async(req, res) => {
+  try {
+    const cateringRequestList =await Catering.find({requestStatus:"accept"})
+    res.json({status:200,cateringRequestList})
+  } catch (error) {
+    res.json({status:500,message:error})
+  }
+
 }
 
 

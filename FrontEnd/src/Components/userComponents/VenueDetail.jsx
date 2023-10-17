@@ -19,6 +19,9 @@ export default function VenueDetail() {
   const [detail,setDetail] = useState([])
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate()
+  const [from,setFrom] = useState(null)
+  const [to,setTo] = useState(null)
+
   useEffect(()=>{
     const fetchData = async() => {
       setLoading(true); 
@@ -54,20 +57,31 @@ export default function VenueDetail() {
         setCurrentIndex(slideIndex);
       };
 
-      const [from,setFrom] = useState("")
-      const [to,setTo] = useState("")
+      
 
       const [venueAddtoCart] = useVenueAddTOCartMutation()
 
       const handleAddtoCart = async(venueId) => {
-        const userId = userData._id
-       const res = await venueAddtoCart({venueId,userId,from,to })
-        if(res.data.status === 200){
-          toastSuccess(res.data.message)
-          navigate('/venueList')
-        }else{
-          toastError(res.data.error)
+        if(from === null){
+          return toastError("please select from date")
         }
+        if(to === null){
+          return toastError("please select to date")
+        }
+        const userId = userData._id
+        if(userId){
+          const res = await venueAddtoCart({venueId,userId,from,to })
+          if(res.data.status === 200){
+            toastSuccess(res.data.message)
+            navigate('/venueList')
+          }else{
+            toastError(res.data.error)
+          }
+        }else{
+          toastError("please Login")
+          navigate('/user/login')
+        }
+      
       }
 
   return (

@@ -1,73 +1,72 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {useAdminVenueRequestHandleMutation, useAdminVenueRequestListMutation} from '../../Redux/Admin/adminApiSlice'
-import { toastError, toastSuccess } from "../toast";
-export default function AdminVenueRequest() {
+// import { Link } from "react-router-dom";
+import { useGetActiveVehicleMutation } from "../../Redux/Admin/adminApiSlice";
+import { toastError } from "../toast";
+
+export default function AdminActiveVehicle() {
+
+    // const [selectedIndexes, setSelectedIndexes] = useState([]);
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true);
+    const [GetActiveVehicle] = useGetActiveVehicleMutation()
+    // const [AdminVehicleRequestHandle] = useAdminVehicleRequestHandleMutation()
+    // const [statusChange,setStatusChange] = useState(false)
   
-  const [selectedIndexes, setSelectedIndexes] = useState([]);
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true);
-  const [AdminVenueRequest] = useAdminVenueRequestListMutation()
-  const [AdminVenueRequestHandle] = useAdminVenueRequestHandleMutation()
-  const [statusChange,setStatusChange] = useState(false)
-
-
-  const handleSelect = (index) => {
-    setSelectedIndexes((prevIndexes) =>
-      prevIndexes.includes(index)
-        ? prevIndexes.filter((prevIndex) => prevIndex !== index)
-        : [...prevIndexes, index]
-    );
-  };
-
-
-  const handleRequest = async(id,value) =>{
-    const res =  await AdminVenueRequestHandle({id, value})
-      if(res.data.status === 200){
-        toastSuccess(res.data.message)
-        setStatusChange(!statusChange)
-      }else{
-        toastError(res.data.message)
+    // const handleSelect = (index) => {
+    //   setSelectedIndexes((prevIndexes) =>
+    //     prevIndexes.includes(index)
+    //       ? prevIndexes.filter((prevIndex) => prevIndex !== index)
+    //       : [...prevIndexes, index]
+    //   );
+    // };
+  
+    // const handleRequest = async(id,value) =>{
+    //   const res =  await AdminVehicleRequestHandle({id, value})
+    //     if(res.data.status === 200){
+    //       toastSuccess(res.data.message)
+    //       setStatusChange(!statusChange)
+    //     }else{
+    //       toastError(res.data.message)
+    //     }
+    // }
+  
+    useEffect(()=>{
+      const fetchData = async() => {
+        setLoading(true); 
+        const res = await GetActiveVehicle()
+          if(res.data.status === 200){
+            setData(res.data.vehicleRequestList)
+          }else{
+            toastError(res.data.message)
+          }
+          setLoading(false);
       }
-  }
-
-  useEffect(()=>{
-    const fetchData = async() => {
-      setLoading(true); 
-      const res = await AdminVenueRequest()
-        if(res.data.status === 200){
-          setData(res.data.venueRequestList)
-        }else{
-          console.log("error");
-        }
-        setLoading(false); 
-    }
-
-    fetchData()
-  },[AdminVenueRequest,statusChange])
-
-  const handleView = (id) =>{
-    console.log(id);
-  }
-
+      fetchData()
+    },[GetActiveVehicle])
+  
+  
+    // const handleView = (id) =>{
+    //   console.log(id);
+    // }
 
   return (
     <>
-      {/* Venue Request Table */}
-
+      {/* Vehicles Request Table END*/}
       <div className="block bg-transparent m-4 p-2 overflow-x-auto shadow-stone-600 shadow-lg h-screen">
-        <h1 className="text-xl font-semibold text-gray-800">Venue Requests</h1>
+        <h1 className="text-xl font-semibold text-gray-800">
+          Active Vehicle 
+        </h1>
         <table>
           <thead>
             <tr className="border border-stone border-1-0 bottom-0">
               <th className="text-md px-5 py-3">SL:No</th>
               <th className="text-md px-10 py-3">Name</th>
-              <th className="text-md px-10 py-3">City</th>
               <th className="text-md px-10 py-3">Phone</th>
-              <th className="text-md px-10 py-3">Capacity</th>
+              <th className="text-md px-10 py-3">Seat</th>
+              <th className="text-md px-10 py-3">Model</th>
               <th className="text-md px-10 py-3">Amount</th>
               <th className="text-md px-10 py-3">Created Date</th>
-              <th className="text-md px-10 py-3">Action</th>
+              {/* <th className="text-md px-10 py-3">Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -86,18 +85,16 @@ export default function AdminVenueRequest() {
                 </td>
               </tr>
             ) : (
-
-            data.map((obj, index)=>(
+        data.map((obj, index)=>(
             <tr>
-              <td className="text-md pl-8 py-3">{index+1}</td>
+              <td className="text-md pl-8 py-3">{index +1}</td>
               <td className="text-md pl-8 py-3">{obj.name}</td>
-              <td className="text-md pl-4 py-3">{obj.city}</td>
               <td className="text-md pl-5 py-3">{obj.phone}</td>
-              <td className="text-md pl-16 py-3">{obj.capacity}</td>
-              <td className="text-md pl-11 py-3">{obj.amount}</td>
+              <td className="text-md pl-12 py-3">{obj.seatCapacity}</td>
+              <td className="text-md pl-12 py-3">{obj.model}</td>
+              <td className="text-md pl-12 py-3">{obj.rentAmount}</td>
               <td className="text-md pl-8 py-3">{`${new Date(obj.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(obj.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(obj.createdAt).getFullYear()}`}</td>
-
-              <td className="text-md pl-8 py-3">
+              {/* <td className="text-md pl-8 py-3">
                 <div class="relative inline-block text-left">
                   <div>
                     <button
@@ -130,19 +127,19 @@ export default function AdminVenueRequest() {
                         aria-labelledby="options-menu"
                       >
                         <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
-                        onClick={()=>handleView(obj._id)}
+                         onClick={()=>handleView(obj._id)}
                         >
                           View
                         </Link>
                         <hr className="bg-gray-400 h-1" />
-                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
+                        <Link class="block px-4 py-2 text-sm text-gray-700 font-semibold hover:bg-gray-300 rounded-md"
                          data-action="accept" 
                          onClick={(e)=>handleRequest(obj._id, e.target.dataset.action)}
-                         >
+                        >
                           Accept
                         </Link>
                         <hr className="bg-gray-400 h-1" />
-                        <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
+                        <Link class="block px-4 py-2 text-sm text-gray-700 font-semibold hover:bg-gray-300 rounded-md"
                         data-action="reject" 
                         onClick={(e)=>handleRequest(obj._id, e.target.dataset.action)}
                         >
@@ -152,15 +149,15 @@ export default function AdminVenueRequest() {
                     </div>
                   )}
                 </div>
-              </td>
+              </td> */}
             </tr>
-            ))
-            )}
+               ))
+               )}
           </tbody>
         </table>
       </div>
 
-      {/* Venue Request Table END*/}
+      {/* Vehicles Request Table END*/}
     </>
-  );
+  )
 }

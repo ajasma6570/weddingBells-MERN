@@ -33,19 +33,25 @@ const paymentController = {
     },
     verify :async (req, res) => {
         try {
+            console.log("enter");
+            console.log(req.body);
             const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-                req.body;
+                req.body.response;
+                console.log(razorpay_order_id, razorpay_payment_id, razorpay_signature);
             const sign = razorpay_order_id + "|" + razorpay_payment_id;
             const expectedSign = crypto
                 .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
                 .update(sign.toString())
                 .digest("hex");
             if (razorpay_signature === expectedSign) {
+                console.log("sucess");
                 return res.status(200).json({ message: "Payment verified successfully" });
             } else {
+                console.log("400");
                 return res.status(400).json({ message: "Invalid signature sent!" });
             }  
         } catch (error) {
+            console.log("500");
             res.status(500).json({ message: "Internal Server Error!" });
             console.log(error);
         }

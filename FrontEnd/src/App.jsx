@@ -111,12 +111,12 @@ function App() {
           <Route path="dashboard" element={<AdminDash/>} />
           <Route path="user" element={<AdminUser/>}/>
           <Route path="business" element={<AdminBusiness/>}/>
-          <Route path="service" element={<AdminService/>}/>
           <Route path="booking" element={<AdminBooking/>}/>
           <Route path="userEdit/:userId" element={<AdminUserEdit/>}/>
           <Route path="businessEdit/:userId" element={<AdminBusinessEdit />} />
           {/* Descendant Routes */}
-          <Route path="requestManagement/*" element={<AdminRequestManagement/>}/>  
+          <Route path="requestManagement/*" element={<AdminRequestManagement/>}/>
+          <Route path="service/*" element={<AdminService/>}/>  
           </Route>
          
 

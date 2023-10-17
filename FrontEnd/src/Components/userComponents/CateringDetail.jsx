@@ -19,8 +19,8 @@ export default function CateringDetail() {
    const userData = useSelector((state)=>state.rootReducer.user)
   const [cateringAddtoCart] = useCateringAddtoCartMutation()
   const navigate = useNavigate()
-  const [from,setFrom] = useState("")
-  const [to,setTo] = useState("")
+  const [from,setFrom] = useState(null)
+  const [to,setTo] = useState(null)
 
 
    useEffect(()=>{
@@ -59,7 +59,14 @@ export default function CateringDetail() {
        };
 
        const handleAddtoCart = async(cateringId) => {
+        if(from === null){
+          return toastError("please select from date")
+        }
+        if(to === null){
+          return toastError("please select to date")
+        }
         const userId = userData._id
+        if(userId){
        const res = await cateringAddtoCart({cateringId,userId,from,to })
         if(res.data.status === 200){
           toastSuccess(res.data.message)
@@ -67,6 +74,10 @@ export default function CateringDetail() {
         }else{
           toastError(res.data.error)
         }
+      }else{
+        toastError("please Login")
+        navigate('/user/login')
+      }
       }
 
   return (

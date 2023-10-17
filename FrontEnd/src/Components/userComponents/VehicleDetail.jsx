@@ -16,8 +16,8 @@ export default function VehicleDetail() {
    const [VehicleDetail] = useVehicleDetailsMutation()
    const [detail,setDetail] = useState([])
    const [loading, setLoading] = useState(true);
-   const [from,setFrom] = useState("")
-   const [to,setTo] = useState("")
+   const [from,setFrom] = useState(null)
+   const [to,setTo] = useState(null)
    const navigate = useNavigate()
    const userData = useSelector((state)=>state.rootReducer.user)
 
@@ -57,14 +57,26 @@ export default function VehicleDetail() {
    };
 
    const handleAddtoCart = async(vehicleId) => {
-    const userId = userData._id
-   const res = await vehicleAddtoCart({vehicleId,userId,from,to })
-    if(res.data.status === 200){
-      toastSuccess(res.data.message)
-      navigate('/vehicleList')
-    }else{
-      toastError(res.data.error)
+    if(from === null){
+      return toastError("please select from date")
     }
+    if(to === null){
+      return toastError("please select to date")
+    }
+    const userId = userData._id
+    if(userId){
+      const res = await vehicleAddtoCart({vehicleId,userId,from,to })
+      if(res.data.status === 200){
+        toastSuccess(res.data.message)
+        navigate('/vehicleList')
+      }else{
+        toastError(res.data.error)
+      }
+    }else{
+      toastError("please Login")
+      navigate('/user/login')
+    }
+   
   }
  
   return (

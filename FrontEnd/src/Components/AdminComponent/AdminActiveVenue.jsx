@@ -1,62 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {useAdminVenueRequestHandleMutation, useAdminVenueRequestListMutation} from '../../Redux/Admin/adminApiSlice'
-import { toastError, toastSuccess } from "../toast";
-export default function AdminVenueRequest() {
+// import { Link } from "react-router-dom";
+import { useGetActiveVenueMutation} from '../../Redux/Admin/adminApiSlice'
+import { toastError } from "../toast";
+
+export default function AdminActiveVenue() {
+    // const [selectedIndexes, setSelectedIndexes] = useState([]);
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true);
+    const [GetActiveVenue] = useGetActiveVenueMutation()
+    // const [AdminVenueRequestHandle] = useAdminVenueRequestHandleMutation()
+    // const [statusChange,setStatusChange] = useState(false)
   
-  const [selectedIndexes, setSelectedIndexes] = useState([]);
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true);
-  const [AdminVenueRequest] = useAdminVenueRequestListMutation()
-  const [AdminVenueRequestHandle] = useAdminVenueRequestHandleMutation()
-  const [statusChange,setStatusChange] = useState(false)
-
-
-  const handleSelect = (index) => {
-    setSelectedIndexes((prevIndexes) =>
-      prevIndexes.includes(index)
-        ? prevIndexes.filter((prevIndex) => prevIndex !== index)
-        : [...prevIndexes, index]
-    );
-  };
-
-
-  const handleRequest = async(id,value) =>{
-    const res =  await AdminVenueRequestHandle({id, value})
-      if(res.data.status === 200){
-        toastSuccess(res.data.message)
-        setStatusChange(!statusChange)
-      }else{
-        toastError(res.data.message)
+  
+    // const handleSelect = (index) => {
+    //   setSelectedIndexes((prevIndexes) =>
+    //     prevIndexes.includes(index)
+    //       ? prevIndexes.filter((prevIndex) => prevIndex !== index)
+    //       : [...prevIndexes, index]
+    //   );
+    // };
+  
+  
+    // const handleRequest = async(id,value) =>{
+    //   const res =  await AdminVenueRequestHandle({id, value})
+    //     if(res.data.status === 200){
+    //       toastSuccess(res.data.message)
+    //       setStatusChange(!statusChange)
+    //     }else{
+    //       toastError(res.data.message)
+    //     }
+    // }
+  
+    useEffect(()=>{
+      const fetchData = async() => {
+        setLoading(true); 
+        const res = await GetActiveVenue()
+          if(res.data.status === 200){
+            setData(res.data.venueRequestList)
+          }else{
+            toastError(res.data.message);
+          }
+          setLoading(false); 
       }
-  }
-
-  useEffect(()=>{
-    const fetchData = async() => {
-      setLoading(true); 
-      const res = await AdminVenueRequest()
-        if(res.data.status === 200){
-          setData(res.data.venueRequestList)
-        }else{
-          console.log("error");
-        }
-        setLoading(false); 
-    }
-
-    fetchData()
-  },[AdminVenueRequest,statusChange])
-
-  const handleView = (id) =>{
-    console.log(id);
-  }
-
+  
+      fetchData()
+    },[GetActiveVenue])
+  
+    // const handleView = (id) =>{
+    //   console.log(id);
+    // }
+  
 
   return (
     <>
       {/* Venue Request Table */}
 
       <div className="block bg-transparent m-4 p-2 overflow-x-auto shadow-stone-600 shadow-lg h-screen">
-        <h1 className="text-xl font-semibold text-gray-800">Venue Requests</h1>
+        <h1 className="text-xl font-semibold text-gray-800">Active Venue</h1>
         <table>
           <thead>
             <tr className="border border-stone border-1-0 bottom-0">
@@ -67,7 +67,7 @@ export default function AdminVenueRequest() {
               <th className="text-md px-10 py-3">Capacity</th>
               <th className="text-md px-10 py-3">Amount</th>
               <th className="text-md px-10 py-3">Created Date</th>
-              <th className="text-md px-10 py-3">Action</th>
+              {/* <th className="text-md px-10 py-3">Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -97,7 +97,7 @@ export default function AdminVenueRequest() {
               <td className="text-md pl-11 py-3">{obj.amount}</td>
               <td className="text-md pl-8 py-3">{`${new Date(obj.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(obj.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(obj.createdAt).getFullYear()}`}</td>
 
-              <td className="text-md pl-8 py-3">
+              {/* <td className="text-md pl-8 py-3">
                 <div class="relative inline-block text-left">
                   <div>
                     <button
@@ -139,20 +139,20 @@ export default function AdminVenueRequest() {
                          data-action="accept" 
                          onClick={(e)=>handleRequest(obj._id, e.target.dataset.action)}
                          >
-                          Accept
+                          Unlist
                         </Link>
                         <hr className="bg-gray-400 h-1" />
                         <Link class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300 rounded-md"
                         data-action="reject" 
                         onClick={(e)=>handleRequest(obj._id, e.target.dataset.action)}
                         >
-                          Reject
+                          List
                         </Link>
                       </div>
                     </div>
                   )}
                 </div>
-              </td>
+              </td> */}
             </tr>
             ))
             )}
@@ -162,5 +162,5 @@ export default function AdminVenueRequest() {
 
       {/* Venue Request Table END*/}
     </>
-  );
+  )
 }

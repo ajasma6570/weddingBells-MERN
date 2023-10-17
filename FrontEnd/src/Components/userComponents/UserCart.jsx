@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useCartDetialsMutation, useCartItemRemoveMutation, usePaymentOrderMutation, usePaymentVerifyMutation } from '../../Redux/user/userApiSlice'
+import { useCartDetialsMutation, useCartItemRemoveMutation } from '../../Redux/user/userApiSlice'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -15,8 +15,7 @@ export default function UserCart() {
   const [CartItemRemove] = useCartItemRemoveMutation()
   const [remove,setRemove] = useState(false)
   const [loading, setLoading] = useState(true);
-  const [paymentOrders] = usePaymentOrderMutation()
-  const [paymentVerify] = usePaymentVerifyMutation()
+
 
 
   const handleCheckboxChange = (e) => {
@@ -54,12 +53,12 @@ const handleRemove =async(itemId,service) =>{
   }
 
 
-  const [book, setBook] = useState({
+  const book = {
 		name: "Wedding Bells",
 		author: "Wedding Bells",
 		img: "/Assets/RazorPayImg.jpg",
 		price: 5000,
-	});
+	};
 
   const initPayment = (data) => {
     const options = {
@@ -74,17 +73,15 @@ const handleRemove =async(itemId,service) =>{
         try {
           const verifyUrl = "http://localhost:4000/user/UserPaymentVerify";
           const { data } = await axios.post(verifyUrl, { response });
-          console.log(data);
+          toastSuccess(data.message)
         } catch (error) {
-          console.log(error);
+          toastError(error)
         }
       },
       theme: {
         color: "#3399cc",
       },
     };
-  
-    console.log("open");
     // Initialize Razorpay outside of the window.onload function
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
@@ -97,10 +94,9 @@ const handleRemove =async(itemId,service) =>{
     try {
 			const orderUrl = "http://localhost:4000/user/UserPaymentOrders";
 			const { data } = await axios.post(orderUrl, { amount: book.price });
-			console.log(data);
 			initPayment(data.data);
 		} catch (error) {
-			console.log(error);
+			toastError(error)
 		}
   }
 
