@@ -59,7 +59,7 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-10 py-2 ">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-10 py-2  ">
       {/* Left Div */}
       <div
         className="bg-cover bg-center hidden sm:block"

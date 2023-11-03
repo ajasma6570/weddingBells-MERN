@@ -12,7 +12,7 @@ import BusinessForgetPasswordPage from "./Pages/businessPage/BusinessForgetPassw
 import AboutUsPage from "./Pages/userPage/AboutUsPage";
 import ContactUsPage from "./Pages/userPage/ContactUsPage";
 import AccountDetails from "./Pages/userPage/AccountDetails";
-import Orders from "./Pages/userPage/Orders";
+import Orders from "./Components/userComponents/Orders";
 import AccountUpdate from "./Pages/userPage/AccountUpdate";
 import UserProfilePasswordChange from "./Components/userComponents/UserProfilePasswordChange";
 import AdminDash from './Components/AdminComponent/AdminDash'
@@ -39,6 +39,8 @@ import VehicleDetailPage from "./Pages/userPage/VehicleDetailPage";
 import CateringDetailPage from "./Pages/userPage/CateringDetailPage";
 import UserCartPage from "./Pages/userPage/UserCartPage";
 import UserBookingCompletedPage from "./Pages/userPage/UserBookingCompletedPage";
+import NewTest from "./Components/userComponents/NewTest";
+
 
 function App() {
   return (
@@ -57,7 +59,7 @@ function App() {
           <Route path="/venueList/venueDetail/:venueId" element={<VenueDetailPage/>}/>
           <Route path="/vehicleList/vehicleDetail/:vehicleId" element={<VehicleDetailPage/>}/>
           <Route path="/cateringList/cateringDetail/:cateringId" element={<CateringDetailPage/>}/>
-         
+         <Route path="/test" element={<UserBookingCompletedPage/>}/>
 
 
     {/* user Private Route */}
@@ -77,7 +79,7 @@ function App() {
           </Route>
 
             <Route path="/userCart" element={<UserCartPage/>}/>
-            <Route path="/userBookingCompleted" element={<UserBookingCompletedPage/>}/>
+            <Route path="/userBookingCompleted/:bookingId" element={<UserBookingCompletedPage/>}/>
 
 
   {/* Business private routes */}
@@ -87,7 +89,7 @@ function App() {
               <Route path="forgetpassword"  element={<BusinessForgetPasswordPage />}/>
           </Route>
           
-
+        
          
   {/* business Protected Route */}
           <Route path="/business/dashboard" element={<BusinessRoleAuth />}>

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faTrash } from '@fortawesome/free-solid-svg-icons';
 import {toastError, toastSuccess} from "../toast"
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
 export default function UserCart() {
 
@@ -15,8 +16,7 @@ export default function UserCart() {
   const [CartItemRemove] = useCartItemRemoveMutation()
   const [remove,setRemove] = useState(false)
   const [loading, setLoading] = useState(true);
-
-
+  const navigate = useNavigate()
 
   const handleCheckboxChange = (e) => {
     setTick(e.target.checked);
@@ -52,7 +52,6 @@ const handleRemove =async(itemId,service) =>{
     toastError("Please read & tick above condition")
   }
 
-
   const book = {
 		name: "Wedding Bells",
 		author: "Wedding Bells",
@@ -71,9 +70,13 @@ const handleRemove =async(itemId,service) =>{
       order_id: data.id,
       handler: async (response) => {
         try {
+          const userId = userData._id
           const verifyUrl = "http://localhost:4000/user/UserPaymentVerify";
-          const { data } = await axios.post(verifyUrl, { response });
+          const { data } = await axios.post(verifyUrl, { response ,userId});
           toastSuccess(data.message)
+        
+          const bookId = data.detail;
+          navigate(`/userBookingCompleted/${bookId}`)
         } catch (error) {
           toastError(error)
         }
@@ -85,26 +88,23 @@ const handleRemove =async(itemId,service) =>{
     // Initialize Razorpay outside of the window.onload function
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
-  };
-    
-
-
-
+  };  
+      
   const handlePayNow = async() => {
     try {
 			const orderUrl = "http://localhost:4000/user/UserPaymentOrders";
 			const { data } = await axios.post(orderUrl, { amount: book.price });
 			initPayment(data.data);
 		} catch (error) {
-			toastError(error)
-		}
-  }
-
+		  toastError(error)
+		} 
+  }   
+      
   return (
     <>
 
-
-    <div className='relative w-11/12 flex flex-col mb-12 mx-auto'>
+<div className='bg-gradient-to-br from-white to-gray-400'>
+    <div className='relative w-11/12 flex flex-col mb-12 mx-auto  '>
 
         <div className="flex flex-wrap items-center">
             <div className="relatve w-full px-4 max-w-full">
@@ -124,7 +124,7 @@ const handleRemove =async(itemId,service) =>{
    <div className='block bg-transparent m-4 p-2 w-11/12 mx-auto overflow-x-auto  '>
    <table className="">
      <thead className=''>
-       <tr className='border border-solid border-l-0 bottom-0 '>
+       <tr className='border border-solid border-white border-l-0 bottom-0 '>
          <th className="text-md px-20 py-3">Image</th>
          <th className="text-md px-20 py-3">Name</th>
          <th className="text-md px-20 py-3">Place</th>
@@ -146,10 +146,16 @@ const handleRemove =async(itemId,service) =>{
          <td className="text-md px-10 py-3">{obj.venueId.name}</td>
          <td className="text-md px-20 py-3">{obj.venueId.city}</td>
          <td className="text-md px-18 py-3">
-            <p>from : {obj.from}</p>
-            <p>to : {obj.to}</p>
+         <p>
+            {obj.bookedDates.map((date, index) => (
+              <>
+              <span key={index}>{date}</span>
+              <br />
+              </>
+            ))}
+          </p>
          </td>
-         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-blue-500 hover:text-red-500" 
+         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-gray-800 hover:text-red-500" 
          onClick={()=>handleRemove(obj._id,"venues")}
          /></td>
        </tr>
@@ -168,10 +174,16 @@ const handleRemove =async(itemId,service) =>{
          <td className="text-md px-12 py-3">{obj.vehicleId.name}</td>
          <td className="text-md px-20 py-3">{obj.vehicleId.city}</td>
          <td className="text-md px-18 py-3">
-            <p>from : {obj.from}</p>
-            <p>to : {obj.to}</p>
+         <p>
+            {obj.bookedDates.map((date, index) => (
+              <>
+              <span key={index}>{date}</span>
+              <br />
+              </>
+            ))}
+          </p>
          </td>
-         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-blue-500 hover:text-red-500" 
+         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-gray-800 hover:text-red-500"
            onClick={()=>handleRemove(obj._id,"Vehicle")}
          /></td>
        </tr>
@@ -192,10 +204,16 @@ const handleRemove =async(itemId,service) =>{
          <td className="text-md px-20 py-3">{obj.cateringId.city}</td>
        
          <td className="text-md px-18 py-3">
-            <p>from : {obj.from}</p>
-            <p>to : {obj.to}</p>
+         <p>
+            {obj.bookedDates.map((date, index) => (
+              <>
+              <span key={index}>{date}</span>
+              <br />
+              </>
+            ))}
+          </p>
          </td>
-         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-blue-500 hover:text-red-500"
+         <td className="text-md px-5 py-3 cursor-pointer"><FontAwesomeIcon icon={faTrash} className="text-gray-800 hover:text-red-500"
            onClick={()=>handleRemove(obj._id,"Catering")}
          /></td>
        </tr>
@@ -249,6 +267,7 @@ const handleRemove =async(itemId,service) =>{
 
 
 
+</div>
 </div>
     </>
   )

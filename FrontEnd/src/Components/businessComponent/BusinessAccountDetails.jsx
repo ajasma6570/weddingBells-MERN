@@ -12,7 +12,7 @@ export default function BusinessAccountDetails() {
       <div className="lg:flex py-8">
         {/* Profile Image and Edit Button */}
         <div className="lg:w-3/6 w-full lg:order-1 order-2 flex flex-col items-center justify-center">
-          <div className="h-20 w-20 lg:w-20 lg:h-20 bg-red-700 rounded-full"></div>
+        <div className="h-20 w-20 lg:w-20 lg:h-20 bg-red-700 rounded-full" style={{ background: `url('/Assets/${business.image}')`, backgroundPosition: 'center', backgroundSize: 'cover' }}></div>
           <span className="block mt-2 bg-gray-800 hover:bg-gray-500 text-white rounded-md px-2 cursor-pointer">
             Change Image
           </span>

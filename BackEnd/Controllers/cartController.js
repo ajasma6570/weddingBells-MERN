@@ -3,16 +3,15 @@ import Cart from "../Models/cartModel.js";
 
 const cartController = {
     venueCart : async (req, res) => {
-        const {userId, venueId, from, to} = req.body;
+        const {userId, venueId, datesWithinRange} = req.body;
         try { 
           const updatedCart = await Cart.findOneAndUpdate(
             { userId: userId },
-            {
+            {  
               $push: {
                 venues: {
                   venueId: venueId, 
-                  from: from,
-                  to: to
+                  bookedDates : datesWithinRange
                 }
               }
             },
@@ -25,17 +24,15 @@ const cartController = {
         }
       },
       vehicleCart : async (req, res) => {
-        const {userId, vehicleId, from, to} = req.body;
-      
+        const {userId, vehicleId, datesWithinRange} = req.body;
         try {
           const updatedCart = await Cart.findOneAndUpdate(
             { userId: userId },
-            {
+            { 
               $push: {
                 Vehicle: {
                   vehicleId: vehicleId,
-                  from: from,
-                  to: to
+                  bookedDates : datesWithinRange
                 }
               }
             },
@@ -48,7 +45,7 @@ const cartController = {
         }
       },
       cateringCart : async (req, res) => {
-        const {userId, cateringId, from, to} = req.body;
+        const {userId, cateringId, datesWithinRange} = req.body;
       
         try {
           const updatedCart = await Cart.findOneAndUpdate(
@@ -57,8 +54,7 @@ const cartController = {
               $push: {
                 Catering: {
                   cateringId: cateringId,
-                  from: from,
-                  to: to
+                  bookedDates : datesWithinRange
                 }
               }
             },

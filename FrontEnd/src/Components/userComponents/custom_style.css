@@ -2,4 +2,9 @@
     color: black !important;
   }
 
-
+  div .rdrDayDisabled {
+    background-color: #f16d6d;
+    border-radius: 40%;
+    color: #ffffff;
+    /* Add any other styles you want to customize */
+  }

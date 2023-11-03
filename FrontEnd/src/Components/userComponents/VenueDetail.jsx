@@ -5,22 +5,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useVenueAddTOCartMutation, useVenueDetailsMutation } from '../../Redux/user/userApiSlice';
 import { toastError, toastSuccess } from '../toast';
 import { useSelector } from 'react-redux';
-
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // Default styles
+import 'react-date-range/dist/theme/default.css'; // Default theme styles
+import './custom_style.css';
 
 export default function VenueDetail() {
 
-  //its for disable previous Date
-  const currentDate = new Date();
-  const minDate = currentDate.toISOString().split('T')[0];
- 
+
   const {venueId} = useParams()
   const userData = useSelector((state)=>state.rootReducer.user)
   const [VenueDetail] = useVenueDetailsMutation()
   const [detail,setDetail] = useState([])
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate()
-  const [from,setFrom] = useState(null)
-  const [to,setTo] = useState(null)
+  const [bookedDates, setBookedDates] = useState(null)
 
   useEffect(()=>{
     const fetchData = async() => {
@@ -28,7 +27,9 @@ export default function VenueDetail() {
       const res = await VenueDetail({venueId})
       if(res.data.status === 200){
         const details = res.data.venueDetail
+        const bookedDates = res.data.bookedDates
         setDetail(details)
+        setBookedDates(bookedDates)
       }else{
         toastError(res.data.message)
       }
@@ -38,7 +39,8 @@ export default function VenueDetail() {
     fetchData()
   },[VenueDetail,venueId])
 
-  
+  const disabledDates = bookedDates ? bookedDates.map(bookedDates => new Date(bookedDates)) : [];
+
       const [currentIndex, setCurrentIndex] = useState(0);
     
       const prevSlide = () => {
@@ -57,20 +59,45 @@ export default function VenueDetail() {
         setCurrentIndex(slideIndex);
       };
 
+
+
+
+      const [selection, setSelection] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection',
+      });
+    
+      const handleSelect = (ranges) => {
+        setSelection(ranges.selection);
+      };
+      const datesWithinRange = [];
+
+      (() => {
+        const { startDate, endDate } = selection;
+        // const datesWithinRange = [];
+        let currentDate = new Date(startDate);
+      
+        while (currentDate <= endDate) {
+          const year = currentDate.getFullYear();
+          const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+          const day = currentDate.getDate().toString().padStart(2, '0');
+          const formattedDate = `${year}-${month}-${day}`;
+          datesWithinRange.push(formattedDate);
+      
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      
+      })();
       
 
       const [venueAddtoCart] = useVenueAddTOCartMutation()
 
       const handleAddtoCart = async(venueId) => {
-        if(from === null){
-          return toastError("please select from date")
-        }
-        if(to === null){
-          return toastError("please select to date")
-        }
+    
         const userId = userData._id
         if(userId){
-          const res = await venueAddtoCart({venueId,userId,from,to })
+          const res = await venueAddtoCart({venueId,userId,datesWithinRange})
           if(res.data.status === 200){
             toastSuccess(res.data.message)
             navigate('/venueList')
@@ -85,13 +112,13 @@ export default function VenueDetail() {
       }
 
   return (
-    <div>
+    <div className='bg-gradient-to-br from-white to-gray-400'>
       {loading ? (
         <div className='h-screen'>
           <h1 className='text-3xl font-bold text-center text-gray-500 px-20 py-20'>Loading....</h1>
         </div>
       ) : detail ? (
-        <section>
+        <section >
       
             <div >
               <h1 className='text-3xl font-bold py-3 px-20'>{detail.name}</h1>
@@ -127,18 +154,27 @@ export default function VenueDetail() {
                   <p className='text-md font-medium'>Starting from ₹{detail.amount}<small> Per Day</small></p>
                 </div>
                 <div className='w-full md:w-1/2'>
-                  <div className='border border-black w-96 h-60 rounded-lg'>
+                  <div className='border border-black w-96 h-106 rounded-lg'>
                     <p className='p-2 text-2xl font-medium'>Reserve Your Venue</p>
-                    <span className='pl-5 block'>From : <input type='date' className='border border-black rounded-lg' min={minDate} onChange={(e)=>setFrom(e.target.value)}/> </span>
-                    <span className='pl-10 py-5 block'>To : <input type='date' className='border border-black rounded-lg' min={minDate} onChange={(e)=>setTo(e.target.value)}/> </span>
+                    
+                    <div className='ml-5 '>
+                      <DateRange
+                        ranges={[selection]}
+                        onChange={handleSelect}
+                        showSelectionPreview={false}
+                        minDate={new Date()}
+                        disabledDates={disabledDates}
+                      /></div>
+
                     <p className='text-sm font-semibold pl-5'>Rent amount varies on holidays, please ask our advisor.</p>
                     <div className='ml-36 py-5'>
-                      <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
+                      <button className="bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 border border-gray-900 rounded"
                       onClick={(e)=>handleAddtoCart(detail._id)}
                       >
                         Add to Basket
                       </button>
                     </div>
+
                   </div>
                 </div>
               </div>

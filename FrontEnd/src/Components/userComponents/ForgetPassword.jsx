@@ -130,7 +130,7 @@ export default function ForgetPassword() {
     <div className="w-full py-10">
       <div className="container mx-auto py-5">
         <div className="flex justify-center items-center h-full">
-          <div className="lg:flex md:flex w-full px-4 sm:px-8 lg:px-16">
+          <div className="lg:flex md:flex w-full px-4 sm:px-8 lg:px-16 gap-4">
             {/* Left Div */}
             <div
               className="md:w-1/2 w-full border border-1 border-black bg-cover bg-center hidden sm:block"

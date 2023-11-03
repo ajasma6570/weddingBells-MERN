@@ -6,10 +6,13 @@ import cookie from 'cookie'
 
 
 export const AuthenticateToken = (role) => async (req, res, next) => {
-  const cookies = cookie.parse(req.headers.cookie || '');
+  
+  const cookies = cookie.parse(req.headers.cookie || ''); 
+  
   const userDetailsCookie = cookies.userDetails;
 
-  if (!userDetailsCookie) {
+
+  if (!userDetailsCookie) { 
     return res.json({ status: 401, message: 'Unauthorized' });
   }
 

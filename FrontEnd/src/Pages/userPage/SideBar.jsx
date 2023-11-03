@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faCartShopping, faDiamond } from '@fortawesome/free-solid-svg-icons';
 import UseNavbar from '../../Components/userComponents/UseNavbar';
 import Footer from '../../Components/userComponents/Footer';
 
@@ -19,7 +19,7 @@ export default function SideBar() {
     <>
     <UseNavbar />
     <div className='flex '>
-      <div className={`bg-gray-800 ${sidebarClass} h-screen transition-all duration-300 ease-in-out`}>
+      <div className={`bg-teal-900 ${sidebarClass} h-screen transition-all duration-300 ease-in-out`}>
         <div className='flex justify-between px-8'>
           <div className={`text-white text-2xl font-semibold text-center py-3 ${textClass}`}>LOGO</div>
           <div className='mt-4 cursor-pointer' onClick={toggleSidebar}>
@@ -42,10 +42,17 @@ export default function SideBar() {
               </NavLink>
             </li>
             <hr className='bg-white my-2' />
+            <li>
+              <NavLink to="" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
+                <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Cancel Orders</div>
+              </NavLink>
+            </li>
+            <hr className='bg-white my-2' />
           </ul>
         </div>
       </div>
-      <div className='bg-gray-200 h-screen w-full pl-5 overflow-scroll overflow-x-hidden'>
+      <div className='bg-gradient-to-r from-teal-500 to-gray-400 h-screen w-full pl-5 overflow-scroll overflow-x-hidden'>
         <Outlet /> {/* This will render the content for the matching route */}
       </div>
     </div>

@@ -9,11 +9,11 @@ export default function AboutUsPage() {
         <UseNavbar />
       </div>
 
-      <div className="w-9/12 mx-auto pt-10 flex flex-col justify-center items-center h-96">
-        <h1 className="font-kaushan text-center text-3xl">
+      <div className="p-10 mx-auto my-auto flex flex-col justify-center items-center min-h-screen min-w-screen">
+        <h1 className="font-kaushan text-center xxs:text-2xl xs:text-xl sm:text-xl md:text-lg lg:text-2xl">
           WE’RE Wedding Bells{" "}
         </h1>
-        <p className="flex text-lg font-sans mt-5">
+        <p className="flex text-lg font-sans mt-5 xxs:text-lg xs:text-xl sm:text-xl md:text-lg lg:text-2xl">
           Its is a story of 11 teenage friends, who made a good team in their
           school and locality, enthusiastic about conducting and organizing
           events around them. As time passed they carried on with their lives,

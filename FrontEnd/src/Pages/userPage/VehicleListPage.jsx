@@ -7,8 +7,11 @@ export default function VehicleListPage() {
   return (
     <>
     <UseNavbar/>
+    
     <Vehiclelist/>
+   
     <Footer/>
+
     </>
   )
 }

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../Redux/user/userSlice";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 function UseNavbar() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -32,23 +34,27 @@ function UseNavbar() {
 
   return (
     <nav className={`w-full  p-2 ${bgColorClass}`} style={{ height: "3.5rem",position:"relative",zIndex:"1"}}>
-      <div className="container mx-auto flex justify-between items-center fixed">
-        <div
+      <div className="w-full container mx-auto flex justify-between items-center fixed">
+        
+          <div
           onClick={() => navigate("/")}
-          className={`${textColorClass} font-bold font-kaushan text-3xl cursor-pointer`}
+          className={`${textColorClass} font-bold font-kaushan text-3xl cursor-pointer hover:text-transparent bg-clip-text bg-gradient-to-b from-white to-yellow-600`}
         >
-          Wedding Bells
+          {!isMobileMenuOpen ? " Wedding Bells" : "" }
+          
         </div>
+       
+        
 
         {/* Mobile menu toggle button */}
-        <div className="lg:hidden md:block sm:block">
+        <div className="lg:hidden md:hidden sm:block">
           <button
             onClick={toggleMobileMenu}
             className={`${textColorClass} hover:text-gray-300 focus:outline-none`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-10 w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -65,15 +71,15 @@ function UseNavbar() {
         </div>
 
         {/* Desktop navigation links */}
-        <div className="hidden lg:flex space-x-10">
+        <div className="hidden md:flex lg:flex space-x-10">
           <Link
-            className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+            className={`${textColorClass} font-sans text-xl hover:text-transparent bg-clip-text bg-gradient-to-b from-white to-yellow-600`}
             to='/aboutus'
           >
             About us
           </Link>
           <Link
-            className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+            className={`${textColorClass} font-sans text-xl hover:text-transparent bg-clip-text bg-gradient-to-b from-white to-yellow-600`}
             to='/contactus'
           >
             Contact us
@@ -82,14 +88,14 @@ function UseNavbar() {
           {Login.name && (
             <>
              <Link
-             className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+             className={`${textColorClass} font-sans text-xl hover:text-transparent bg-clip-text bg-gradient-to-b from-white to-yellow-600`}
              to='/userCart'
            >
-             Cart
+              <FontAwesomeIcon icon={faCartShopping} className={`${textColorClass} relative pt-2 hover:text-yellow-300`}  title="cart" />
            </Link>
             <div className="relative ">
               <span
-                className={`cursor-pointer ${textColorClass} font-sans text-xl hover:text-gray-300`}
+                className={`cursor-pointer ${textColorClass} font-sans text-xl hover:text-transparent bg-clip-text bg-gradient-to-b from-white to-yellow-600`}
                 onClick={handleDropdownToggle}
               >
                 Welcome {Login.name}
@@ -115,7 +121,7 @@ function UseNavbar() {
           {!Login.name && (
             <Link
               to="/user/login"
-              className={`${textColorClass} font-sans text-xl hover:text-gray-300`}
+              className={`${textColorClass} font-sans text-xl hover:text-transparent bg-clip-text bg-gradient-to-b from-white to-yellow-600`}
             >
               Login
             </Link>
@@ -124,7 +130,13 @@ function UseNavbar() {
       </div>
 
       {/* Mobile menu (hidden by default) */}
-      <div className={`lg:hidden bg-zinc-600 border rounded-xl ${isMobileMenuOpen ? "" : "hidden"}`}>
+      <div className={`lg:hidden bg-zinc-600 fixed border rounded-xl ${isMobileMenuOpen ? "" : "hidden"}`}>
+      <Link
+          className={`block ${textColorClass} font-bold font-kaushan text-3xl cursor-pointer hover:text-gray-300 py-2 px-4`}
+          to='/'
+        >
+           Wedding Bells
+        </Link>
       {Login.name && (
                 <Link
                   to='/user/userProfile'
@@ -148,12 +160,20 @@ function UseNavbar() {
           Contact us
         </Link>
         {Login.name && (
+          <>
+          <Link 
+           to='/userCart'
+          className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
+        >
+          Cart
+        </Link>
                 <Link
                   className={`block ${textColorClass} font-sans hover:text-gray-300 py-2 px-4`}
                   onClick={handleLogout}
                 >
                   Logout
                 </Link>
+                </>
             )}
 
 

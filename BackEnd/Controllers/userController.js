@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken"
 import Venue from "../Models/venueModel.js"
 import Vehicle from "../Models/vehicleModel.js"
 import Catering from '../Models/cateringModel.js'
+import Order from '../Models/orderModel.js'
 
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
@@ -395,8 +396,12 @@ venueDetail : async(req, res) => {
   try {
     const {venueId} = req.body
     const venueDetail = await Venue.findOne({_id:venueId})
+
+    const result = await Order.find({ "venues.venueId": venueId, "isCancelled": false });    
+     const bookedDates = result.map(doc => doc.venues[0].bookedDates).flat();
+
     if(venueDetail){
-      res.json({status:200,venueDetail})
+      res.json({status:200,venueDetail,bookedDates})
     }else{
       res.json({status:404,message:"Not found"})
     }
@@ -408,8 +413,12 @@ vehicleDetail : async(req, res) => {
   try {
     const {vehicleId} = req.body
     const vehicleDetail = await Vehicle.findOne({_id:vehicleId})
+
+    const result = await Order.find({ "Vehicle.vehicleId": vehicleId, "isCancelled": false });    
+    const bookedDates = result.map(doc => doc.Vehicle[0].bookedDates).flat();
+
     if(vehicleDetail){
-      res.json({status:200,vehicleDetail})
+      res.json({status:200,vehicleDetail, bookedDates})
     }else{
       res.json({status:404,message:"Not found"})
     }
@@ -421,8 +430,12 @@ cateringDetail : async(req, res) => {
   try {
     const {cateringId} = req.body
     const cateringDetail = await Catering.findOne({_id:cateringId})
+
+    const result = await Order.find({ "Catering.cateringId": cateringId, "isCancelled": false });    
+    const bookedDates = result.map(doc => doc.Catering[0].bookedDates).flat();
+
     if(cateringDetail){
-      res.json({status:200,cateringDetail})
+      res.json({status:200,cateringDetail, bookedDates})
     }else{
       res.json({status:404,message:"Not found"})
     }
