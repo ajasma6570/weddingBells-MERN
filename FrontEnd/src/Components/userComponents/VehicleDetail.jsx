@@ -164,7 +164,8 @@ export default function VehicleDetail() {
                         showSelectionPreview={false}
                         minDate={new Date()}
                         disabledDates={disabledDates}
-                      /></div>                  <p className='text-sm font-semibold pl-5'>Rent amount varies on holidays, please ask our advisor.</p>
+                      /></div>                
+                    <p className='text-sm font-semibold pl-5'>Rent amount varies on holidays, please ask our advisor.</p>
                   <div className='ml-36 py-5'>
                     <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
                     onClick={(e)=>handleAddtoCart(detail._id)}

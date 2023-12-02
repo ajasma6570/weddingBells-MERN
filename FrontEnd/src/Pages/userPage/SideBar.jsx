@@ -43,7 +43,7 @@ export default function SideBar() {
             </li>
             <hr className='bg-white my-2' />
             <li>
-              <NavLink to="" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+              <NavLink to="/user/userProfile/cancelOrders" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
                 <div className="icon"><FontAwesomeIcon icon={faDiamond} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Cancel Orders</div>
               </NavLink>

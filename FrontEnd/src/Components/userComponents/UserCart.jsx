@@ -6,6 +6,7 @@ import {  faTrash } from '@fortawesome/free-solid-svg-icons';
 import {toastError, toastSuccess} from "../toast"
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function UserCart() {
 
@@ -22,14 +23,35 @@ export default function UserCart() {
     setTick(e.target.checked);
   };
 
-const handleRemove =async(itemId,service) =>{
-  const userId = userData._id
-  const res= await CartItemRemove({userId,itemId,service})
-  if(res.data.status === 200){
-    toastSuccess(res.data.message)
-    setRemove(!remove)
-  }
-}
+
+const handleRemove = async (itemId, service) => {
+  Swal.fire({
+    title: "Do you want to remove this item?",
+    showDenyButton: true,
+    confirmButtonText: "Yes",
+    confirmButtonColor: "#dd1607", 
+    denyButtonColor: "#357F65", 
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const userId = userData._id;
+        const res = await CartItemRemove({ userId, itemId, service });
+
+        if (res.data.status === 200) {
+          toastSuccess(res.data.message);
+          setRemove(!remove);
+        } else {
+          toastError("Error removing item. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error removing item:", error);
+        toastError("An unexpected error occurred. Please try again later.");
+      }
+    } else if (result.isDenied) {
+     
+    }
+  });
+};
 
 
   useEffect(()=>{

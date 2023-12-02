@@ -3,13 +3,13 @@ import userController from "../Controllers/userController.js";
 import AuthenticateToken from "../middleware/authMiddleware.js";
 import cartController from "../Controllers/cartController.js";
 import paymentController from "../Controllers/paymentController.js";
-import orderCOntroller from "../Controllers/orderController.js";
+import orderController from "../Controllers/orderController.js";
 
 const user_router = express.Router();
 
 user_router.use(express.json());
 user_router.use(express.urlencoded({ extended: false }));
-
+ 
 user_router.post("/userSignUp", userController.signUp);
 user_router.post("/userLogin", userController.login);
 user_router.post("/configOTP", userController.configMobOTP);
@@ -37,5 +37,9 @@ user_router.post('/cartRemoveItem',cartController.removeCartItem)
 
 user_router.post('/UserPaymentOrders',paymentController.orders)
 user_router.post('/UserPaymentVerify',paymentController.verify)
+
+user_router.post('/getOrderDetails',orderController.getOrderDetail)
+user_router.post('/cancelOrder',orderController.cancelOrder)
+user_router.post('/getCancelOrders',orderController.getCancelOrder)
  
 export default user_router;

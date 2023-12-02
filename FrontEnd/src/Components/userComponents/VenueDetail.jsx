@@ -121,13 +121,13 @@ export default function VenueDetail() {
         <section >
       
             <div >
-              <h1 className='text-3xl font-bold py-3 px-20 xxs:text-sm'>{detail.name}</h1>
-              <div className='max-w-screen h-fit w-full m-auto py-16 px-4 xxs:p-3 relative group '>
+              <h1 className='text-3xl font-bold py-3 px-20 '>{detail.name}</h1>
+              <div className='max-w-screen h-fit w-full m-auto py-16 px-4 relative group '>
                 <div
                   style={{ backgroundImage: `url(/Pictures/${detail.image[currentIndex]})` }}
-                  className='w-6/12 h-80  rounded-2xl xxs:min-w-full bg-center bg-cover duration-500 m-auto'
+                  className='w-6/12 h-80 rounded-2xl bg-center bg-cover duration-500 m-auto'
                 ></div>
-                <div className='hidden group-hover:block absolute top-[45%] -translate-x-[-400%] translate-y-[-50%] xxs:absolute xxs:-translate-x-[-10%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+                <div className='hidden group-hover:block absolute top-[45%] -translate-x-[-400%] translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
                   <BsChevronCompactLeft onClick={prevSlide} size={30} />
                 </div>
                 <div className='hidden group-hover:block absolute top-[45%] -translate-x-[400%] xxs:absolute xxs:-translate-x-[10%] translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
@@ -145,7 +145,7 @@ export default function VenueDetail() {
                   ))}
                 </div>
               </div>
-              <div className='px-4 md:px-24 pb-20 md:grid md:grid-flow-col gap-4 md:gap-4'>
+              <div className='px-4 md:px-24 pb-20 grid grid-flow-col gap-4 md:gap-4'>
                 <div className='w-full'>
                   <h1 className='text-2xl font-bold'>About</h1>
                   <p className='py-3'>{detail.description}</p>
@@ -154,10 +154,10 @@ export default function VenueDetail() {
                   <p className='text-md font-medium'>Starting from ₹{detail.amount}<small> Per Day</small></p>
                 </div>
                 <div className='w-full md:w-1/2'>
-                  <div className='border box-border  border-black  xxs:mx-auto  rounded-lg'>
+                  <div className='border border-black w-96 h-106  rounded-lg'>
                     <p className='p-2 text-2xl font-medium'>Reserve Your Venue</p>
                     
-                    <div className='ml-5 xxs:mx-auto p-1'>
+                    <div className='ml-5 mx-auto p-1'>
                 
                       <DateRange
                         ranges={[selection]}

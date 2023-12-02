@@ -15,6 +15,24 @@ const orderSchema = new mongoose.Schema ({
         required: true,
         default : false
     },
+    status : {
+        type : String,
+        required: true,
+        default : "pending" //confirm //completed
+    },
+    GpayNumber: {
+        type :Number,
+        required: false,
+    },
+    cancelPaymentStatus :{
+        type: String,
+        required: false,
+                  //processing  , Refund completed 
+    },
+    refundRefId : {
+        type: String,
+        required: false
+    },
     venues: [
         {
             venueId: {

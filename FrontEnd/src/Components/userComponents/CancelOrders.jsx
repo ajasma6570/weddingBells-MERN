@@ -1,76 +1,32 @@
 import React, { useEffect, useState } from "react";
 import {
-  useOrderCancelMutation,
-  useOrderDetailMutation,
+    useGetCancelOrdersMutation,
+  useOrderCancelMutation
 } from "../../Redux/user/userApiSlice";
 import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { toastError, toastSuccess } from "../toast";
 import Swal from "sweetalert2";
 
 
-export default function Orders() {
-  const [orderDetail] = useOrderDetailMutation();
-  const [orderCancel] = useOrderCancelMutation();
+export default function CancelOrders() {
+  const [orderCancel] = useGetCancelOrdersMutation();
   const userData = useSelector((state) => state.rootReducer.user);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh,setRefresh] = useState(false);
-  const handleRemove = async (itemId, service) => {
-    Swal.fire({
-      title: "Are you sure you want to cancel this order?",
-      html:"Please note that canceling this order will affect other orders created at the same time. You may need to re-order if necessary.",
-      showDenyButton: true,
-      confirmButtonText: "Yes",
-      confirmButtonColor: "#dd1607", 
-      denyButtonColor: "#357F65", 
-      input: "text",
-      inputPlaceholder: "Enter your Registered Gpay number",
-      inputAttributes: {
-      autocapitalize: "off",
-  },
-  inputValidator: (value) => {
-    if (!/^\d{10}$/.test(value)) {
-      return "Please enter a valid 10-digit number";
-    }
-  },
-  preConfirm: (GpayNumber) => {
-
-    // Validate or process the inputs if needed
-    return { GpayNumber };
-  },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const { GpayNumber } = result.value;
-        console.log(GpayNumber);
-        console.log(itemId);
-        try {
-          const res = await orderCancel({itemId, GpayNumber})
-          if (res.data.status === 200) {
-           toastSuccess("order cancelled successfully")
-            setRefresh(!refresh)
-          } else {
-            toastError("Error cancelling item. Please try again.");
-          }
-        } catch (error) {
-          toastError("An unexpected error occurred. Please try again later.");
-        }
-      } else if (result.isDenied) {
-       
-      }
-    });
-  };
+  
   
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const userId = userData._id;
-      const res = await orderDetail({ userId });
-      console.log(res.data.combinedOrders);
+      console.log("frntend start canecl");
+      console.log(userId);
+      const res = await orderCancel({ userId });
+      console.log(res.data.cancelOrders);
       if (res.data.status === 200) {
-        const Data = res.data.combinedOrders;
+        const Data = res.data.cancelOrders;
         setData(Data);
       } else {
         toastError("internal server error...");
@@ -78,7 +34,7 @@ export default function Orders() {
       setLoading(false);
     };
     fetchData();
-  }, [orderDetail, userData._id,refresh]);
+  }, [orderCancel, userData._id,refresh]);
 
   return (
     <>
@@ -107,9 +63,10 @@ export default function Orders() {
                         <th className="text-md px-5 py-3">Image</th>
                         <th className="text-md px-5 py-3">Name</th>
                         <th className="text-md px-5 py-3">Order Date</th>
-                        <th className="text-md px-5 py-3">Booking Date</th>
+                        <th className="text-md px-5 py-3">Cancelled Date</th>
                         <th className="text-md px-10 py-3 ">Status</th>
-                        <th className="text-md px-5 py-3">Action</th>
+                        <th className="text-md px-10 py-3 ">Payment Status</th>
+                       
                       </tr>
                     </thead>
 
@@ -120,7 +77,7 @@ export default function Orders() {
                             <p className="font-bold">#{order.bookingId}</p>
                           </td>
 
-                          <td className="text-md text-center  py-3">
+                          <td className="text-md text-center py-3">
                             {order.venues[0].image.length > 0 && (
                               <img
                                 src={`/Pictures/${order.venues[0].image[0]}`}
@@ -147,27 +104,16 @@ export default function Orders() {
                           </td>
 
                           <td className="text-md text-center px-5 py-3">
-                          {order.venues.map((venue, vIndex) => (
-                            <p key={vIndex}>
-                              {venue.bookedDates.map((date, dIndex) => (
-                                <span key={dIndex}>
-                                  {new Date(date).toLocaleDateString("en-GB")}
-                                  <br />
-                                </span>
-                              ))}
+                            <p>
+                              {new Date(order.updateDate).toLocaleDateString(
+                                "en-GB"
+                              )}
                             </p>
-                               ))}
                           </td>
 
-                          <td className="px-10 text-center">{order.orderStatus}</td>
+                          <td className="px-10 text-center">{order.isCancelled}</td>
 
-                          <td className="text-md text-center px-8 py-3 cursor-pointer">
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className="text-gray-800 hover:text-red-500"
-                              onClick={() => handleRemove(order._id, "venues")}
-                            />
-                          </td>
+                          <td className="px-10 text-center">{order.cancelPaymentStatus}</td>
                         </tr>
                       ))}
 
@@ -177,7 +123,7 @@ export default function Orders() {
                             <p className="font-bold">#{order.bookingId}</p>
                           </td>
 
-                          <td className="text-md text-center  py-3">
+                          <td className="text-md text-center py-3">
                             {order.Vehicle[0].image.length > 0 && (
                               <img
                                 src={`/Pictures/${order.Vehicle[0].image[0]}`}
@@ -205,31 +151,22 @@ export default function Orders() {
 
                           <td className="text-md text-center px-5 py-3">
                             <p>
-                            {order.Vehicle.map((vehicle, vIndex) => (
-                              <p>
-                              {new Date(vehicle.bookedDates).toLocaleDateString(
+                              {new Date(order.updateDate).toLocaleDateString(
                                 "en-GB"
                               )}
                             </p>
-                            ))}
-                            </p>
                           </td>
 
-                          <td className="px-10 text-center">{order.orderStatus}</td>
+                          <td className="px-10 text-center">{order.isCancelled? "Order Cancelled" : ""}</td>
 
-                          <td className="text-md text-center px-8 py-3 cursor-pointer">
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className="text-gray-800 hover:text-red-500"
-                              onClick={() => handleRemove(order._id, "venues")}
-                            />
-                          </td>
+                          <td className="px-10 text-center">{order.cancelPaymentStatus === "Processing"? order.cancelPaymentStatus : ` ${order.cancelPaymentStatus } REF ID :` }</td>
+
                         </tr>
                       ))}
 
                       {data.Catering.map((order, index) => (
                         <tr className="" key={index}>
-                          <td className="text-md  py-3">
+                          <td className="text-md py-3">
                             <p className="font-bold">#{order.bookingId}</p>
                           </td>
 
@@ -261,25 +198,15 @@ export default function Orders() {
 
                           <td className="text-md text-center px-5 py-3">
                             <p>
-                            {order.Catering.map((catering, vIndex) => (
-                              <p>
-                              {new Date(catering.bookedDates).toLocaleDateString(
+                              {new Date(order.updateDate).toLocaleDateString(
                                 "en-GB"
                               )}
-                            </p>
-                            ))}
                             </p>
                           </td>
 
                           <td className="px-10 text-center">{order.orderStatus}</td>
+                          <td className="px-10 text-center">{order.cancelPaymentStatus}</td>
 
-                          <td className="text-md text-center px-8 py-3 cursor-pointer">
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className="text-gray-800 hover:text-red-500"
-                              onClick={() => handleRemove(order._id, "venues")}
-                            />
-                          </td>
                         </tr>
                       ))}
                     </tbody>

@@ -39,7 +39,7 @@ import VehicleDetailPage from "./Pages/userPage/VehicleDetailPage";
 import CateringDetailPage from "./Pages/userPage/CateringDetailPage";
 import UserCartPage from "./Pages/userPage/UserCartPage";
 import UserBookingCompletedPage from "./Pages/userPage/UserBookingCompletedPage";
-import NewTest from "./Components/userComponents/NewTest";
+import CancelOrders from "./Components/userComponents/CancelOrders";
 
 
 function App() {
@@ -74,6 +74,7 @@ function App() {
                   <Route index element={<AccountDetails />} />
                 <Route path="accountdetails"  element={<AccountDetails/>}/>
                 <Route path="orders" element={<Orders/>}/>
+                <Route path="cancelOrders" element={<CancelOrders/>}/>
                 <Route path="accountUpdate/:userId" element={<AccountUpdate />}/>
                 <Route path="passwordChange/:UserPhone" element={<UserProfilePasswordChange/>} />
           </Route>
