@@ -93,17 +93,17 @@ const paymentController = {
           }
           const deletedUser = await Cart.findOneAndDelete({ userId });
 
-          if (deletedUser) {
-            res.json({
-              status: 200,
-              message: `User with ID ${userId} has been deleted.`,
-            });
-          } else { 
-            res.json({
-              status: 404,
-              message: `User with ID ${userId} not found or already deleted.`,
-            });
-          }
+          // if (deletedUser) {
+          //   res.json({
+          //     status: 200,
+          //     message: `User with ID ${userId} has been deleted.`,
+          //   });
+          // } else { 
+          //   res.json({
+          //     status: 404,
+          //     message: `User with ID ${userId} not found or already deleted.`,
+          //   });
+          // }
 
           return res
             .status(200)
