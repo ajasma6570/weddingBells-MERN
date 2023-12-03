@@ -152,6 +152,20 @@ export const AdminApiSlice = apiSlice.injectEndpoints({
         method : 'get',
         params : data
       })
+    }),
+    AdminGetOrderUserDetail : builder.mutation ({
+      query : (data) => ({
+        url: `${ADMIN_URL}/adminGetOrderUserDetails`,
+        method : 'get',
+        params : data
+      })
+    }),
+    viewOrderDetails : builder.mutation ({
+      query : (data) => ({
+        url: `${ADMIN_URL}/viewOrderDetails`,
+        method : 'post',
+        body : data
+      })
     })
 
   }),
@@ -178,7 +192,9 @@ useAdminVehicleRequestHandleMutation,
 useAdminVenueRequestHandleMutation,
 useGetActiveVenueMutation,
 useGetActiveVehicleMutation,
-useGetActiveCateringMutation
+useGetActiveCateringMutation,
+useAdminGetOrderUserDetailMutation,
+useViewOrderDetailsMutation
 
 
 

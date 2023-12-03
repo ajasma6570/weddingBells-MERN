@@ -1,6 +1,7 @@
 import express from "express";
 import adminController from "../Controllers/adminController.js";
 import AuthenticateToken from "../middleware/authMiddleware.js";
+import orderController from "../Controllers/orderController.js";
 
 const admin_router = express.Router();
 
@@ -31,5 +32,9 @@ admin_router.post('/cateringRequestHandle',adminController.cateringRequestHandle
 admin_router.get('/getActiveVenue',adminController.getActiveVenue)
 admin_router.get('/getActiveVehicle',adminController.getActiveVehicle)
 admin_router.get('/getActiveCatering',adminController.getActiveCatering)
+
+admin_router.get('/adminGetOrderUserDetails',orderController.adminGetOrderUserDetails)
+admin_router.post('/viewOrderDetails',orderController.viewOrderDetails)
+
 
 export default admin_router;

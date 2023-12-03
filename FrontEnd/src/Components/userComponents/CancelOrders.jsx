@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-    useGetCancelOrdersMutation,
-  useOrderCancelMutation
+    useGetCancelOrdersMutation
 } from "../../Redux/user/userApiSlice";
 import { useSelector } from "react-redux";
-import { toastError, toastSuccess } from "../toast";
-import Swal from "sweetalert2";
+import { toastError } from "../toast";
 
 
 export default function CancelOrders() {
@@ -13,7 +11,7 @@ export default function CancelOrders() {
   const userData = useSelector((state) => state.rootReducer.user);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refresh,setRefresh] = useState(false);
+
   
   
 
@@ -34,7 +32,7 @@ export default function CancelOrders() {
       setLoading(false);
     };
     fetchData();
-  }, [orderCancel, userData._id,refresh]);
+  }, [orderCancel, userData._id]);
 
   return (
     <>

@@ -1,28 +1,19 @@
 import React from "react";
+import { Link, Routes, Route } from "react-router-dom";
+import AdminOrderView from "./AdminOrderView";
+import AdminBookingDetails from "./AdminBookingDetails";
 
 export default function AdmminBooking() {
   return (
     <>
-    <table className="">
-        <thead>
-          <tr className="">
-            <th >SL</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="">
-            <td>1</td>
-            <td>2</td>
-            <td>h</td>
-            <td>fg</td>
-            <td>gf</td>
-          </tr>
-        </tbody>
-      </table>
+      <Link to=""></Link>
+      <br />
+      <Link to="viewOrderDetails"></Link>
+
+      <Routes>
+        <Route path="" element={<AdminBookingDetails />} />
+        <Route path="viewOrderDetails/:userId" element={<AdminOrderView />} />
+      </Routes>
     </>
   );
 }

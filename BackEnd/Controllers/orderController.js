@@ -179,13 +179,33 @@ const orderController = {
             cancelOrders.Catering.push(catering); 
           }
         });
+
       res.json({status:200,cancelOrders})
 
       }catch(error){
         return res.status(500).json({ error });
       }
-    }
-    
+    },
+    adminGetOrderUserDetails :async(req, res)=> {
+      try {
+        const userData = await Order.find({ isCancelled: "false" }).populate('userId');
+        userData.reverse();
+        res.json({ status: 200, userData });
+      } catch (error) {
+        res.status(500).json({ status: 500, error: "Internal Server Error" });
+      }
+    },
+    viewOrderDetails : async(req, res) => {
+      const {userId} = req.body
+      try{
+        const orderDetails =await Order.findOne({_id:userId}).populate('venues.venueId').populate('Vehicle.vehicleId').populate('Catering.cateringId').populate("userId")
+        res.json({status:200,orderDetails})
+      }catch(error){
+        return res.status(500).json({ error: 'Error updating cart' });
+
+      }
+      
+    }, 
 }
 
-export default orderController
+export default orderController ;
