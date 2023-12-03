@@ -4,6 +4,7 @@ import generateToken from "../utils/tokenGenerator.js";
 import Venue from '../Models/venueModel.js'
 import Vehicle from '../Models/vehicleModel.js'
 import Catering from '../Models/cateringModel.js'
+import Order from '../Models/orderModel.js'
 
 const adminController = {
   login: async (req, res) => {
@@ -250,7 +251,7 @@ const adminController = {
           state,
           city,
           pincode,
-        };
+        }; 
   
         const addressData = await User.findByIdAndUpdate(
           { _id: userId },
@@ -377,7 +378,39 @@ getActiveCatering : async(req, res) => {
   }
 
 },
+changeOrderStatus: async(req , res)=> {
+  try{
+    const {itemId, selectedValue} = req.body
+    let updateData;
+    if (selectedValue === "Cancelled by admin") {
+      // Assuming isCancelled is a boolean field
+      updateData = { status: selectedValue, isCancelled: true ,cancelPaymentStatus:"Processing"};
+    } else {
+      updateData = { status: selectedValue, isCancelled: false };
+    }
+  
+    const data = await Order.findByIdAndUpdate({ _id: itemId }, updateData, { new: true });
 
+    if (!data) {
+      return res.status(404).json({ success: false, error: 'Order not found' });
+    }
+
+    res.status(200).json({ success: true, data });
+  }catch(err){
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+},
+changeCancelOrderStatus: async(req , res)=> {
+  try{
+    const {itemId, selectedValue, refId} = req.body
+  
+    const data = await Order.findByIdAndUpdate({ _id: itemId }, {cancelPaymentStatus: selectedValue , refundRefId  : refId}, { new: true });
+
+    res.status(200).json({ success: true, data });
+  }catch(err){
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+}
 
 
 

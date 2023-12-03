@@ -19,10 +19,7 @@ export default function CancelOrders() {
     const fetchData = async () => {
       setLoading(true);
       const userId = userData._id;
-      console.log("frntend start canecl");
-      console.log(userId);
       const res = await orderCancel({ userId });
-      console.log(res.data.cancelOrders);
       if (res.data.status === 200) {
         const Data = res.data.cancelOrders;
         setData(Data);
@@ -63,7 +60,7 @@ export default function CancelOrders() {
                         <th className="text-md px-5 py-3">Order Date</th>
                         <th className="text-md px-5 py-3">Cancelled Date</th>
                         <th className="text-md px-10 py-3 ">Status</th>
-                        <th className="text-md px-10 py-3 ">Payment Status</th>
+                        <th className="text-md px-10 py-3 ">Refund Status</th>
                        
                       </tr>
                     </thead>
@@ -109,9 +106,17 @@ export default function CancelOrders() {
                             </p>
                           </td>
 
-                          <td className="px-10 text-center">{order.isCancelled}</td>
-
-                          <td className="px-10 text-center">{order.cancelPaymentStatus}</td>
+                          <td className="px-10 text-center">{order.isCancelled? order.orderStatus : ""}</td>
+                                
+                          <td className="px-10 text-center"> {order.cancelPaymentStatus === "Processing" ? (
+                              order.cancelPaymentStatus
+                            ) : (
+                              <>
+                                {order.cancelPaymentStatus}, 
+                                <br />
+                                REF ID: {order.refundStatus}
+                              </>
+                            )}</td>      
                         </tr>
                       ))}
 
@@ -155,9 +160,17 @@ export default function CancelOrders() {
                             </p>
                           </td>
 
-                          <td className="px-10 text-center">{order.isCancelled? "Order Cancelled" : ""}</td>
-
-                          <td className="px-10 text-center">{order.cancelPaymentStatus === "Processing"? order.cancelPaymentStatus : ` ${order.cancelPaymentStatus } REF ID :` }</td>
+                          <td className="px-10 text-center">{order.isCancelled? order.orderStatus : ""}</td>
+                                
+                          <td className="px-10 text-center"> {order.cancelPaymentStatus === "Processing" ? (
+                              order.cancelPaymentStatus
+                            ) : (
+                              <>
+                                {order.cancelPaymentStatus}, 
+                                <br />
+                                REF ID: {order.refundStatus}
+                              </>
+                            )}</td>
 
                         </tr>
                       ))}
@@ -202,9 +215,17 @@ export default function CancelOrders() {
                             </p>
                           </td>
 
-                          <td className="px-10 text-center">{order.orderStatus}</td>
-                          <td className="px-10 text-center">{order.cancelPaymentStatus}</td>
-
+                          <td className="px-10 text-center">{order.isCancelled? order.orderStatus : ""}</td>
+                                
+                          <td className="px-10 text-center"> {order.cancelPaymentStatus === "Processing" ? (
+                              order.cancelPaymentStatus
+                            ) : (
+                              <>
+                                {order.cancelPaymentStatus}, 
+                                <br />
+                                REF ID: {order.refundStatus}
+                              </>
+                            )}</td>      
                         </tr>
                       ))}
                     </tbody>

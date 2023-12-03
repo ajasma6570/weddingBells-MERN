@@ -98,7 +98,7 @@ const paymentController = {
               status: 200,
               message: `User with ID ${userId} has been deleted.`,
             });
-          } else {
+          } else { 
             res.json({
               status: 404,
               message: `User with ID ${userId} not found or already deleted.`,

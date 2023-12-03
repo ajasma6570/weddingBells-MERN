@@ -35,6 +35,9 @@ admin_router.get('/getActiveCatering',adminController.getActiveCatering)
 
 admin_router.get('/adminGetOrderUserDetails',orderController.adminGetOrderUserDetails)
 admin_router.post('/viewOrderDetails',orderController.viewOrderDetails)
+admin_router.get('/adminGetOrderCancelUserDetails',orderController.adminGetOrderCancelUserDetails)
 
+admin_router.post('/changeOrderStatus',adminController.changeOrderStatus)
+admin_router.post('/changeCancelOrderStatus',adminController.changeCancelOrderStatus)
 
 export default admin_router;

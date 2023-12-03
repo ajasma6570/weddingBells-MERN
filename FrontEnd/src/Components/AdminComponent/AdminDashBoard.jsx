@@ -75,6 +75,13 @@ export default function AdminDashBoard() {
             </li>
             <hr className='bg-white my-2' />
             <li>
+              <NavLink to="/admin/dash/cancelBooking" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active">
+                <div className="icon"><FontAwesomeIcon icon={faStar} size='lg' /></div>
+                <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`}>Cancel Bookings</div>
+              </NavLink>
+            </li>
+            <hr className='bg-white my-2' />
+            <li>
               <NavLink to="/admin/login" className={`text-white font-sans my-2 cursor-pointer flex hover:text-slate-500`} activeClassName="active" onClick={handleLogout}>
                 <div className="icon"><FontAwesomeIcon icon={faRightFromBracket} size='lg' /></div>
                 <div className={`link_text ml-2 sm:text-sm md:text-xl text-sm ${textClass}`

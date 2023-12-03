@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useChangeOrderStatusMutation, useViewOrderDetailsMutation } from "../../Redux/Admin/adminApiSlice";
+import { useParams } from "react-router-dom";
+import { useChangeCancelOrderStatusMutation, useViewOrderDetailsMutation } from "../../Redux/Admin/adminApiSlice";
 import { toastError, toastSuccess } from "../toast";
 import Swal from 'sweetalert2';
 
-export default function AdminOrderView() {
+
+export default function AdminCancelOrderView() {
   const { userId } = useParams();
   const [orderDetail] = useViewOrderDetailsMutation();
-  const [changeOrderStatus] = useChangeOrderStatusMutation();
+  const [changeCancelOrderStatus] = useChangeCancelOrderStatusMutation();
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refresh, setRefresh] = useState(false);
-  const navigate = useNavigate();
+  const [refresh,setRefresh] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,21 +38,31 @@ export default function AdminOrderView() {
       confirmButtonText: "Yes",
       confirmButtonColor: "#dd1607", 
       denyButtonColor: "#357F65", 
-  }
-    ).then(async (result) => {
+      input: "text",
+      inputPlaceholder: "Enter Transaction Id  ",
+      inputAttributes: {
+      autocapitalize: "off",
+  },
+  inputValidator: (value) => {
+    if (!value) {
+      return "Please enter the Transaction Id";
+    }
+  },
+  preConfirm: (refId) => {
+
+    // Validate or process the inputs if needed
+    return { refId };
+  },
+    }).then(async (result) => {
       if (result.isConfirmed) {
+        const { refId } = result.value;
+        console.log(itemId, selectedValue, refId)
         try {
-       const res = await changeOrderStatus({itemId,selectedValue})
-        if(res.data.success){
-          toastSuccess("Status updated successfully")
-          if(selectedValue ==="Cancelled by admin"){
-            navigate('/admin/dash/booking')
-          }
+         const res = await changeCancelOrderStatus({itemId,selectedValue,refId})
+         if(res.data.success){
+          toastSuccess("Status changed and RefId updated successfully")
           setRefresh(!refresh);
-        }else{
-          toastError("An unexpected error occurred. Please try again later.");
-        }
-         
+         }
         } catch (error) {
           toastError("An unexpected error occurred. Please try again later.");
         }
@@ -59,15 +70,11 @@ export default function AdminOrderView() {
        
       }
     });
-
-
   };
 
   const statusOptions = [
-    { label: 'Pending', value: 'Pending' },
     { label: 'Processing', value: 'Processing' },
-    { label: 'Cancelled by admin', value: 'Cancelled by admin' },
-    { label: 'Completed', value: 'Completed' },
+    { label: 'Refund Completed', value: 'Refund Completed' },
   ];
   
   return (
@@ -109,9 +116,10 @@ export default function AdminOrderView() {
                 </div>
 
                 <div>
-                  <span>Status : </span>
-                  <select className="bg-grey-500 rounded-md" onChange={handleStatusChange} value={cart.status}>
-                  <option disabled> {cart.status} </option>
+                  <span>Gpay Number : {cart.GpayNumber}</span>
+                  <br/><span>Refund status : </span>
+                <select className="bg-grey-500 rounded-md my-5" onChange={handleStatusChange} value={cart.cancelPaymentStatus}>
+                  <option disabled> {cart.cancelPaymentStatus} </option>
                   {statusOptions.map((option) => (
                     cart.status !== option.value && (
                       <option key={option.value} value={option.value}>

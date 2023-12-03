@@ -32,7 +32,7 @@ const orderController = {
                   bookedDates: venue.bookedDates,
                   _id: venue._id,
                 })),
-              };
+              }; 
               combinedOrders.Venues.push(venue);
             }
       
@@ -87,7 +87,8 @@ const orderController = {
           $set: {
             isCancelled: true,
             GpayNumber: GpayNumber,
-            cancelPaymentStatus: "Processing", // You can set the desired payment status
+            cancelPaymentStatus: "Processing",
+            status:"Cancelled by user" // You can set the desired payment status
           },
         },
         { new: true }
@@ -130,6 +131,7 @@ const orderController = {
               orderStatus: order.status,
               isCancelled: order.isCancelled,
               orderdate: order.createdAt,
+              refundStatus: order.refundRefId,
               updateDate:order.updatedAt,
               cancelPaymentStatus: order.cancelPaymentStatus,
               venues: order.venues.map((venue) => ({
@@ -148,6 +150,7 @@ const orderController = {
               bookingId: order.bookingId,
               orderStatus: order.status,
               isCancelled: order.isCancelled,
+              refundStatus: order.refundRefId,
               orderdate: order.createdAt,
               updateDate:order.updatedAt,
               cancelPaymentStatus: order.cancelPaymentStatus,
@@ -167,6 +170,7 @@ const orderController = {
               bookingId: order.bookingId,
               orderStatus: order.status,
               isCancelled: order.isCancelled, 
+              refundStatus: order.refundRefId,
               orderdate: order.createdAt,
               updateDate:order.updatedAt,
               cancelPaymentStatus: order.cancelPaymentStatus,
@@ -205,7 +209,17 @@ const orderController = {
 
       }
       
-    }, 
+    },
+    adminGetOrderCancelUserDetails :async(req, res)=> {
+      try {
+        const userData = await Order.find({ isCancelled: "true" }).populate('userId');
+        userData.reverse();
+        res.json({ status: 200, userData });
+      } catch (error) {
+        res.status(500).json({ status: 500, error: "Internal Server Error" });
+      }
+    }
+   
 }
 
 export default orderController ;

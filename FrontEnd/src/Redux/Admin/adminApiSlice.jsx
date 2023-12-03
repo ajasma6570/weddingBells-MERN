@@ -166,8 +166,28 @@ export const AdminApiSlice = apiSlice.injectEndpoints({
         method : 'post',
         body : data
       })
-    })
-
+    }),
+    changeOrderStatus : builder.mutation ({
+      query : (data) => ({
+        url: `${ADMIN_URL}/changeOrderStatus`,
+        method : 'post',
+        body : data
+      })
+    }),
+    getCancelOrderUserDetails : builder.mutation ({
+      query : (data) => ({
+        url: `${ADMIN_URL}/adminGetOrderCancelUserDetails`,
+        method : 'get',
+        params : data
+      })
+    }),
+    changeCancelOrderStatus : builder.mutation ({
+      query : (data) => ({
+        url: `${ADMIN_URL}/changeCancelOrderStatus`,
+        method : 'post',
+        body : data
+      })
+    }),
   }),
 });
 
@@ -194,8 +214,11 @@ useGetActiveVenueMutation,
 useGetActiveVehicleMutation,
 useGetActiveCateringMutation,
 useAdminGetOrderUserDetailMutation,
-useViewOrderDetailsMutation
-
+useViewOrderDetailsMutation,
+useChangeOrderStatusMutation,
+useGetCancelOrderUserDetailsMutation,
+useChangeCancelOrderStatusMutation
+ 
 
 
 } = AdminApiSlice;

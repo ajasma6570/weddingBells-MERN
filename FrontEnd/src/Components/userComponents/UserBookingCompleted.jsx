@@ -6,7 +6,6 @@ export default function UserBookingCompleted() {
 
   const {bookingId} = useParams()
 
-  console.log(bookingId)
    return (
     <div className="w-full flex items-center justify-center py-8">
     <div className="w-9/12 mx-auto text-center">

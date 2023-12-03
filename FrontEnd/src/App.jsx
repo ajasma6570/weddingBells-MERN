@@ -40,6 +40,7 @@ import CateringDetailPage from "./Pages/userPage/CateringDetailPage";
 import UserCartPage from "./Pages/userPage/UserCartPage";
 import UserBookingCompletedPage from "./Pages/userPage/UserBookingCompletedPage";
 import CancelOrders from "./Components/userComponents/CancelOrders";
+import AdminCancelBooking from "./Components/AdminComponent/AdminCancelBooking";
 
 
 
@@ -116,6 +117,7 @@ function App() {
           <Route path="user" element={<AdminUser/>}/>
           <Route path="business" element={<AdminBusiness/>}/>
           <Route path="booking/*" element={<AdminBooking/>}/>
+          <Route path="cancelBooking/*" element={<AdminCancelBooking/>}/>
           <Route path="userEdit/:userId" element={<AdminUserEdit/>}/>
           <Route path="businessEdit/:userId" element={<AdminBusinessEdit />} />
           {/* Descendant Routes */} 

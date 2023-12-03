@@ -43,8 +43,7 @@ export default function Orders() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { GpayNumber } = result.value;
-        console.log(GpayNumber);
-        console.log(itemId);
+
         try {
           const res = await orderCancel({itemId, GpayNumber})
           if (res.data.status === 200) {
@@ -68,7 +67,6 @@ export default function Orders() {
       setLoading(true);
       const userId = userData._id;
       const res = await orderDetail({ userId });
-      console.log(res.data.combinedOrders);
       if (res.data.status === 200) {
         const Data = res.data.combinedOrders;
         setData(Data);
