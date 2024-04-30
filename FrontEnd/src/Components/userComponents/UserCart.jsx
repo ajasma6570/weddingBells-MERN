@@ -93,7 +93,7 @@ const handleRemove = async (itemId, service) => {
       handler: async (response) => {
         try {
           const userId = userData._id
-          const verifyUrl = "http://localhost:4000/user/UserPaymentVerify";
+          const verifyUrl = "https://weddingbells.onrender.com/user/UserPaymentVerify";
           const { data } = await axios.post(verifyUrl, { response ,userId});
           toastSuccess(data.message)
         
@@ -114,7 +114,7 @@ const handleRemove = async (itemId, service) => {
       
   const handlePayNow = async() => {
     try {
-			const orderUrl = "http://localhost:4000/user/UserPaymentOrders";
+			const orderUrl = "https://weddingbells.onrender.com/user/UserPaymentOrders";
 			const { data } = await axios.post(orderUrl, { amount: book.price });
 			initPayment(data.data);
 		} catch (error) {
