@@ -24,6 +24,8 @@ export default function Login() {
       toastError("Please fill in all fields");
       return;
     }
+  
+
 
     if (!validateEmail(email)) {
       toastError("Please enter a valid email address.");
@@ -58,6 +60,11 @@ export default function Login() {
     });
   };
 
+  const handleGuestLogin =()=>{
+    setEmail("guest@gmail.com")
+    setPassword("guest123")
+  }
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-10 py-2  ">
       {/* Left Div */}
@@ -115,7 +122,13 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-            </div>
+            </div> 
+             <p
+              className="text-blue-700 float-left font-bold my-5 cursor-pointer text-lg"
+             onClick={handleGuestLogin}
+            > 
+              Guest Login
+            </p>
             <p
               className="text-blue-700 float-right my-5 cursor-pointer text-sm"
               onClick={() => navigate("/user/forgetpassword")}
